@@ -88,7 +88,8 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 80px;
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
 }
 
 body {
@@ -246,11 +247,12 @@ body > * {
    ======================================== */
 .hero {
   position: relative;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  scroll-snap-align: start;
 }
 
 .hero-bg {
@@ -418,6 +420,14 @@ body > * {
 .section {
   padding: 8rem 0;
   position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  scroll-snap-align: start;
+}
+
+.section > .container {
+  width: 100%;
 }
 
 .container {
@@ -515,21 +525,18 @@ h2 em {
 /* ========================================
    SERVICES INTRO
    ======================================== */
-.section-services-intro {
-  padding: 6rem 0 2rem;
-  background: var(--bg-section-alt);
-}
 
 /* ========================================
    FULL-PAGE SERVICE SECTIONS
    ======================================== */
 .service-full {
   position: relative;
-  min-height: 100vh;
+  height: 100vh;
   width: 100%;
   display: flex;
   align-items: center;
   overflow: hidden;
+  scroll-snap-align: start;
 }
 
 .service-full-bg {
@@ -549,24 +556,24 @@ h2 em {
   position: absolute;
   inset: 0;
   background:
-    rgba(15, 5, 8, 0.4),
+    rgba(10, 3, 5, 0.6),
     linear-gradient(
       90deg,
-      rgba(8, 4, 5, 0.94) 0%,
-      rgba(10, 4, 6, 0.8) 40%,
-      rgba(15, 5, 8, 0.5) 100%
+      rgba(8, 3, 5, 0.97) 0%,
+      rgba(10, 4, 6, 0.88) 35%,
+      rgba(12, 4, 7, 0.7) 100%
     );
 }
 
 /* Right-aligned content variant: overlay flipped */
 .service-full:has(.service-full-content--right) .service-full-overlay {
   background:
-    rgba(15, 5, 8, 0.4),
+    rgba(10, 3, 5, 0.6),
     linear-gradient(
       270deg,
-      rgba(8, 4, 5, 0.94) 0%,
-      rgba(10, 4, 6, 0.8) 40%,
-      rgba(15, 5, 8, 0.5) 100%
+      rgba(8, 3, 5, 0.97) 0%,
+      rgba(10, 4, 6, 0.88) 35%,
+      rgba(12, 4, 7, 0.7) 100%
     );
 }
 
@@ -588,6 +595,15 @@ h2 em {
   color: rgba(200, 170, 150, 0.08);
   line-height: 1;
   margin-bottom: 0.5rem;
+}
+
+.service-full-label {
+  font-weight: 300;
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
 }
 
 .service-full-content h3 {
@@ -642,6 +658,10 @@ h2 em {
   text-align: center;
   overflow: hidden;
   background: var(--bg-dark);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  scroll-snap-align: start;
 }
 
 .urgent-bg {
@@ -825,6 +845,7 @@ h2 em {
   padding: 3.5rem 0 2rem;
   background: var(--bg-dark);
   border-top: 1px solid var(--border);
+  scroll-snap-align: end;
 }
 
 .footer-top {
@@ -970,12 +991,12 @@ h2 em {
   .service-full-overlay,
   .service-full:has(.service-full-content--right) .service-full-overlay {
     background:
-      rgba(15, 5, 8, 0.45),
+      rgba(10, 3, 5, 0.6),
       linear-gradient(
         0deg,
-        rgba(8, 4, 5, 0.96) 0%,
-        rgba(10, 4, 6, 0.82) 40%,
-        rgba(15, 5, 8, 0.45) 100%
+        rgba(8, 3, 5, 0.97) 0%,
+        rgba(10, 4, 6, 0.88) 35%,
+        rgba(12, 4, 7, 0.6) 100%
       );
   }
 
@@ -1045,7 +1066,7 @@ h2 em {
 
   /* Hero mobile */
   .hero {
-    min-height: 100dvh;
+    height: 100dvh;
   }
 
   .hero-content {
@@ -1117,6 +1138,10 @@ h2 em {
 
   /* Services mobile */
   .service-full {
+    height: 100dvh;
+  }
+
+  .section {
     min-height: 100dvh;
   }
 
@@ -1131,10 +1156,6 @@ h2 em {
 
   .service-full-number {
     font-size: 3.5rem;
-  }
-
-  .section-services-intro {
-    padding: 4rem 0 1.5rem;
   }
 
   /* Urgent mobile */
