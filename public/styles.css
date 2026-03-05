@@ -1,0 +1,359 @@
+/* Fonts */
+@font-face {
+  font-family: 'Symphony Pro';
+  src: url('/fonts/symphony-pro-regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'The Seasons';
+  src: url('/fonts/fonnts.com-theseasons-reg.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'The Seasons';
+  src: url('/fonts/fonnts.com-theseasons-lt.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'The Seasons';
+  src: url('/fonts/fonnts.com-theseasons-bd.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'The Seasons';
+  src: url('/fonts/fonnts.com-theseasons-it.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Reset */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'The Seasons', Georgia, serif;
+  background: #0a0506;
+  color: #e8e0e0;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Hero */
+.hero {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at center, #2a0a10 0%, #120408 50%, #0a0506 100%);
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.008) 2px,
+      rgba(255, 255, 255, 0.008) 4px
+    );
+  pointer-events: none;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 40%, rgba(120, 20, 40, 0.15) 0%, transparent 60%),
+              radial-gradient(circle at 70% 60%, rgba(80, 10, 25, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  text-align: center;
+  z-index: 1;
+  animation: fadeIn 1.5s ease-out;
+}
+
+.logo {
+  width: 320px;
+  max-width: 70vw;
+  margin-bottom: 1.5rem;
+  filter: drop-shadow(0 4px 30px rgba(0, 0, 0, 0.5));
+}
+
+.tagline {
+  font-family: 'The Seasons', Georgia, serif;
+  font-weight: 300;
+  font-size: 1.2rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(200, 180, 170, 0.9);
+  margin-bottom: 0.5rem;
+}
+
+.location {
+  font-family: 'The Seasons', Georgia, serif;
+  font-weight: 300;
+  font-size: 0.85rem;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: rgba(200, 180, 170, 0.5);
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.scroll-hint span {
+  display: block;
+  width: 1px;
+  height: 50px;
+  background: linear-gradient(to bottom, rgba(200, 180, 170, 0.5), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+/* Sections */
+.section {
+  padding: 8rem 0;
+}
+
+h2 {
+  font-family: 'Symphony Pro', Georgia, serif;
+  font-weight: normal;
+  font-size: 2.5rem;
+  text-align: center;
+  color: #d4c5b9;
+  margin-bottom: 3rem;
+  letter-spacing: 0.05em;
+}
+
+/* About */
+.about {
+  background: linear-gradient(180deg, #0a0506 0%, #10060a 100%);
+}
+
+.about-text {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 1.15rem;
+  line-height: 1.9;
+  color: rgba(200, 185, 175, 0.8);
+  font-weight: 300;
+}
+
+/* Services */
+.services {
+  background: #10060a;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.service-card {
+  background: linear-gradient(135deg, rgba(40, 12, 20, 0.6) 0%, rgba(20, 6, 10, 0.8) 100%);
+  border: 1px solid rgba(200, 170, 150, 0.08);
+  border-radius: 2px;
+  padding: 3rem 2.5rem;
+  text-align: center;
+  transition: border-color 0.4s ease, transform 0.4s ease;
+}
+
+.service-card:hover {
+  border-color: rgba(200, 170, 150, 0.2);
+  transform: translateY(-4px);
+}
+
+.service-icon {
+  font-size: 2rem;
+  color: rgba(200, 170, 150, 0.6);
+  margin-bottom: 1.5rem;
+}
+
+.service-card h3 {
+  font-family: 'Symphony Pro', Georgia, serif;
+  font-weight: normal;
+  font-size: 1.4rem;
+  color: #d4c5b9;
+  margin-bottom: 1rem;
+  letter-spacing: 0.05em;
+}
+
+.service-card p {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: rgba(200, 185, 175, 0.6);
+  font-weight: 300;
+}
+
+/* CTA */
+.cta {
+  background: linear-gradient(180deg, #10060a 0%, #1a0a10 50%, #10060a 100%);
+  text-align: center;
+}
+
+.cta-text {
+  font-size: 1.1rem;
+  color: rgba(200, 185, 175, 0.7);
+  font-weight: 300;
+  margin-bottom: 2.5rem;
+}
+
+.whatsapp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2.5rem;
+  background: transparent;
+  border: 1px solid rgba(200, 170, 150, 0.3);
+  color: #d4c5b9;
+  font-family: 'The Seasons', Georgia, serif;
+  font-size: 1rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+
+.whatsapp-btn:hover {
+  background: rgba(200, 170, 150, 0.08);
+  border-color: rgba(200, 170, 150, 0.5);
+  color: #e8dcd4;
+}
+
+.whatsapp-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* Footer */
+.footer {
+  padding: 4rem 0 2rem;
+  text-align: center;
+  background: #0a0506;
+  border-top: 1px solid rgba(200, 170, 150, 0.06);
+}
+
+.footer-brand {
+  font-family: 'Symphony Pro', Georgia, serif;
+  font-size: 1.8rem;
+  color: #d4c5b9;
+  margin-bottom: 0.3rem;
+}
+
+.footer-sub {
+  font-size: 0.8rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(200, 180, 170, 0.4);
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+
+.footer-copy {
+  font-size: 0.75rem;
+  color: rgba(200, 180, 170, 0.25);
+  letter-spacing: 0.1em;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.8; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  .tagline {
+    font-size: 0.95rem;
+    letter-spacing: 0.25em;
+  }
+
+  .logo {
+    width: 250px;
+  }
+
+  .section {
+    padding: 5rem 0;
+  }
+
+  .service-card {
+    padding: 2rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tagline {
+    font-size: 0.8rem;
+  }
+
+  .logo {
+    width: 200px;
+  }
+
+  .whatsapp-btn {
+    font-size: 0.85rem;
+    padding: 0.85rem 1.8rem;
+  }
+}
