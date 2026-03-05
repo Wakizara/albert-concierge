@@ -474,7 +474,7 @@ h2 em {
 
 .stat-number {
   display: block;
-  font-family: var(--font-body);
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 400;
   font-size: 2.2rem;
   color: var(--champagne-light);
@@ -482,6 +482,7 @@ h2 em {
 }
 
 .stat-label {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 400;
   font-size: 0.8rem;
   letter-spacing: 0.25em;
