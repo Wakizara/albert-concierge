@@ -58,7 +58,8 @@
   --text-muted: rgba(200, 185, 175, 0.4);
   --border: rgba(200, 170, 150, 0.08);
   --border-hover: rgba(200, 170, 150, 0.2);
-  --font-display: 'Symphony Pro', Georgia, serif;
+  --font-brand: 'Symphony Pro', Georgia, serif;
+  --font-heading: 'The Seasons', Georgia, serif;
   --font-body: 'The Seasons', Georgia, serif;
 }
 
@@ -141,7 +142,7 @@ body > * {
 }
 
 .header-brand {
-  font-family: var(--font-display);
+  font-family: var(--font-brand);
   font-size: 2rem;
   color: var(--champagne-light);
   text-decoration: none;
@@ -288,7 +289,7 @@ body > * {
 }
 
 .hero-title {
-  font-family: var(--font-display);
+  font-family: var(--font-brand);
   font-weight: normal;
   font-size: clamp(4rem, 12vw, 9rem);
   color: var(--champagne-light);
@@ -420,7 +421,7 @@ body > * {
 }
 
 h2 {
-  font-family: var(--font-display);
+  font-family: var(--font-heading);
   font-weight: normal;
   font-size: clamp(2rem, 4vw, 3rem);
   text-align: center;
@@ -473,7 +474,7 @@ h2 em {
 
 .stat-number {
   display: block;
-  font-family: var(--font-display);
+  font-family: var(--font-heading);
   font-size: 2.2rem;
   color: var(--champagne-light);
   margin-bottom: 0.3rem;
@@ -494,114 +495,118 @@ h2 em {
 }
 
 /* ========================================
-   SERVICES
+   SERVICES INTRO
    ======================================== */
-.section-services {
-  background:
-    radial-gradient(ellipse at 80% 30%, rgba(50, 12, 22, 0.1) 0%, transparent 55%),
-    radial-gradient(ellipse at 20% 70%, rgba(40, 10, 18, 0.08) 0%, transparent 50%),
-    var(--bg-section-alt);
+.section-services-intro {
+  padding: 6rem 0 2rem;
+  background: var(--bg-section-alt);
 }
 
-.service-block {
-  display: grid;
-  grid-template-columns: 1fr 1.3fr;
-  gap: 4rem;
+/* ========================================
+   FULL-PAGE SERVICE SECTIONS
+   ======================================== */
+.service-full {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
   align-items: center;
-  margin-bottom: 6rem;
-}
-
-.service-block:last-child {
-  margin-bottom: 0;
-}
-
-.service-block.reverse {
-  grid-template-columns: 1.3fr 1fr;
-}
-
-.service-block.reverse .service-visual {
-  order: 2;
-}
-
-.service-block.reverse .service-info {
-  order: 1;
-}
-
-.service-visual {
-  position: relative;
-}
-
-.service-number {
-  font-family: var(--font-display);
-  font-size: 5rem;
-  color: rgba(200, 170, 150, 0.06);
-  position: absolute;
-  top: -1.5rem;
-  left: -0.5rem;
-  line-height: 1;
-  z-index: 0;
-}
-
-.service-img {
-  position: relative;
-  z-index: 1;
-  aspect-ratio: 5/3;
-  border: 1px solid var(--border);
-  border-radius: 2px;
   overflow: hidden;
 }
 
-.service-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(0.7) saturate(0.8);
-  transition: filter 0.6s ease, transform 0.6s ease;
+.service-full-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: transform 0.6s ease;
 }
 
-.service-block:hover .service-img img {
-  filter: brightness(0.85) saturate(0.9);
+.service-full:hover .service-full-bg {
   transform: scale(1.03);
 }
 
-.service-info h3 {
-  font-family: var(--font-display);
-  font-weight: normal;
-  font-size: 1.8rem;
+.service-full-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(8, 4, 5, 0.92) 0%,
+    rgba(8, 4, 5, 0.75) 40%,
+    rgba(8, 4, 5, 0.3) 100%
+  );
+}
+
+/* Right-aligned content variant: overlay flipped */
+.service-full:has(.service-full-content--right) .service-full-overlay {
+  background: linear-gradient(
+    270deg,
+    rgba(8, 4, 5, 0.92) 0%,
+    rgba(8, 4, 5, 0.75) 40%,
+    rgba(8, 4, 5, 0.3) 100%
+  );
+}
+
+.service-full-content {
+  position: relative;
+  z-index: 2;
+  max-width: 550px;
+  padding: 4rem 5vw;
+}
+
+.service-full-content--right {
+  margin-left: auto;
+}
+
+.service-full-number {
+  font-family: var(--font-heading);
+  font-weight: 300;
+  font-size: 5rem;
+  color: rgba(200, 170, 150, 0.08);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.service-full-content h3 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: 2.5rem;
   color: var(--champagne-light);
-  margin-bottom: 1rem;
-  letter-spacing: 0.03em;
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.02em;
 }
 
-.service-info > p {
+.service-full-content > p {
   font-weight: 300;
-  font-size: 1rem;
-  line-height: 1.8;
+  font-size: 1.05rem;
+  line-height: 1.85;
   color: var(--text-secondary);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.8rem;
 }
 
-.service-list {
+.service-full-content .service-list {
   list-style: none;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 0.6rem;
+  margin-bottom: 2.5rem;
 }
 
-.service-list li {
+.service-full-content .service-list li {
   font-weight: 300;
-  font-size: 0.88rem;
-  color: var(--text-muted);
-  padding-left: 1rem;
+  font-size: 0.9rem;
+  color: rgba(200, 185, 175, 0.55);
+  padding-left: 1.2rem;
   position: relative;
 }
 
-.service-list li::before {
+.service-full-content .service-list li::before {
   content: '';
   position: absolute;
   left: 0;
   top: 0.55em;
-  width: 4px;
+  width: 5px;
   height: 1px;
   background: var(--champagne-dim);
 }
@@ -629,14 +634,14 @@ h2 em {
 }
 
 .process-num {
-  font-family: var(--font-display);
+  font-family: var(--font-heading);
   font-size: 1.8rem;
   color: rgba(200, 170, 150, 0.15);
   margin-bottom: 1.2rem;
 }
 
 .process-step h3 {
-  font-family: var(--font-display);
+  font-family: var(--font-heading);
   font-weight: normal;
   font-size: 1.3rem;
   color: var(--champagne-light);
@@ -728,7 +733,7 @@ h2 em {
 }
 
 .footer-brand {
-  font-family: var(--font-display);
+  font-family: var(--font-brand);
   font-size: 1.6rem;
   color: var(--champagne-light);
 }
@@ -823,25 +828,6 @@ h2 em {
     gap: 2rem;
   }
 
-  .service-block,
-  .service-block.reverse {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .service-block.reverse .service-visual,
-  .service-block.reverse .service-info {
-    order: unset;
-  }
-
-  .service-img {
-    aspect-ratio: 16/9;
-  }
-
-  .service-list {
-    grid-template-columns: 1fr 1fr;
-  }
-
   .process-grid {
     flex-direction: column;
     align-items: center;
@@ -856,6 +842,28 @@ h2 em {
 
   .process-step {
     padding: 0 1rem;
+  }
+
+  /* Services tablet: center overlay */
+  .service-full-overlay,
+  .service-full:has(.service-full-content--right) .service-full-overlay {
+    background: linear-gradient(
+      0deg,
+      rgba(8, 4, 5, 0.95) 0%,
+      rgba(8, 4, 5, 0.8) 40%,
+      rgba(8, 4, 5, 0.35) 100%
+    );
+  }
+
+  .service-full {
+    align-items: flex-end;
+  }
+
+  .service-full-content,
+  .service-full-content--right {
+    margin-left: 0;
+    max-width: 100%;
+    padding: 3rem 2rem 4rem;
   }
 }
 
@@ -984,30 +992,25 @@ h2 em {
   }
 
   /* Services mobile */
-  .service-block {
-    margin-bottom: 3.5rem;
+  .service-full {
+    min-height: 100dvh;
   }
 
-  .service-number {
-    font-size: 3.5rem;
-    top: -1rem;
+  .service-full-content h3 {
+    font-size: 1.8rem;
   }
 
-  .service-info h3 {
-    font-size: 1.4rem;
-  }
-
-  .service-info > p {
+  .service-full-content > p {
     font-size: 0.92rem;
+    line-height: 1.75;
   }
 
-  .service-list {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
+  .service-full-number {
+    font-size: 3.5rem;
   }
 
-  .service-list li {
-    font-size: 0.85rem;
+  .section-services-intro {
+    padding: 4rem 0 1.5rem;
   }
 
   /* Process mobile */
@@ -1091,12 +1094,20 @@ h2 em {
   .about-stats {
     gap: 1rem;
   }
+
+  .service-full-content,
+  .service-full-content--right {
+    padding: 2.5rem 1.2rem 3rem;
+  }
+
+  .service-full-content h3 {
+    font-size: 1.5rem;
+  }
 }
 
 /* Touch device optimizations */
 @media (hover: none) {
-  .service-block:hover .service-img img {
-    filter: brightness(0.7) saturate(0.8);
+  .service-full:hover .service-full-bg {
     transform: none;
   }
 
@@ -1122,5 +1133,10 @@ h2 em {
   .header-inner {
     padding-left: max(1.5rem, env(safe-area-inset-left));
     padding-right: max(1.5rem, env(safe-area-inset-right));
+  }
+
+  .service-full-content {
+    padding-left: max(5vw, env(safe-area-inset-left));
+    padding-right: max(5vw, env(safe-area-inset-right));
   }
 }
