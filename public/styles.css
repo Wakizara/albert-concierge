@@ -43,6 +43,22 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Times NR MT Condensed';
+  src: url('/fonts/times-nr-mt-condensed-regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Times NR MT Condensed';
+  src: url('/fonts/times-nr-mt-condensed-bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Variables */
 :root {
   --bg-dark: #080405;
@@ -60,7 +76,7 @@
   --border-hover: rgba(200, 170, 150, 0.2);
   --font-brand: 'Symphony Pro', Georgia, serif;
   --font-heading: 'The Seasons', Georgia, serif;
-  --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-body: 'Times NR MT Condensed', 'Times New Roman', Times, serif;
 }
 
 /* Reset */
