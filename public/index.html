@@ -5,10 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Albert | Last Minute Luxury Concierge - Dubai</title>
   <meta name="description" content="Albert - Dubai's premier last-minute luxury concierge. Private jets, exclusive villas, bespoke events, and extraordinary requests fulfilled on demand.">
+  <link rel="preload" href="/fonts/symphony-pro-regular.otf" as="font" type="font/otf" crossorigin>
+  <link rel="preload" href="/fonts/fonnts.com-theseasons-reg.otf" as="font" type="font/otf" crossorigin>
+  <link rel="preload" href="/fonts/times-nr-mt-condensed-regular.otf" as="font" type="font/otf" crossorigin>
   <link rel="stylesheet" href="/styles.css">
   <link rel="icon" type="image/png" href="/images/albert-logo.png">
+  <style>
+    /* Hide content until fonts are loaded to prevent FOUT */
+    .fonts-loading { opacity: 0; }
+    .fonts-loaded { opacity: 1; transition: opacity 0.3s ease; }
+  </style>
 </head>
-<body>
+<body class="fonts-loading">
 
   <!-- Header -->
   <header class="header" id="header">
@@ -262,62 +270,88 @@
   </footer>
 
   <script>
+    // Font loading - prevent FOUT
+    if (document.fonts) {
+      document.fonts.ready.then(() => {
+        document.body.classList.remove('fonts-loading');
+        document.body.classList.add('fonts-loaded');
+      });
+    } else {
+      // Fallback: just show after short delay
+      setTimeout(() => {
+        document.body.classList.remove('fonts-loading');
+        document.body.classList.add('fonts-loaded');
+      }, 300);
+    }
+
     // Snap scroll between sections
     const sections = document.querySelectorAll('.hero, .section, .service-full, .footer');
     let isScrolling = false;
     let currentSection = 0;
+    let wheelAccum = 0;
+    let wheelTimer = null;
 
     function scrollToSection(index) {
       if (index < 0 || index >= sections.length || isScrolling) return;
       isScrolling = true;
       currentSection = index;
       sections[index].scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setTimeout(() => { isScrolling = false; }, 800);
+      setTimeout(() => { isScrolling = false; }, 1200);
     }
 
     function findCurrentSection() {
       const scrollY = window.scrollY;
-      let closest = 0;
-      let closestDist = Infinity;
+      const vh = window.innerHeight;
+      let best = 0;
       sections.forEach((s, i) => {
-        const dist = Math.abs(s.offsetTop - scrollY);
-        if (dist < closestDist) {
-          closestDist = dist;
-          closest = i;
-        }
+        if (s.offsetTop <= scrollY + vh * 0.3) best = i;
       });
-      return closest;
+      return best;
     }
 
     window.addEventListener('wheel', (e) => {
       e.preventDefault();
       if (isScrolling) return;
+
+      // Accumulate delta to handle trackpads that fire many small events
+      wheelAccum += e.deltaY;
+      clearTimeout(wheelTimer);
+      wheelTimer = setTimeout(() => { wheelAccum = 0; }, 200);
+
+      // Only trigger when accumulated enough
+      if (Math.abs(wheelAccum) < 50) return;
+
       currentSection = findCurrentSection();
-      if (e.deltaY > 0) {
+      if (wheelAccum > 0) {
         scrollToSection(currentSection + 1);
       } else {
         scrollToSection(currentSection - 1);
       }
+      wheelAccum = 0;
     }, { passive: false });
 
     // Touch support
     let touchStartY = 0;
+    let touchMoved = false;
     window.addEventListener('touchstart', (e) => {
       touchStartY = e.touches[0].clientY;
+      touchMoved = false;
     }, { passive: true });
 
-    window.addEventListener('touchend', (e) => {
+    window.addEventListener('touchmove', (e) => {
+      e.preventDefault();
       if (isScrolling) return;
-      const touchEndY = e.changedTouches[0].clientY;
-      const diff = touchStartY - touchEndY;
-      if (Math.abs(diff) < 50) return;
-      currentSection = findCurrentSection();
-      if (diff > 0) {
-        scrollToSection(currentSection + 1);
-      } else {
-        scrollToSection(currentSection - 1);
+      const diff = touchStartY - e.touches[0].clientY;
+      if (!touchMoved && Math.abs(diff) > 30) {
+        touchMoved = true;
+        currentSection = findCurrentSection();
+        if (diff > 0) {
+          scrollToSection(currentSection + 1);
+        } else {
+          scrollToSection(currentSection - 1);
+        }
       }
-    }, { passive: true });
+    }, { passive: false });
 
     // Keyboard support
     window.addEventListener('keydown', (e) => {
@@ -358,7 +392,13 @@
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
+        const href = this.getAttribute('href');
+        if (href === '#' || href === '') {
+          // Brand link: scroll to top (hero)
+          scrollToSection(0);
+          return;
+        }
+        const target = document.querySelector(href);
         if (target) {
           const index = Array.from(sections).indexOf(target);
           if (index !== -1) {
