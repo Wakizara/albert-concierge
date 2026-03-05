@@ -532,22 +532,26 @@ h2 em {
 .service-full-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(8, 4, 5, 0.92) 0%,
-    rgba(8, 4, 5, 0.75) 40%,
-    rgba(8, 4, 5, 0.3) 100%
-  );
+  background:
+    rgba(15, 5, 8, 0.4),
+    linear-gradient(
+      90deg,
+      rgba(8, 4, 5, 0.94) 0%,
+      rgba(10, 4, 6, 0.8) 40%,
+      rgba(15, 5, 8, 0.5) 100%
+    );
 }
 
 /* Right-aligned content variant: overlay flipped */
 .service-full:has(.service-full-content--right) .service-full-overlay {
-  background: linear-gradient(
-    270deg,
-    rgba(8, 4, 5, 0.92) 0%,
-    rgba(8, 4, 5, 0.75) 40%,
-    rgba(8, 4, 5, 0.3) 100%
-  );
+  background:
+    rgba(15, 5, 8, 0.4),
+    linear-gradient(
+      270deg,
+      rgba(8, 4, 5, 0.94) 0%,
+      rgba(10, 4, 6, 0.8) 40%,
+      rgba(15, 5, 8, 0.5) 100%
+    );
 }
 
 .service-full-content {
@@ -611,6 +615,85 @@ h2 em {
   width: 5px;
   height: 1px;
   background: var(--champagne-dim);
+}
+
+/* ========================================
+   URGENT
+   ======================================== */
+.section-urgent {
+  position: relative;
+  padding: 8rem 0;
+  text-align: center;
+  overflow: hidden;
+  background: var(--bg-dark);
+}
+
+.urgent-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(80, 15, 25, 0.2) 0%, transparent 60%),
+    radial-gradient(ellipse at 30% 30%, rgba(60, 10, 20, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.section-urgent h2 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  margin-bottom: 0.5rem;
+}
+
+.urgent-lead {
+  font-weight: 100;
+  font-size: 1.3rem;
+  color: var(--champagne);
+  margin-bottom: 4rem;
+  letter-spacing: 0.1em;
+}
+
+.urgent-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  max-width: 850px;
+  margin: 0 auto 4rem;
+  text-align: left;
+}
+
+.urgent-col p {
+  font-weight: 300;
+  font-size: 0.95rem;
+  line-height: 1.85;
+  color: var(--text-secondary);
+}
+
+.urgent-features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto 3.5rem;
+}
+
+.urgent-feature {
+  text-align: center;
+  padding: 2rem 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+
+.urgent-feature h3 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: 1.15rem;
+  color: var(--champagne-light);
+  margin-bottom: 0.6rem;
+}
+
+.urgent-feature p {
+  font-weight: 300;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--text-muted);
 }
 
 /* ========================================
@@ -790,8 +873,8 @@ h2 em {
 /* Scroll reveal */
 .reveal {
   opacity: 0;
-  transform: translateY(25px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .reveal.visible {
@@ -799,9 +882,26 @@ h2 em {
   transform: translateY(0);
 }
 
-.service-block.reveal {
-  transform: translateY(40px);
-  transition-duration: 0.9s;
+.service-full-content.reveal {
+  transform: translateX(-30px);
+  transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.service-full-content--right.reveal {
+  transform: translateX(30px);
+}
+
+.service-full-content.reveal.visible {
+  transform: translateX(0);
+}
+
+.urgent-feature.reveal {
+  transform: translateY(20px) scale(0.97);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.urgent-feature.reveal.visible {
+  transform: translateY(0) scale(1);
 }
 
 /* Stagger children */
@@ -818,6 +918,10 @@ h2 em {
 .contact-item.reveal:nth-child(1) { transition-delay: 0s; }
 .contact-item.reveal:nth-child(2) { transition-delay: 0.1s; }
 .contact-item.reveal:nth-child(3) { transition-delay: 0.2s; }
+
+.urgent-feature.reveal:nth-child(1) { transition-delay: 0s; }
+.urgent-feature.reveal:nth-child(2) { transition-delay: 0.15s; }
+.urgent-feature.reveal:nth-child(3) { transition-delay: 0.3s; }
 
 /* ========================================
    RESPONSIVE - Mobile First Priority
@@ -849,12 +953,14 @@ h2 em {
   /* Services tablet: center overlay */
   .service-full-overlay,
   .service-full:has(.service-full-content--right) .service-full-overlay {
-    background: linear-gradient(
-      0deg,
-      rgba(8, 4, 5, 0.95) 0%,
-      rgba(8, 4, 5, 0.8) 40%,
-      rgba(8, 4, 5, 0.35) 100%
-    );
+    background:
+      rgba(15, 5, 8, 0.45),
+      linear-gradient(
+        0deg,
+        rgba(8, 4, 5, 0.96) 0%,
+        rgba(10, 4, 6, 0.82) 40%,
+        rgba(15, 5, 8, 0.45) 100%
+      );
   }
 
   .service-full {
@@ -1013,6 +1119,24 @@ h2 em {
 
   .section-services-intro {
     padding: 4rem 0 1.5rem;
+  }
+
+  /* Urgent mobile */
+  .urgent-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .urgent-features {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .urgent-lead {
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
   }
 
   /* Process mobile */
