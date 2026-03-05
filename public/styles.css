@@ -677,7 +677,7 @@ h2 em {
 .contact-desc {
   max-width: 550px;
   margin: -2rem auto 3rem;
-  font-weight: 300;
+  font-weight: 100;
   font-size: 1.05rem;
   line-height: 1.8;
   color: var(--text-secondary);
