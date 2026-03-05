@@ -88,8 +88,6 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-snap-type: y mandatory;
-  overflow-y: scroll;
 }
 
 body {
@@ -252,7 +250,7 @@ body > * {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  scroll-snap-align: start;
+
 }
 
 .hero-bg {
@@ -423,7 +421,7 @@ body > * {
   min-height: 100vh;
   display: flex;
   align-items: center;
-  scroll-snap-align: start;
+
 }
 
 .section > .container {
@@ -536,7 +534,7 @@ h2 em {
   display: flex;
   align-items: center;
   overflow: hidden;
-  scroll-snap-align: start;
+
 }
 
 .service-full-bg {
@@ -555,26 +553,30 @@ h2 em {
 .service-full-overlay {
   position: absolute;
   inset: 0;
-  background:
-    rgba(10, 3, 5, 0.6),
-    linear-gradient(
-      90deg,
-      rgba(8, 3, 5, 0.97) 0%,
-      rgba(10, 4, 6, 0.88) 35%,
-      rgba(12, 4, 7, 0.7) 100%
-    );
+  z-index: 1;
+  background: linear-gradient(
+    90deg,
+    rgba(5, 2, 3, 0.95) 0%,
+    rgba(5, 2, 3, 0.85) 30%,
+    rgba(5, 2, 3, 0.6) 100%
+  );
 }
 
-/* Right-aligned content variant: overlay flipped */
-.service-full:has(.service-full-content--right) .service-full-overlay {
-  background:
-    rgba(10, 3, 5, 0.6),
-    linear-gradient(
-      270deg,
-      rgba(8, 3, 5, 0.97) 0%,
-      rgba(10, 4, 6, 0.88) 35%,
-      rgba(12, 4, 7, 0.7) 100%
-    );
+.service-full-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 5, 8, 0.5);
+}
+
+/* Right-aligned content variant */
+.service-full-overlay.overlay-right {
+  background: linear-gradient(
+    270deg,
+    rgba(5, 2, 3, 0.95) 0%,
+    rgba(5, 2, 3, 0.85) 30%,
+    rgba(5, 2, 3, 0.6) 100%
+  );
 }
 
 .service-full-content {
@@ -661,7 +663,7 @@ h2 em {
   min-height: 100vh;
   display: flex;
   align-items: center;
-  scroll-snap-align: start;
+
 }
 
 .urgent-bg {
@@ -845,7 +847,7 @@ h2 em {
   padding: 3.5rem 0 2rem;
   background: var(--bg-dark);
   border-top: 1px solid var(--border);
-  scroll-snap-align: end;
+
 }
 
 .footer-top {
@@ -987,17 +989,15 @@ h2 em {
     padding: 0 1rem;
   }
 
-  /* Services tablet: center overlay */
+  /* Services tablet: vertical overlay */
   .service-full-overlay,
-  .service-full:has(.service-full-content--right) .service-full-overlay {
-    background:
-      rgba(10, 3, 5, 0.6),
-      linear-gradient(
-        0deg,
-        rgba(8, 3, 5, 0.97) 0%,
-        rgba(10, 4, 6, 0.88) 35%,
-        rgba(12, 4, 7, 0.6) 100%
-      );
+  .service-full-overlay.overlay-right {
+    background: linear-gradient(
+      0deg,
+      rgba(5, 2, 3, 0.96) 0%,
+      rgba(5, 2, 3, 0.85) 35%,
+      rgba(5, 2, 3, 0.5) 100%
+    );
   }
 
   .service-full {
