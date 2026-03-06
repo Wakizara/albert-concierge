@@ -51,8 +51,6 @@
         </a>
       </div>
     </div>
-    <div class="hero-door hero-door--left"></div>
-    <div class="hero-door hero-door--right"></div>
     <div class="scroll-indicator">
       <div class="scroll-line"></div>
     </div>
@@ -277,24 +275,10 @@
     let wheelAccum = 0;
     let wheelTimer = null;
 
-    const doorLeft = document.querySelector('.hero-door--left');
-    const doorRight = document.querySelector('.hero-door--right');
-
-    function updateDoors(index) {
-      if (index === 0) {
-        doorLeft.classList.remove('closed');
-        doorRight.classList.remove('closed');
-      } else {
-        doorLeft.classList.add('closed');
-        doorRight.classList.add('closed');
-      }
-    }
-
     function scrollToSection(index) {
       if (index < 0 || index >= sections.length || isScrolling) return;
       isScrolling = true;
       currentSection = index;
-      updateDoors(index);
       sections[index].scrollIntoView({ behavior: 'smooth', block: 'start' });
       setTimeout(() => { isScrolling = false; }, 1200);
     }

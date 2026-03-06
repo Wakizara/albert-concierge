@@ -345,36 +345,6 @@ body > * {
   flex-wrap: wrap;
 }
 
-/* Hero sliding doors */
-.hero-door {
-  position: absolute;
-  top: 0;
-  width: 50%;
-  height: 100%;
-  z-index: 3;
-  background: var(--bg-dark);
-  transition: transform 1s cubic-bezier(0.76, 0, 0.24, 1);
-  will-change: transform;
-}
-
-.hero-door--left {
-  left: 0;
-  transform: translateX(-100%);
-}
-
-.hero-door--right {
-  right: 0;
-  transform: translateX(100%);
-}
-
-.hero-door--left.closed {
-  transform: translateX(0);
-}
-
-.hero-door--right.closed {
-  transform: translateX(0);
-}
-
 .scroll-indicator {
   position: absolute;
   bottom: 2.5rem;
