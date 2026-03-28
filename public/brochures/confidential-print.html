@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Albert | Confidential Brochure</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red-bg: #3a0a0a;
+      --burgundy: #5c1a1a;
+      --burgundy-dark: #2e0c0c;
+      --gold: #c9a96e;
+      --gold-dim: rgba(201,169,110,0.6);
+      --text: #e8ddd4;
+      --text-sec: rgba(220,200,190,0.75);
+      --text-muted: rgba(200,185,175,0.45);
+      --font-heading: 'Playfair Display', Georgia, serif;
+      --font-body: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    @page { size: A4; margin: 0; }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      color: var(--text);
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      background: var(--red-bg);
+    }
+
+    .page {
+      width: 210mm;
+      height: 297mm;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 50px;
+      page-break-after: always;
+    }
+
+    .page:last-child { page-break-after: auto; }
+
+    /* ── PAGE 1: COVER ── */
+    .cover {
+      background: var(--red-bg);
+      background: radial-gradient(ellipse at 50% 40%, rgba(92,26,26,0.5) 0%, var(--red-bg) 70%);
+    }
+    .cover-border {
+      position: absolute;
+      inset: 20px;
+      border: 1px solid rgba(201,169,110,0.12);
+    }
+    .cover-corner-tl, .cover-corner-br { position: absolute; width: 30px; height: 30px; }
+    .cover-corner-tl { top: 12px; left: 12px; border-top: 1px solid rgba(201,169,110,0.25); border-left: 1px solid rgba(201,169,110,0.25); }
+    .cover-corner-br { bottom: 12px; right: 12px; border-bottom: 1px solid rgba(201,169,110,0.25); border-right: 1px solid rgba(201,169,110,0.25); }
+    .cover > * { position: relative; z-index: 1; }
+    .cover-label { font-size: 10px; letter-spacing: 8px; text-transform: uppercase; color: rgba(201,169,110,0.4); position: absolute; top: 48px; }
+    .cover-logo { width: 100px; margin-bottom: 36px; opacity: 0.8; }
+    .cover-line { width: 1px; height: 50px; background: linear-gradient(180deg, transparent, var(--gold), transparent); margin-bottom: 28px; }
+    .cover-title { font-family: var(--font-heading); font-weight: 600; font-size: 64px; line-height: 0.9; margin-bottom: 20px; }
+    .cover-title em { font-style: italic; color: var(--gold); }
+    .cover-sub { font-size: 16px; font-weight: 400; color: var(--text-sec); margin-bottom: 48px; max-width: 360px; letter-spacing: 0.5px; line-height: 1.6; }
+    .cover-stats { display: flex; gap: 40px; }
+    .cover-stat { text-align: center; }
+    .cover-stat-num { font-family: var(--font-heading); font-size: 32px; font-weight: 600; color: var(--gold); display: block; }
+    .cover-stat-label { font-size: 9px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); margin-top: 4px; }
+    .cover-site { position: absolute; bottom: 40px; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--text-muted); }
+
+    /* ── PAGE 2-4: SERVICES ── */
+    .services-page {
+      background: var(--burgundy-dark);
+      background: radial-gradient(ellipse at 50% 40%, rgba(58,10,10,0.8) 0%, var(--burgundy-dark) 70%);
+      justify-content: flex-start;
+      padding-top: 60px;
+    }
+    .sp-label { font-size: 10px; font-weight: 500; letter-spacing: 6px; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+    .sp-title { font-family: var(--font-heading); font-weight: 600; font-size: 36px; line-height: 1; margin-bottom: 40px; }
+    .sp-title em { font-style: italic; color: var(--gold); }
+
+    .svc-block { text-align: left; width: 100%; max-width: 480px; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid rgba(201,169,110,0.08); }
+    .svc-block:last-child { border-bottom: none; margin-bottom: 0; }
+    .svc-block-num { font-family: var(--font-heading); font-size: 12px; font-weight: 600; color: rgba(201,169,110,0.4); letter-spacing: 3px; margin-bottom: 8px; }
+    .svc-block-name { font-family: var(--font-heading); font-weight: 600; font-size: 24px; margin-bottom: 10px; }
+    .svc-block-desc { font-size: 12px; font-weight: 400; color: var(--text-sec); line-height: 1.7; margin-bottom: 12px; }
+    .svc-block-example { font-family: var(--font-heading); font-style: italic; font-weight: 400; font-size: 12px; color: var(--gold-dim); padding-left: 16px; border-left: 2px solid rgba(201,169,110,0.2); line-height: 1.5; margin-bottom: 10px; }
+    .svc-block-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .svc-block-tag { font-size: 8px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-dim); border: 1px solid rgba(201,169,110,0.12); padding: 3px 10px; }
+
+    .page-num { position: absolute; bottom: 32px; right: 40px; font-size: 11px; letter-spacing: 3px; color: var(--text-muted); }
+    .page-logo { position: absolute; bottom: 32px; left: 40px; width: 24px; opacity: 0.25; }
+
+    /* ── PAGE 5: DISCRETION ── */
+    .disc-page {
+      background: var(--red-bg);
+      background: radial-gradient(ellipse at 50% 50%, rgba(92,26,26,0.4) 0%, var(--red-bg) 70%);
+    }
+    .disc-page-title { font-family: var(--font-heading); font-weight: 600; font-size: 48px; line-height: 0.95; margin-bottom: 16px; }
+    .disc-page-title em { font-style: italic; color: var(--gold); }
+    .disc-page-sub { font-family: var(--font-heading); font-style: italic; font-weight: 400; font-size: 15px; color: var(--text-sec); max-width: 400px; line-height: 1.6; margin-bottom: 40px; }
+    .disc-page-line { width: 1px; height: 40px; background: linear-gradient(180deg, transparent, var(--gold), transparent); margin-bottom: 40px; }
+    .disc-page-grid { display: flex; gap: 32px; flex-wrap: wrap; justify-content: center; max-width: 520px; margin-bottom: 40px; }
+    .disc-page-card { width: 220px; text-align: center; }
+    .disc-page-icon { width: 40px; height: 40px; border: 1px solid rgba(201,169,110,0.2); background: rgba(92,26,26,0.3); display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-size: 16px; color: var(--gold); margin: 0 auto 10px; }
+    .disc-page-card-name { font-family: var(--font-heading); font-weight: 600; font-size: 15px; margin-bottom: 6px; }
+    .disc-page-card-desc { font-size: 11px; font-weight: 400; color: var(--text-muted); line-height: 1.5; }
+    .disc-page-quote { font-family: var(--font-heading); font-style: italic; font-weight: 500; font-size: 16px; color: var(--text-muted); padding-top: 28px; border-top: 1px solid rgba(200,170,150,0.08); max-width: 360px; }
+
+    /* ── PAGE 6: CONTACT ── */
+    .contact-page {
+      background: var(--burgundy-dark);
+      background: radial-gradient(ellipse at 50% 40%, rgba(58,10,10,0.8) 0%, var(--burgundy-dark) 70%);
+    }
+    .ct-page-logo { width: 64px; opacity: 0.6; margin-bottom: 24px; }
+    .ct-page-title { font-family: var(--font-heading); font-weight: 600; font-size: 44px; line-height: 0.95; margin-bottom: 16px; }
+    .ct-page-title em { font-style: italic; color: var(--gold); }
+    .ct-page-sub { font-size: 14px; font-weight: 400; color: var(--text-sec); margin-bottom: 48px; max-width: 400px; line-height: 1.7; }
+    .ct-page-info { display: flex; flex-direction: column; gap: 24px; margin-bottom: 48px; }
+    .ct-page-item { text-align: center; }
+    .ct-page-label { font-size: 10px; font-weight: 500; letter-spacing: 4px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
+    .ct-page-value { font-family: var(--font-heading); font-weight: 500; font-size: 18px; color: var(--text); }
+    .ct-page-divider { width: 48px; height: 1px; background: rgba(201,169,110,0.2); margin: 0 auto; }
+    .ct-page-footer { position: absolute; bottom: 40px; }
+    .ct-page-footer-text { font-size: 10px; font-weight: 500; letter-spacing: 4px; text-transform: uppercase; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE 1: COVER -->
+  <div class="page cover">
+    <div class="cover-border"></div>
+    <div class="cover-corner-tl"></div>
+    <div class="cover-corner-br"></div>
+    <div class="cover-label">Confidential</div>
+    <img src="/images/albert-logo.png" alt="Albert" class="cover-logo">
+    <div class="cover-line"></div>
+    <h1 class="cover-title">We Make It<br><em>Happen.</em></h1>
+    <p class="cover-sub">You ask. We deliver. No questions. No limits. No trace.</p>
+    <div class="cover-stats">
+      <div class="cover-stat"><span class="cover-stat-num">24/7</span><span class="cover-stat-label">Availability</span></div>
+      <div class="cover-stat"><span class="cover-stat-num">50+</span><span class="cover-stat-label">Countries</span></div>
+      <div class="cover-stat"><span class="cover-stat-num">2h</span><span class="cover-stat-label">Avg. Response</span></div>
+      <div class="cover-stat"><span class="cover-stat-num">100%</span><span class="cover-stat-label">Discretion</span></div>
+    </div>
+    <div class="cover-site">albert-conciergerie.com</div>
+  </div>
+
+  <!-- PAGE 2: SERVICES 1-2 -->
+  <div class="page services-page">
+    <div class="sp-label">Our Services</div>
+    <h2 class="sp-title">The Impossible Is Just<br>One More <em>Phone Call.</em></h2>
+    <div class="svc-block">
+      <div class="svc-block-num">01</div>
+      <div class="svc-block-name">Private Jets</div>
+      <div class="svc-block-desc">Wheels up in hours, not days. Anywhere in the world, at any hour. The tarmac is ready before you hang up the phone. No commercial schedules. No waiting lists. We handle everything - from catering preferences to ground transportation on arrival.</div>
+      <div class="svc-block-example">"I need to be in Monaco by tonight." - Private jet, wheels up in 90 minutes.</div>
+      <div class="svc-block-tags"><span class="svc-block-tag">Immediate Departure</span><span class="svc-block-tag">Global Coverage</span><span class="svc-block-tag">24/7</span></div>
+    </div>
+    <div class="svc-block">
+      <div class="svc-block-num">02</div>
+      <div class="svc-block-name">Exclusive Properties</div>
+      <div class="svc-block-desc">Properties that don't appear on any listing. Villas, penthouses, islands - places that exist only for those who know where to look. Every property is fully vetted, secured, and staffed before you arrive. Your name stays out of every booking.</div>
+      <div class="svc-block-example">"I need a villa in Saint-Tropez for 20 guests. Tomorrow." - Secured, staffed, and stocked by morning.</div>
+      <div class="svc-block-tags"><span class="svc-block-tag">Off-Market</span><span class="svc-block-tag">Anonymous</span><span class="svc-block-tag">Fully Staffed</span></div>
+    </div>
+    <img src="/images/albert-logo.png" alt="" class="page-logo">
+    <div class="page-num">02</div>
+  </div>
+
+  <!-- PAGE 3: SERVICES 3-4 -->
+  <div class="page services-page">
+    <div class="svc-block">
+      <div class="svc-block-num">03</div>
+      <div class="svc-block-name">Events & Experiences</div>
+      <div class="svc-block-desc">A Michelin-starred chef at 3am in Mykonos. The erupting volcano in La Reunion, tonight. Front row seats to a sold-out show. A private museum tour after hours. We curate experiences that don't exist until you ask for them.</div>
+      <div class="svc-block-example">"The volcano is erupting. I want to see it tonight." - Private jet + helicopter transfer + front-row nature.</div>
+      <div class="svc-block-tags"><span class="svc-block-tag">Bespoke</span><span class="svc-block-tag">Last Minute</span><span class="svc-block-tag">Once-in-a-Lifetime</span></div>
+    </div>
+    <div class="svc-block">
+      <div class="svc-block-num">04</div>
+      <div class="svc-block-name">Extraordinary Requests</div>
+      <div class="svc-block-desc">The things you've been told can't be done - those are the things we do best. A tiger for the after-party. Close an entire restaurant for a private dinner. Source a vintage car that hasn't been on the market in decades. No judgement. No questions. Just results.</div>
+      <div class="svc-block-example">"Close this restaurant. Just for us. Tonight." - Done. Chef's table, private staff, no other guests.</div>
+      <div class="svc-block-tags"><span class="svc-block-tag">No Limits</span><span class="svc-block-tag">No Questions</span><span class="svc-block-tag">No Trace</span></div>
+    </div>
+    <img src="/images/albert-logo.png" alt="" class="page-logo">
+    <div class="page-num">03</div>
+  </div>
+
+  <!-- PAGE 4: SERVICES 5-6 -->
+  <div class="page services-page">
+    <div class="svc-block">
+      <div class="svc-block-num">05</div>
+      <div class="svc-block-name">Last Minute Rescue</div>
+      <div class="svc-block-desc">Your event is in 6 hours and your venue just cancelled. Your caterer disappeared. Your guests are already in the air. Others panic - we perform. Our network activates globally and instantly. Average response time: under 2 hours. Success rate: absolute.</div>
+      <div class="svc-block-example">"The venue flooded. 200 guests arriving in 5 hours." - New venue secured, decorated, and fully staffed in 4 hours.</div>
+      <div class="svc-block-tags"><span class="svc-block-tag">Crisis Management</span><span class="svc-block-tag">2h Response</span><span class="svc-block-tag">Always On</span></div>
+    </div>
+    <div class="svc-block">
+      <div class="svc-block-num">06</div>
+      <div class="svc-block-name">Total Discretion</div>
+      <div class="svc-block-desc">No paper trail. No digital footprint. No records of any kind. Your identity stays hidden at every single step - from booking to arrival to departure. We use encrypted communications, proxy bookings, and compartmentalized planning. What happens with Albert, stays with Albert.</div>
+      <div class="svc-block-example">"A weekend in a place that doesn't exist, for someone who was never there." - Arranged. Forgotten.</div>
+      <div class="svc-block-tags"><span class="svc-block-tag">100% Anonymous</span><span class="svc-block-tag">Encrypted</span><span class="svc-block-tag">Zero Judgement</span></div>
+    </div>
+    <img src="/images/albert-logo.png" alt="" class="page-logo">
+    <div class="page-num">04</div>
+  </div>
+
+  <!-- PAGE 5: DISCRETION -->
+  <div class="page disc-page">
+    <h2 class="disc-page-title">She Won't <em>Know.</em></h2>
+    <p class="disc-page-sub">A weekend that never happened. A flight that was never booked. A villa with no guest list. A life you keep entirely to yourself. We don't ask why. We don't remember. We just make it seamless.</p>
+    <div class="disc-page-line"></div>
+    <div class="disc-page-grid">
+      <div class="disc-page-card"><div class="disc-page-icon">&empty;</div><div class="disc-page-card-name">No Paper Trail</div><div class="disc-page-card-desc">No receipts, no invoices, no booking confirmations. Nothing in your name, ever.</div></div>
+      <div class="disc-page-card"><div class="disc-page-icon">&infin;</div><div class="disc-page-card-name">Total Anonymity</div><div class="disc-page-card-desc">Proxy bookings, shell accounts, encrypted comms. Your identity is invisible.</div></div>
+      <div class="disc-page-card"><div class="disc-page-icon">&times;</div><div class="disc-page-card-name">Zero Footprint</div><div class="disc-page-card-desc">No emails, no app notifications, no browser history, no location data.</div></div>
+      <div class="disc-page-card"><div class="disc-page-icon">&oplus;</div><div class="disc-page-card-name">Zero Judgement</div><div class="disc-page-card-desc">What you do is your business. Making it flawless is ours. We've seen everything.</div></div>
+    </div>
+    <p class="disc-page-quote">What happens with Albert, stays with Albert. We forget faster than you can ask.</p>
+    <img src="/images/albert-logo.png" alt="" class="page-logo">
+    <div class="page-num">05</div>
+  </div>
+
+  <!-- PAGE 6: CONTACT -->
+  <div class="page contact-page">
+    <img src="/images/albert-logo.png" alt="Albert" class="ct-page-logo">
+    <h2 class="ct-page-title">You Know<br><em>What To Do.</em></h2>
+    <p class="ct-page-sub">One message. That's all it takes. We respond within minutes, 24 hours a day, 7 days a week. No voicemail. No waiting. No automated replies. Just a real person who already knows how to help.</p>
+    <div class="ct-page-info">
+      <div class="ct-page-item"><div class="ct-page-label">WhatsApp</div><div class="ct-page-value">+971 56 172 0809</div></div>
+      <div class="ct-page-divider"></div>
+      <div class="ct-page-item"><div class="ct-page-label">Email</div><div class="ct-page-value">contact@albert-conciergerie.com</div></div>
+      <div class="ct-page-divider"></div>
+      <div class="ct-page-item"><div class="ct-page-label">Location</div><div class="ct-page-value">Dubai, United Arab Emirates</div></div>
+    </div>
+    <div class="ct-page-footer">
+      <div class="ct-page-footer-text">We Make It Happen</div>
+    </div>
+  </div>
+
+</body>
+</html>
