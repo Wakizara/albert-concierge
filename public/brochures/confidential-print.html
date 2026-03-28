@@ -76,6 +76,80 @@
     .cover-stat-label { font-size: 9px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); margin-top: 4px; }
     .cover-site { position: absolute; bottom: 40px; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--text-muted); }
 
+    /* ── PAGE 0A: DOOR ── */
+    .door-page {
+      background: var(--red-bg);
+      background: radial-gradient(ellipse at 50% 50%, rgba(100,20,20,0.3) 0%, var(--red-bg) 60%);
+    }
+    .door-page-label { font-size: 11px; font-weight: 500; letter-spacing: 8px; text-transform: uppercase; color: rgba(201,169,110,0.35); position: absolute; top: 48px; }
+    .door-page-frame {
+      width: 200px; height: 340px; position: relative;
+      background: linear-gradient(180deg, #6b2222 0%, var(--burgundy) 30%, var(--burgundy-dark) 100%);
+      border: 1px solid rgba(201,169,110,0.15);
+      box-shadow: inset 0 0 60px rgba(0,0,0,0.4), 0 0 40px rgba(0,0,0,0.4);
+    }
+    .door-page-molding { position: absolute; border: 1px solid rgba(201,169,110,0.08); }
+    .door-page-molding-top { top: 16px; left: 16px; right: 16px; height: 130px; }
+    .door-page-molding-btm { bottom: 16px; left: 16px; right: 16px; height: 155px; }
+    .door-page-keyhole { position: absolute; right: 32px; top: 50%; transform: translateY(-50%); }
+    .door-page-kh-plate {
+      width: 28px; height: 42px;
+      background: linear-gradient(180deg, #8a7040, #6b5530, #8a7040);
+      border-radius: 14px 14px 3px 3px; position: relative;
+    }
+    .door-page-kh-circle { width: 10px; height: 10px; border-radius: 50%; background: #1a0808; position: absolute; top: 9px; left: 50%; transform: translateX(-50%); }
+    .door-page-kh-slit { width: 3px; height: 13px; background: #1a0808; position: absolute; top: 16px; left: 50%; transform: translateX(-50%); border-radius: 0 0 2px 2px; }
+    .door-page-logo { width: 56px; opacity: 0.5; margin-bottom: 32px; }
+    .door-page-text { font-family: var(--font-heading); font-weight: 500; font-size: 14px; letter-spacing: 6px; text-transform: uppercase; color: var(--gold-dim); margin-top: 36px; }
+
+    /* ── PAGE 0B: VAULT ── */
+    .vault-page {
+      background: var(--burgundy-dark);
+      background: radial-gradient(ellipse at 50% 50%, rgba(58,10,10,0.9) 0%, var(--burgundy-dark) 70%);
+    }
+    .vault-page-title { font-family: var(--font-heading); font-weight: 600; font-size: 28px; color: var(--text-sec); margin-bottom: 36px; }
+    .vault-page-title em { font-style: italic; color: var(--gold); }
+    .vault-page-safe {
+      width: 300px; height: 300px; position: relative;
+      border-radius: 10px;
+      background: linear-gradient(145deg, #6b2222, var(--burgundy), var(--burgundy-dark));
+      border: 3px solid rgba(201,169,110,0.15);
+      box-shadow: inset 0 0 50px rgba(0,0,0,0.5), 0 0 30px rgba(0,0,0,0.4);
+      margin-bottom: 36px;
+    }
+    .vault-page-dial {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 240px; height: 240px;
+      border-radius: 50%;
+      border: 3px solid rgba(201,169,110,0.2);
+      background: radial-gradient(circle, #3a1515 0%, #1e0a0a 100%);
+    }
+    .vault-page-center {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 44px; height: 44px; border-radius: 50%;
+      background: radial-gradient(circle at 40% 35%, #7a2020, #4a1212 60%, #2e0c0c);
+      border: 2px solid rgba(201,169,110,0.2);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .vault-page-center-logo { width: 20px; opacity: 0.5; }
+    .vault-page-bolt {
+      position: absolute;
+      width: 56px; height: 56px; border-radius: 50%;
+      background: radial-gradient(circle at 40% 35%, #7a2020, #5c1a1a 50%, #3a0f0f);
+      border: 2px solid rgba(201,169,110,0.25);
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+    }
+    .vault-page-bolt-name { font-family: var(--font-body); font-weight: 600; font-size: 7px; color: var(--text); line-height: 1.1; padding: 0 4px; }
+    .vault-page-hinge { position: absolute; left: -5px; width: 10px; height: 32px; background: linear-gradient(90deg, #8a7040, #6b5530, #8a7040); border-radius: 3px; }
+    .vault-page-hinge-top { top: 15%; }
+    .vault-page-hinge-btm { bottom: 15%; }
+    .vault-page-handle { position: absolute; right: -14px; top: 50%; transform: translateY(-50%); width: 12px; height: 60px; background: linear-gradient(90deg, #8a7040, #6b5530, #8a7040); border-radius: 3px; }
+    .vault-page-stats { display: flex; gap: 36px; }
+    .vault-page-stat { text-align: center; }
+    .vault-page-stat-num { font-family: var(--font-heading); font-size: 28px; font-weight: 600; color: var(--gold); display: block; }
+    .vault-page-stat-label { font-size: 9px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); }
+
     /* ── PAGE 2-4: SERVICES ── */
     .services-page {
       background: var(--burgundy-dark);
@@ -134,6 +208,48 @@
   </style>
 </head>
 <body>
+
+  <!-- PAGE 0A: DOOR -->
+  <div class="page door-page">
+    <div class="door-page-label">Confidential</div>
+    <img src="/images/albert-logo.png" alt="Albert" class="door-page-logo">
+    <div class="door-page-frame">
+      <div class="door-page-molding door-page-molding-top"></div>
+      <div class="door-page-molding door-page-molding-btm"></div>
+      <div class="door-page-keyhole">
+        <div class="door-page-kh-plate">
+          <div class="door-page-kh-circle"></div>
+          <div class="door-page-kh-slit"></div>
+        </div>
+      </div>
+    </div>
+    <div class="door-page-text">For your eyes only</div>
+  </div>
+
+  <!-- PAGE 0B: VAULT -->
+  <div class="page vault-page">
+    <div class="vault-page-title">Select a service to <em>unlock.</em></div>
+    <div class="vault-page-safe">
+      <div class="vault-page-hinge vault-page-hinge-top"></div>
+      <div class="vault-page-hinge vault-page-hinge-btm"></div>
+      <div class="vault-page-handle"></div>
+      <div class="vault-page-dial">
+        <div class="vault-page-bolt" style="top:8px;left:50%;transform:translateX(-50%)"><div class="vault-page-bolt-name">Private Jets</div></div>
+        <div class="vault-page-bolt" style="top:55px;right:12px"><div class="vault-page-bolt-name">Exclusive Properties</div></div>
+        <div class="vault-page-bolt" style="bottom:55px;right:12px"><div class="vault-page-bolt-name">Events & Experiences</div></div>
+        <div class="vault-page-bolt" style="bottom:8px;left:50%;transform:translateX(-50%)"><div class="vault-page-bolt-name">Extraordinary Requests</div></div>
+        <div class="vault-page-bolt" style="bottom:55px;left:12px"><div class="vault-page-bolt-name">Last Minute Rescue</div></div>
+        <div class="vault-page-bolt" style="top:55px;left:12px"><div class="vault-page-bolt-name">Total Discretion</div></div>
+        <div class="vault-page-center"><img src="/images/albert-logo.png" alt="" class="vault-page-center-logo"></div>
+      </div>
+    </div>
+    <div class="vault-page-stats">
+      <div class="vault-page-stat"><span class="vault-page-stat-num">24/7</span><span class="vault-page-stat-label">Availability</span></div>
+      <div class="vault-page-stat"><span class="vault-page-stat-num">50+</span><span class="vault-page-stat-label">Countries</span></div>
+      <div class="vault-page-stat"><span class="vault-page-stat-num">2h</span><span class="vault-page-stat-label">Avg. Response</span></div>
+      <div class="vault-page-stat"><span class="vault-page-stat-num">100%</span><span class="vault-page-stat-label">Discretion</span></div>
+    </div>
+  </div>
 
   <!-- PAGE 1: COVER -->
   <div class="page cover">
