@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Albert | She Won't Know</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+  <style>
+    @font-face { font-family: 'TimesCondensed'; src: url('../fonts/times-nr-mt-condensed-regular.otf') format('opentype'); font-weight: 400; }
+    @font-face { font-family: 'TimesCondensed'; src: url('../fonts/times-nr-mt-condensed-bold.otf') format('opentype'); font-weight: 700; }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 1080px;
+      height: 1080px;
+      background: #0a0a0a;
+      color: #f5f0eb;
+      font-family: 'TimesCondensed', 'Times New Roman', serif;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bg {
+      position: absolute;
+      inset: 0;
+      background: url('../images/villa.jpg') center center / cover no-repeat;
+      opacity: 0.15;
+      filter: grayscale(60%) brightness(0.8);
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.6) 40%, rgba(10,10,10,0.95) 100%);
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 72px 80px;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .logo {
+      width: 80px;
+      opacity: 0.9;
+    }
+
+    .tag {
+      font-size: 12px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: #c9a96e;
+      border: 1px solid rgba(201,169,110,0.25);
+      padding: 8px 20px;
+    }
+
+    .center {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .pre-title {
+      font-size: 14px;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      color: rgba(245,240,235,0.35);
+      margin-bottom: 40px;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 88px;
+      line-height: 0.92;
+      margin-bottom: 16px;
+    }
+
+    h1 .line2 {
+      color: #c9a96e;
+      font-style: italic;
+    }
+
+    .subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 22px;
+      color: rgba(245,240,235,0.45);
+      margin-bottom: 56px;
+      max-width: 500px;
+      line-height: 1.6;
+    }
+
+    .divider {
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(180deg, transparent, #c9a96e, transparent);
+      margin-bottom: 56px;
+    }
+
+    .features {
+      display: flex;
+      gap: 80px;
+    }
+
+    .feature {
+      text-align: center;
+    }
+
+    .feature-icon {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      color: #c9a96e;
+      margin-bottom: 12px;
+      font-weight: 300;
+    }
+
+    .feature-text {
+      font-size: 12px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(245,240,235,0.45);
+      line-height: 1.8;
+    }
+
+    .bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .disclaimer {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 15px;
+      color: rgba(245,240,235,0.3);
+      max-width: 400px;
+    }
+
+    .contact {
+      text-align: right;
+    }
+
+    .contact-line {
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(245,240,235,0.4);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .contact-cta {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      color: #c9a96e;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="overlay"></div>
+  <div class="content">
+    <div class="top">
+      <img src="../images/albert-logo.png" alt="Albert" class="logo">
+      <div class="tag">100% Discretion</div>
+    </div>
+
+    <div class="center">
+      <div class="pre-title">What happens with Albert</div>
+      <h1>She Won't<br><span class="line2">Know.</span></h1>
+      <p class="subtitle">A weekend that never happened. A trip with no trace. A life you keep to yourself. We don't judge. We arrange.</p>
+      <div class="divider"></div>
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon">&empty;</div>
+          <div class="feature-text">No paper<br>trail</div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">&infin;</div>
+          <div class="feature-text">Total<br>anonymity</div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">&times;</div>
+          <div class="feature-text">No digital<br>footprint</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <span class="disclaimer">What you do is your business. Making it seamless is ours.</span>
+      <div class="contact">
+        <span class="contact-line">albert-conciergerie.com</span>
+        <span class="contact-cta">You know what to do.</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

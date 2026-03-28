@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Albert | Last Minute</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&display=swap" rel="stylesheet">
+  <style>
+    @font-face { font-family: 'TimesCondensed'; src: url('../fonts/times-nr-mt-condensed-regular.otf') format('opentype'); font-weight: 400; }
+    @font-face { font-family: 'TimesCondensed'; src: url('../fonts/times-nr-mt-condensed-bold.otf') format('opentype'); font-weight: 700; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 1080px;
+      height: 1920px;
+      background: #0a0a0a;
+      color: #f5f0eb;
+      font-family: 'TimesCondensed', 'Times New Roman', serif;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bg {
+      position: absolute;
+      inset: 0;
+      background: url('../images/jet.jpg') center center / cover no-repeat;
+      opacity: 0.15;
+      filter: grayscale(50%);
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(10,10,10,0.6) 0%, rgba(10,10,10,0.9) 40%, rgba(10,10,10,0.95) 100%);
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 72px 72px;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .logo { width: 90px; opacity: 0.9; }
+
+    .tag {
+      font-size: 11px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: #c9a96e;
+    }
+
+    .center {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .pre-title {
+      font-size: 13px;
+      letter-spacing: 7px;
+      text-transform: uppercase;
+      color: #c9a96e;
+      margin-bottom: 32px;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 88px;
+      line-height: 0.92;
+      margin-bottom: 48px;
+    }
+
+    h1 em { font-style: italic; color: #c9a96e; }
+
+    .accent-line {
+      width: 60px;
+      height: 1px;
+      background: #c9a96e;
+      margin-bottom: 40px;
+    }
+
+    .desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      line-height: 1.65;
+      color: rgba(245,240,235,0.55);
+      max-width: 600px;
+      margin-bottom: 64px;
+    }
+
+    .scenarios {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .scenario {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      padding: 28px 32px;
+      border-left: 2px solid rgba(201,169,110,0.15);
+    }
+
+    .scenario-icon {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      color: #c9a96e;
+      font-weight: 300;
+      flex-shrink: 0;
+      width: 32px;
+      text-align: center;
+    }
+
+    .scenario-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      color: rgba(245,240,235,0.6);
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    .scenario-result {
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #c9a96e;
+      font-style: normal;
+      margin-top: 6px;
+      display: block;
+      font-family: 'TimesCondensed', serif;
+    }
+
+    .stats {
+      display: flex;
+      gap: 56px;
+      margin-top: 64px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(201,169,110,0.08);
+    }
+
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 44px;
+      font-weight: 300;
+      color: #c9a96e;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(245,240,235,0.3);
+      margin-top: 4px;
+    }
+
+    .bottom {
+      text-align: center;
+    }
+
+    .cta {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      color: #c9a96e;
+      margin-bottom: 12px;
+    }
+
+    .site {
+      font-size: 12px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(245,240,235,0.25);
+    }
+  </style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="overlay"></div>
+  <div class="content">
+    <div class="top">
+      <img src="../images/albert-logo.png" alt="Albert" class="logo">
+      <span class="tag">Last Minute Luxury</span>
+    </div>
+
+    <div class="center">
+      <div class="pre-title">When time runs out</div>
+      <h1>Too Late?<br><em>Never.</em></h1>
+      <div class="accent-line"></div>
+      <p class="desc">Your event is in 6 hours. Your venue just cancelled. Your guests are already in the air. Others panic. We perform.</p>
+
+      <div class="scenarios">
+        <div class="scenario">
+          <div class="scenario-icon">I</div>
+          <div>
+            <div class="scenario-text">"The caterer cancelled 4 hours before the gala."</div>
+            <span class="scenario-result">Michelin chef on-site in 2 hours</span>
+          </div>
+        </div>
+        <div class="scenario">
+          <div class="scenario-icon">II</div>
+          <div>
+            <div class="scenario-text">"I need to be in Monaco by tonight. No commercial flights."</div>
+            <span class="scenario-result">Private jet, wheels up in 90 minutes</span>
+          </div>
+        </div>
+        <div class="scenario">
+          <div class="scenario-icon">III</div>
+          <div>
+            <div class="scenario-text">"The villa flooded. 40 guests arriving tomorrow."</div>
+            <span class="scenario-result">New venue secured, fully staffed, same day</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div>
+          <div class="stat-num">2h</div>
+          <div class="stat-label">Avg. response</div>
+        </div>
+        <div>
+          <div class="stat-num">50+</div>
+          <div class="stat-label">Countries</div>
+        </div>
+        <div>
+          <div class="stat-num">24/7</div>
+          <div class="stat-label">Always on</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <div class="cta">We Make It Happen.</div>
+      <div class="site">albert-conciergerie.com</div>
+    </div>
+  </div>
+<script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+</body>
+</html>

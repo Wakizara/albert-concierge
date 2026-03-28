@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Albert | We Don't Ask Why</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+  <style>
+    @font-face { font-family: 'TimesCondensed'; src: url('../fonts/times-nr-mt-condensed-regular.otf') format('opentype'); font-weight: 400; }
+    @font-face { font-family: 'TimesCondensed'; src: url('../fonts/times-nr-mt-condensed-bold.otf') format('opentype'); font-weight: 700; }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 1080px;
+      height: 1080px;
+      background: #0a0a0a;
+      color: #f5f0eb;
+      font-family: 'TimesCondensed', 'Times New Roman', serif;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bg {
+      position: absolute;
+      inset: 0;
+      background: url('../images/extraordinary.jpg') center center / cover no-repeat;
+      opacity: 0.2;
+      filter: grayscale(50%);
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.7) 50%, rgba(10,10,10,0.9) 100%);
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 72px 80px;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .logo {
+      width: 80px;
+      opacity: 0.9;
+    }
+
+    .tag {
+      font-size: 13px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #c9a96e;
+    }
+
+    .center {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .pre-title {
+      font-size: 14px;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: #c9a96e;
+      margin-bottom: 32px;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 76px;
+      line-height: 0.95;
+      margin-bottom: 48px;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: #c9a96e;
+    }
+
+    .divider {
+      width: 80px;
+      height: 1px;
+      background: #c9a96e;
+      margin-bottom: 48px;
+    }
+
+    .requests {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px 60px;
+      max-width: 700px;
+    }
+
+    .request {
+      text-align: left;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(201,169,110,0.1);
+    }
+
+    .request-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 18px;
+      color: rgba(245,240,235,0.7);
+      margin-bottom: 4px;
+    }
+
+    .request-status {
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #c9a96e;
+    }
+
+    .bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: auto;
+    }
+
+    .tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 18px;
+      color: rgba(245,240,235,0.5);
+    }
+
+    .contact {
+      font-size: 13px;
+      letter-spacing: 2px;
+      color: rgba(245,240,235,0.4);
+    }
+  </style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="overlay"></div>
+  <div class="content">
+    <div class="top">
+      <img src="../images/albert-logo.png" alt="Albert" class="logo">
+      <span class="tag">No Limits</span>
+    </div>
+
+    <div class="center">
+      <div class="pre-title">You ask. We deliver.</div>
+      <h1>We Don't<br>Ask <em>Why.</em></h1>
+      <div class="divider"></div>
+      <div class="requests">
+        <div class="request">
+          <div class="request-text">"A tiger for the after-party"</div>
+          <div class="request-status">Done</div>
+        </div>
+        <div class="request">
+          <div class="request-text">"A chef at 3am in Mykonos"</div>
+          <div class="request-status">Done</div>
+        </div>
+        <div class="request">
+          <div class="request-text">"Close this restaurant for us"</div>
+          <div class="request-status">Done</div>
+        </div>
+        <div class="request">
+          <div class="request-text">"Front row. Tomorrow."</div>
+          <div class="request-status">Done</div>
+        </div>
+        <div class="request">
+          <div class="request-text">"A helicopter. 20 minutes."</div>
+          <div class="request-status">Done</div>
+        </div>
+        <div class="request">
+          <div class="request-text">"Make it disappear."</div>
+          <div class="request-status">Done</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <span class="tagline">If it exists, we'll find it. If it doesn't, we'll create it.</span>
+      <span class="contact">albert-conciergerie.com</span>
+    </div>
+  </div>
+</body>
+</html>

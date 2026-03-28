@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Albert | Volcano</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&display=swap" rel="stylesheet">
+  <style>
+    @font-face { font-family: 'TimesCondensed'; src: url('../fonts/times-nr-mt-condensed-regular.otf') format('opentype'); font-weight: 400; }
+    @font-face { font-family: 'TimesCondensed'; src: url('../fonts/times-nr-mt-condensed-bold.otf') format('opentype'); font-weight: 700; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 1080px;
+      height: 1920px;
+      background: #0a0a0a;
+      color: #f5f0eb;
+      font-family: 'TimesCondensed', 'Times New Roman', serif;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 50% 65%, rgba(180,60,20,0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 70%, rgba(201,169,110,0.08) 0%, transparent 40%),
+        linear-gradient(180deg, #0a0a0a 0%, #120805 40%, #1a0a04 55%, #0f0805 70%, #0a0a0a 100%);
+    }
+
+    .lava-glow {
+      position: absolute;
+      bottom: 35%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 300px;
+      background: radial-gradient(ellipse, rgba(220,80,20,0.12) 0%, rgba(180,50,10,0.05) 40%, transparent 70%);
+      filter: blur(40px);
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 72px 72px;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .logo { width: 90px; opacity: 0.9; }
+
+    .tag {
+      font-size: 11px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: rgba(201,169,110,0.5);
+      border: 1px solid rgba(201,169,110,0.15);
+      padding: 8px 18px;
+    }
+
+    .center {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .location {
+      font-size: 12px;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      color: rgba(220,100,40,0.6);
+      margin-bottom: 16px;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: rgba(220,80,20,0.8);
+      margin-bottom: 56px;
+      padding: 8px 20px;
+      border: 1px solid rgba(220,80,20,0.2);
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #dc5014;
+      box-shadow: 0 0 8px rgba(220,80,20,0.6);
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 82px;
+      line-height: 0.95;
+      margin-bottom: 40px;
+      letter-spacing: -1px;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: #c9a96e;
+    }
+
+    .accent-line {
+      width: 60px;
+      height: 1px;
+      background: #c9a96e;
+      margin: 0 auto 40px;
+    }
+
+    .desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      line-height: 1.65;
+      color: rgba(245,240,235,0.55);
+      max-width: 580px;
+      font-style: italic;
+    }
+
+    .desc strong {
+      color: #c9a96e;
+      font-weight: 500;
+      font-style: normal;
+    }
+
+    .timeline {
+      display: flex;
+      gap: 48px;
+      margin-top: 72px;
+      padding: 40px 48px;
+      border: 1px solid rgba(201,169,110,0.08);
+    }
+
+    .timeline-step {
+      text-align: center;
+      flex: 1;
+    }
+
+    .timeline-time {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      font-weight: 300;
+      color: #c9a96e;
+      margin-bottom: 8px;
+    }
+
+    .timeline-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(245,240,235,0.35);
+      line-height: 1.6;
+    }
+
+    .timeline-sep {
+      width: 1px;
+      background: rgba(201,169,110,0.15);
+    }
+
+    .bottom {
+      text-align: center;
+    }
+
+    .cta {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      color: #c9a96e;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+
+    .site {
+      font-size: 12px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(245,240,235,0.25);
+    }
+  </style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="lava-glow"></div>
+  <div class="content">
+    <div class="top">
+      <img src="../images/albert-logo.png" alt="Albert" class="logo">
+      <div class="tag">Last Minute Luxury</div>
+    </div>
+
+    <div class="center">
+      <div class="location">La Reunion Island</div>
+      <div class="status">
+        <span class="status-dot"></span>
+        Volcano currently erupting
+      </div>
+      <h1>You Want<br>To See It.<br><em>Tonight.</em></h1>
+      <div class="accent-line"></div>
+      <p class="desc">The Piton de la Fournaise is erupting right now. Others will tell you it's impossible to get there.<br><strong>We just ask what time you'd like to leave.</strong></p>
+
+      <div class="timeline">
+        <div class="timeline-step">
+          <div class="timeline-time">0h</div>
+          <div class="timeline-label">You call</div>
+        </div>
+        <div class="timeline-sep"></div>
+        <div class="timeline-step">
+          <div class="timeline-time">2h</div>
+          <div class="timeline-label">Private jet<br>wheels up</div>
+        </div>
+        <div class="timeline-sep"></div>
+        <div class="timeline-step">
+          <div class="timeline-time">12h</div>
+          <div class="timeline-label">You're watching<br>the eruption</div>
+        </div>
+        <div class="timeline-sep"></div>
+        <div class="timeline-step">
+          <div class="timeline-time">24h</div>
+          <div class="timeline-label">Back home.<br>No trace.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <div class="cta">We Make It Happen.</div>
+      <div class="site">albert-conciergerie.com</div>
+    </div>
+  </div>
+<script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+</body>
+</html>

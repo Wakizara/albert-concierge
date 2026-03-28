@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Albert | Confidential</title>
+  <link rel="icon" type="image/png" href="/images/albert-logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+  <style>
+    @font-face { font-family: 'The Seasons'; src: url('/fonts/fonnts.com-theseasons-reg.otf') format('opentype'); font-weight: 400; font-display: swap; }
+    @font-face { font-family: 'The Seasons'; src: url('/fonts/fonnts.com-theseasons-lt.otf') format('opentype'); font-weight: 400; font-display: swap; }
+    @font-face { font-family: 'The Seasons'; src: url('/fonts/fonnts.com-theseasons-it.otf') format('opentype'); font-weight: 400; font-style: italic; font-display: swap; }
+    @font-face { font-family: 'Times NR MT Condensed'; src: url('/fonts/times-nr-mt-condensed-regular.otf') format('opentype'); font-weight: 400; font-display: swap; }
+    @font-face { font-family: 'Times NR MT Condensed'; src: url('/fonts/times-nr-mt-condensed-bold.otf') format('opentype'); font-weight: 700; font-display: swap; }
+
+    :root {
+      --red-bg: #3a0a0a;
+      --burgundy: #5c1a1a;
+      --burgundy-dark: #2e0c0c;
+      --gold: #c9a96e;
+      --gold-dim: rgba(201,169,110,0.6);
+      --text: #e8ddd4;
+      --text-sec: rgba(220,200,190,0.75);
+      --text-muted: rgba(200,185,175,0.45);
+      --font-heading: 'Playfair Display', Georgia, serif;
+      --font-body: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow: hidden; font-family: var(--font-body); font-weight: 400; letter-spacing: 0.3px; background: var(--red-bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+
+    /* ── SCREENS ── */
+    .screen {
+      position: fixed; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.8s ease;
+      text-align: center; padding: 48px;
+    }
+    .screen.active { opacity: 1; pointer-events: all; }
+    .screen .anim { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .screen.active .anim { opacity: 1; transform: translateY(0); }
+    .screen.active .anim-d1 { transition-delay: 0.15s; }
+    .screen.active .anim-d2 { transition-delay: 0.3s; }
+    .screen.active .anim-d3 { transition-delay: 0.45s; }
+    .screen.active .anim-d4 { transition-delay: 0.6s; }
+    .screen.active .anim-d5 { transition-delay: 0.75s; }
+
+    /* Nav dots */
+    .nav-dots { position: fixed; right: 28px; top: 50%; transform: translateY(-50%); z-index: 300; display: flex; flex-direction: column; gap: 12px; opacity: 0; transition: opacity 0.5s; }
+    .nav-dots.visible { opacity: 1; }
+    .nav-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(201,169,110,0.15); cursor: pointer; transition: all 0.3s; border: 1px solid rgba(201,169,110,0.1); padding: 0; }
+    .nav-dot.active { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 12px rgba(201,169,110,0.4); }
+
+    /* ═══ DOOR ═══ */
+    #doorScreen {
+      background: var(--red-bg); cursor: pointer; z-index: 200;
+      opacity: 1 !important; pointer-events: all !important; transition: opacity 1s ease 0.8s;
+    }
+    #doorScreen.hide { opacity: 0 !important; pointer-events: none !important; }
+    #doorScreen::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, rgba(100,20,20,0.3) 0%, transparent 60%); }
+    .door-label { font-size: 11px; letter-spacing: 8px; text-transform: uppercase; color: rgba(201,169,110,0.3); position: absolute; top: 48px; }
+    .door-frame { width: 300px; height: 500px; position: relative; perspective: 1200px; }
+    .door-panel {
+      width: 100%; height: 100%;
+      background: linear-gradient(180deg, #6b2222 0%, var(--burgundy) 30%, var(--burgundy-dark) 100%);
+      border: 1px solid rgba(201,169,110,0.15);
+      transform-origin: left center;
+      transition: transform 1.2s cubic-bezier(0.65, 0, 0.35, 1);
+      box-shadow: inset 0 0 80px rgba(0,0,0,0.4), 0 0 60px rgba(0,0,0,0.5);
+      position: relative;
+    }
+    #doorScreen.opening .door-panel { transform: perspective(1200px) rotateY(-105deg); }
+    .door-molding { position: absolute; border: 1px solid rgba(201,169,110,0.08); }
+    .door-molding-top { top: 24px; left: 24px; right: 24px; height: 190px; }
+    .door-molding-btm { bottom: 24px; left: 24px; right: 24px; height: 230px; }
+    .keyhole { position: absolute; right: 44px; top: 50%; transform: translateY(-50%); }
+    .kh-plate { width: 34px; height: 52px; background: linear-gradient(180deg, #8a7040, #6b5530, #8a7040); border-radius: 17px 17px 4px 4px; position: relative; box-shadow: 0 0 20px rgba(201,169,110,0.2); }
+    .kh-circle { width: 13px; height: 13px; border-radius: 50%; background: #1a0808; position: absolute; top: 11px; left: 50%; transform: translateX(-50%); }
+    .kh-slit { width: 4px; height: 16px; background: #1a0808; position: absolute; top: 20px; left: 50%; transform: translateX(-50%); border-radius: 0 0 2px 2px; }
+    .kh-glow { position: absolute; right: 26px; top: 44%; width: 100px; height: 100px; background: radial-gradient(circle, rgba(201,169,110,0.15) 0%, transparent 70%); animation: glowPulse 3s infinite; }
+    .door-logo { position: absolute; top: -72px; left: 50%; transform: translateX(-50%); width: 56px; opacity: 0.5; }
+    .door-cta { position: absolute; bottom: -64px; left: 50%; transform: translateX(-50%); font-family: var(--font-heading); font-size: 14px; letter-spacing: 6px; text-transform: uppercase; color: var(--gold-dim); animation: fadeInOut 3s infinite; white-space: nowrap; }
+
+    /* ═══ VAULT SCREEN ═══ */
+    #vaultScreen {
+      background: var(--burgundy-dark);
+      background: radial-gradient(ellipse at 50% 50%, rgba(58,10,10,0.9) 0%, var(--burgundy-dark) 70%);
+    }
+    .vault-logo { width: 48px; opacity: 0.5; margin-bottom: 12px; position: relative; z-index: 5; }
+    .vault-title { font-family: var(--font-heading); font-weight: 600; font-size: clamp(18px, 2.2vw, 24px); color: var(--text-sec); margin-bottom: 16px; position: relative; z-index: 5; }
+    .vault-title em { font-style: italic; color: var(--gold); }
+    .vault-stats {
+      display: flex; gap: 40px; position: relative; z-index: 5; margin-top: 16px;
+    }
+    .vault-stat { text-align: center; }
+    .vault-stat-num { font-family: var(--font-heading); font-size: 24px; font-weight: 400; color: var(--gold); }
+    .vault-stat-label { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); margin-top: 2px; }
+
+    /* Secret drawer */
+    .secret-drawer {
+      position: relative; z-index: 5; margin-top: 20px;
+      cursor: pointer; transition: all 0.3s;
+    }
+    .drawer-body {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 28px;
+      border: 1px solid rgba(201,169,110,0.12);
+      background: rgba(92,26,26,0.3);
+      border-radius: 4px;
+      transition: all 0.3s;
+    }
+    .secret-drawer:hover .drawer-body {
+      border-color: rgba(201,169,110,0.35);
+      background: rgba(92,26,26,0.5);
+      box-shadow: 0 0 20px rgba(201,169,110,0.08);
+    }
+    .drawer-handle {
+      width: 24px; height: 3px;
+      background: linear-gradient(90deg, #8a7040, #c9a96e, #8a7040);
+      border-radius: 2px;
+    }
+    .drawer-text {
+      font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gold-dim);
+    }
+    .drawer-handle2 {
+      width: 24px; height: 3px;
+      background: linear-gradient(90deg, #8a7040, #c9a96e, #8a7040);
+      border-radius: 2px;
+    }
+
+    /* Keyhole transition overlay */
+    .keyhole-transition {
+      position: fixed; inset: 0; z-index: 250;
+      background: #000;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.6s ease;
+    }
+    .keyhole-transition.active { opacity: 1; pointer-events: all; }
+
+    .keyhole-shape {
+      position: relative;
+      width: 0; height: 0;
+      transition: width 1.2s cubic-bezier(0.34, 1.56, 0.64, 1), height 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .keyhole-shape.expand {
+      width: 300vw; height: 300vh;
+    }
+
+    /* Keyhole mask using clip-path on the overlay BG */
+    .keyhole-mask {
+      position: absolute; inset: 0;
+      background: #000;
+      /* We'll animate this with a growing circle */
+    }
+    .keyhole-light {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px; height: 60px;
+      opacity: 0;
+      transition: opacity 0.5s, width 1.5s cubic-bezier(0.34, 1.56, 0.64, 1), height 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .keyhole-light.glow {
+      opacity: 1;
+      background: radial-gradient(circle, rgba(201,169,110,0.3) 0%, rgba(201,169,110,0.05) 50%, transparent 70%);
+    }
+    .keyhole-light.expand {
+      width: 300vw; height: 300vh;
+      background: radial-gradient(circle, rgba(201,169,110,0.15) 0%, transparent 40%);
+    }
+
+    /* The safe */
+    .safe-container { position: relative; width: min(55vmin, 420px); height: min(55vmin, 420px); }
+
+    /* Safe body */
+    .safe-body {
+      position: absolute; inset: 0;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #6b2222, var(--burgundy), var(--burgundy-dark));
+      border: 3px solid rgba(201,169,110,0.15);
+      box-shadow: inset 0 0 60px rgba(0,0,0,0.5), 0 0 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+    .safe-body::before {
+      content: ''; position: absolute; inset: 8px; border-radius: 8px;
+      border: 1px solid rgba(201,169,110,0.06);
+    }
+    /* Hinges */
+    .safe-hinge { position: absolute; left: -6px; width: 12px; height: 40px; background: linear-gradient(90deg, #8a7040, #6b5530, #8a7040); border-radius: 3px; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+    .safe-hinge-top { top: 15%; }
+    .safe-hinge-btm { bottom: 15%; }
+
+    /* Dial */
+    .dial-container {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%; height: 80%;
+    }
+    .dial-ring {
+      position: absolute; inset: 0;
+      border-radius: 50%;
+      border: 3px solid rgba(201,169,110,0.2);
+      box-shadow: inset 0 0 30px rgba(0,0,0,0.5), 0 0 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05);
+      background: radial-gradient(circle, #3a1515 0%, #1e0a0a 100%);
+    }
+    .dial-ring::before {
+      content: ''; position: absolute; inset: 6px;
+      border-radius: 50%; border: 1px solid rgba(201,169,110,0.08);
+    }
+    /* Tick marks */
+    .dial-ticks {
+      position: absolute; inset: 0;
+      border-radius: 50%;
+    }
+    .dial-tick {
+      position: absolute;
+      width: 1px; height: 8px;
+      background: rgba(201,169,110,0.12);
+      top: 12px; left: 50%;
+      margin-left: -0.5px;
+    }
+    .dial-tick.major { height: 14px; background: rgba(201,169,110,0.35); width: 2px; margin-left: -1px; }
+
+    /* Rotating part with bolts */
+    .dial-rotor {
+      position: absolute; inset: 15%;
+      border-radius: 50%;
+      transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    /* Trembling while dial turns */
+    .safe-container.turning {
+      animation: safeTremble 1.5s ease;
+    }
+    @keyframes safeTremble {
+      0% { transform: translate(0, 0); }
+      8% { transform: translate(-2px, 1px); }
+      16% { transform: translate(1px, -1px); }
+      24% { transform: translate(-1px, -1px); }
+      32% { transform: translate(2px, 1px); }
+      40% { transform: translate(-1px, 0px); }
+      48% { transform: translate(1px, 1px); }
+      56% { transform: translate(-2px, -1px); }
+      64% { transform: translate(1px, 1px); }
+      72% { transform: translate(-1px, 0px); }
+      80% { transform: translate(1px, -1px); }
+      90% { transform: translate(-1px, 1px); }
+      100% { transform: translate(0, 0); }
+    }
+
+    /* Bolts = services */
+    .bolt {
+      position: absolute;
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 35%, #7a2020, #5c1a1a 50%, #3a0f0f);
+      border: 2px solid rgba(201,169,110,0.25);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+      transition: box-shadow 0.3s, border-color 0.3s;
+      text-align: center;
+      /* Counter-rotate so text stays upright */
+    }
+    .bolt:hover {
+      border-color: var(--gold);
+      box-shadow: 0 0 24px rgba(201,169,110,0.3), 0 4px 12px rgba(0,0,0,0.5);
+    }
+    .bolt-name {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 9px;
+      color: var(--text);
+      line-height: 1.1;
+      padding: 0 4px;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    }
+    .bolt-click {
+      font-size: 7px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-top: 3px;
+      animation: fadeInOut 2.5s infinite;
+    }
+
+    /* Center hub */
+    .dial-center {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 35%, #7a2020, #4a1212 60%, #2e0c0c);
+      border: 2px solid rgba(201,169,110,0.2);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 5;
+    }
+    .dial-center-logo { width: 28px; opacity: 0.5; }
+
+    /* Safe handle */
+    .safe-handle {
+      position: absolute;
+      right: -20px; top: 50%;
+      transform: translateY(-50%);
+      width: 16px; height: 80px;
+      background: linear-gradient(90deg, #8a7040, #6b5530, #8a7040);
+      border-radius: 4px;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.4);
+    }
+
+    /* Opening animation */
+    .safe-container.cracking .dial-rotor {
+      transition: transform 0.4s cubic-bezier(0.2, 0, 0.8, 1) !important;
+    }
+    .safe-container.opening {
+      animation: safeShake 0.5s ease;
+    }
+    .safe-container.opened {
+      perspective: 1000px;
+      transform-style: preserve-3d;
+    }
+    .safe-container.opened .safe-body {
+      transform-origin: left center;
+      transform: perspective(1000px) rotateY(-85deg);
+      transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      box-shadow: inset 0 0 60px rgba(0,0,0,0.6), -20px 0 40px rgba(0,0,0,0.3);
+    }
+    .safe-container.opened .dial-container {
+      transform: translate(-50%, -50%) perspective(1000px) rotateY(-85deg);
+      transform-origin: left center;
+      transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      opacity: 0.3;
+    }
+    .safe-container.opened .dial-center {
+      opacity: 0;
+      transition: opacity 0.6s;
+    }
+
+    .vault-hint {
+      font-size: 12px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--text-muted); margin-top: 24px; position: relative; z-index: 5;
+      animation: fadeInOut 4s infinite;
+    }
+
+    /* ═══ SERVICE DETAIL ═══ */
+    #serviceScreen {
+      background: var(--red-bg);
+      background: radial-gradient(ellipse at 50% 40%, rgba(92,26,26,0.5) 0%, var(--red-bg) 70%);
+    }
+    /* Vault door frame effect */
+    #serviceScreen::before {
+      content: ''; position: absolute; inset: 24px;
+      border: 1px solid rgba(201,169,110,0.06);
+      border-radius: 8px;
+    }
+    .svc-num { font-family: var(--font-heading); font-size: 14px; color: rgba(201,169,110,0.35); letter-spacing: 4px; margin-bottom: 16px; }
+    .svc-name { font-family: var(--font-heading); font-weight: 600; font-size: clamp(28px, 4vw, 44px); margin-bottom: 16px; }
+    .svc-line { width: 48px; height: 1px; background: var(--gold); margin: 0 auto 16px; }
+    .svc-desc { font-size: 15px; font-weight: 400; color: var(--text-sec); line-height: 1.8; max-width: 520px; margin-bottom: 20px; }
+    .svc-example {
+      font-family: var(--font-heading); font-style: italic; font-size: 16px;
+      color: var(--gold-dim); max-width: 480px; line-height: 1.6;
+      margin-bottom: 28px; padding: 16px 24px;
+      border-left: 2px solid rgba(201,169,110,0.2);
+      text-align: left;
+    }
+    .svc-tags { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 32px; }
+    .svc-tag { font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-dim); border: 1px solid rgba(201,169,110,0.15); padding: 5px 14px; background: rgba(92,26,26,0.3); }
+    .svc-actions { display: flex; align-items: center; gap: 16px; }
+    .btn-sm { padding: 10px 24px; font-size: 11px; }
+    .back-btn {
+      font-family: var(--font-body); font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--text-muted); background: rgba(92,26,26,0.3); border: 1px solid rgba(200,170,150,0.15);
+      padding: 10px 24px; cursor: pointer; transition: all 0.3s;
+    }
+    .back-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(92,26,26,0.5); }
+
+    /* ═══ DISCRETION ═══ */
+    #discretionScreen {
+      background: var(--burgundy-dark);
+      background: radial-gradient(ellipse at 50% 50%, rgba(58,10,10,0.8) 0%, var(--burgundy-dark) 70%);
+      position: relative;
+    }
+    .disc-bg { position: absolute; inset: 0; background: url('/images/villa.jpg') center / cover no-repeat; opacity: 0.03; filter: grayscale(60%); }
+    #discretionScreen > * { position: relative; z-index: 1; }
+    .disc-title { font-family: var(--font-heading); font-weight: 600; font-size: clamp(36px, 5vw, 60px); line-height: 0.95; margin-bottom: 16px; }
+    .disc-title em { font-style: italic; color: var(--gold); }
+    .disc-sub { font-family: var(--font-heading); font-style: italic; font-weight: 400; font-size: 17px; color: var(--text-sec); max-width: 460px; line-height: 1.6; margin-bottom: 40px; }
+    .disc-vline { width: 1px; height: 40px; background: linear-gradient(180deg, transparent, var(--gold), transparent); margin-bottom: 40px; }
+    .disc-grid { display: flex; gap: 36px; flex-wrap: wrap; justify-content: center; max-width: 720px; margin-bottom: 40px; }
+    .disc-card { width: 140px; text-align: center; }
+    .disc-icon { width: 40px; height: 40px; border: 1px solid rgba(201,169,110,0.2); background: rgba(92,26,26,0.3); display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-size: 16px; color: var(--gold); margin: 0 auto 8px; }
+    .disc-card-name { font-family: var(--font-heading); font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+    .disc-card-desc { font-size: 12px; font-weight: 400; color: var(--text-muted); line-height: 1.5; }
+    .disc-quote { font-family: var(--font-heading); font-style: italic; font-weight: 500; font-size: 17px; color: var(--text-muted); padding-top: 28px; border-top: 1px solid rgba(200,170,150,0.08); max-width: 340px; margin-bottom: 24px; }
+    .disc-contact-btn {
+      font-family: var(--font-body); font-size: 12px; letter-spacing: 5px; text-transform: uppercase;
+      color: var(--gold); background: rgba(92,26,26,0.3); border: 1px solid rgba(201,169,110,0.25);
+      padding: 12px 32px; cursor: pointer; transition: all 0.3s;
+    }
+    .disc-contact-btn:hover { background: var(--gold); color: var(--burgundy-dark); }
+
+    /* ═══ CONTACT ═══ */
+    #contactScreen {
+      background: var(--red-bg);
+      background: radial-gradient(ellipse at 50% 40%, rgba(92,26,26,0.4) 0%, var(--red-bg) 70%);
+    }
+    .ct-logo { width: 48px; opacity: 0.5; margin-bottom: 16px; }
+    .ct-pre { font-size: 11px; letter-spacing: 7px; text-transform: uppercase; color: var(--gold-dim); margin-bottom: 32px; }
+    .ct-title { font-family: var(--font-heading); font-weight: 600; font-size: clamp(32px, 5vw, 56px); line-height: 0.95; margin-bottom: 16px; }
+    .ct-title em { font-style: italic; color: var(--gold); }
+    .ct-sub { font-size: 14px; font-weight: 400; color: var(--text-sec); margin-bottom: 32px; max-width: 480px; line-height: 1.7; }
+    .ct-btns { display: flex; gap: 16px; margin-bottom: 48px; }
+    .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px; font-family: var(--font-body); font-size: 13px; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; transition: all 0.3s; }
+    .btn-gold { background: var(--gold); color: var(--burgundy-dark); border: 1px solid var(--gold); }
+    .btn-gold:hover { background: transparent; color: var(--gold); }
+    .btn-ghost { background: rgba(92,26,26,0.3); color: var(--text); border: 1px solid rgba(200,170,150,0.2); }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-icon { width: 16px; height: 16px; }
+    .ct-info { display: flex; gap: 36px; margin-bottom: 40px; }
+    .ct-info-item { text-align: center; }
+    .ct-info-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
+    .ct-info-value { font-family: var(--font-heading); font-size: 14px; color: var(--text-sec); }
+    .ct-footer-logo { width: 32px; opacity: 0.2; margin-bottom: 8px; }
+    .ct-footer-text { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); }
+
+    @keyframes glowPulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+    @keyframes fadeInOut { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+    @keyframes safeShake {
+      0%, 100% { transform: translateX(0); }
+      15% { transform: translateX(-6px) rotate(-1deg); }
+      30% { transform: translateX(5px) rotate(0.5deg); }
+      45% { transform: translateX(-4px) rotate(-0.5deg); }
+      60% { transform: translateX(3px) rotate(0.3deg); }
+      75% { transform: translateX(-2px); }
+    }
+
+    @media (max-width: 768px) {
+      .screen { padding: 24px 16px; }
+      .door-frame { width: 220px; height: 370px; }
+      .safe-container { width: min(85vmin, 400px); height: min(85vmin, 400px); }
+      .bolt { width: 56px; height: 56px; }
+      .bolt-name { font-size: 7px; }
+      .disc-grid { gap: 16px; }
+      .disc-card { width: 110px; }
+      .ct-btns { flex-direction: column; }
+      .ct-info { flex-direction: column; gap: 16px; }
+      .nav-dots { right: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- DOOR -->
+  <div class="screen active" id="doorScreen">
+    <div class="door-label">Confidential</div>
+    <div class="door-frame">
+      <img src="/images/albert-logo.png" alt="Albert" class="door-logo">
+      <div class="door-panel">
+        <div class="door-molding door-molding-top"></div>
+        <div class="door-molding door-molding-btm"></div>
+        <div class="kh-glow"></div>
+        <div class="keyhole"><div class="kh-plate"><div class="kh-circle"></div><div class="kh-slit"></div></div></div>
+      </div>
+      <div class="door-cta">Click to enter</div>
+    </div>
+  </div>
+
+  <!-- VAULT -->
+  <div class="screen" id="vaultScreen">
+    <img src="/images/albert-logo.png" alt="Albert" class="vault-logo anim">
+    <div class="vault-title anim anim-d1">Select a service to <em>unlock.</em></div>
+    <div class="safe-container" id="safeContainer">
+      <div class="safe-body">
+        <div class="safe-hinge safe-hinge-top"></div>
+        <div class="safe-hinge safe-hinge-btm"></div>
+        <div class="safe-handle"></div>
+      </div>
+      <div class="dial-container">
+        <div class="dial-ring">
+          <div class="dial-ticks" id="dialTicks"></div>
+        </div>
+        <div class="dial-rotor" id="dialRotor">
+          <!-- Bolts will be positioned by JS -->
+        </div>
+        <div class="dial-center">
+          <img src="/images/albert-logo.png" alt="Albert" class="dial-center-logo">
+        </div>
+      </div>
+    </div>
+    <div class="vault-stats anim anim-d2">
+      <div class="vault-stat"><div class="vault-stat-num">24/7</div><div class="vault-stat-label">Availability</div></div>
+      <div class="vault-stat"><div class="vault-stat-num">50+</div><div class="vault-stat-label">Countries</div></div>
+      <div class="vault-stat"><div class="vault-stat-num">2h</div><div class="vault-stat-label">Avg. Response</div></div>
+      <div class="vault-stat"><div class="vault-stat-num">100%</div><div class="vault-stat-label">Discretion</div></div>
+    </div>
+    <div class="secret-drawer anim anim-d3" id="secretDrawer">
+      <div class="drawer-body">
+        <div class="drawer-handle"></div>
+        <div class="drawer-text">Confidential - Click here</div>
+        <div class="drawer-handle2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KEYHOLE TRANSITION -->
+  <div class="keyhole-transition" id="keyholeTransition">
+    <div class="keyhole-light" id="keyholeLight"></div>
+  </div>
+
+  <!-- SERVICE DETAIL -->
+  <div class="screen" id="serviceScreen">
+    <div class="svc-num anim" id="svcNum"></div>
+    <h3 class="svc-name anim anim-d1" id="svcName"></h3>
+    <div class="svc-line anim anim-d2"></div>
+    <p class="svc-desc anim anim-d3" id="svcDesc"></p>
+    <p class="svc-example anim anim-d4" id="svcExample"></p>
+    <div class="svc-tags anim anim-d4" id="svcTags"></div>
+    <div class="svc-actions anim anim-d5">
+      <a href="https://wa.me/971561720809" target="_blank" rel="noopener" class="btn btn-gold btn-sm">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Request this
+      </a>
+      <button class="back-btn" id="backBtn">Lock it back</button>
+    </div>
+  </div>
+
+  <!-- DISCRETION -->
+  <div class="screen" id="discretionScreen">
+    <div class="disc-bg"></div>
+    <h2 class="disc-title anim">She Won't <em>Know.</em></h2>
+    <p class="disc-sub anim anim-d1">A weekend that never happened. A flight that was never booked. A villa with no guest list. A life you keep entirely to yourself. We don't ask why. We don't remember. We just make it seamless.</p>
+    <div class="disc-vline anim anim-d2"></div>
+    <div class="disc-grid">
+      <div class="disc-card anim anim-d3"><div class="disc-icon">&empty;</div><div class="disc-card-name">No Paper Trail</div><div class="disc-card-desc">No receipts, no invoices, no booking confirmations. Nothing in your name, ever.</div></div>
+      <div class="disc-card anim anim-d4"><div class="disc-icon">&infin;</div><div class="disc-card-name">Total Anonymity</div><div class="disc-card-desc">Proxy bookings, shell accounts, encrypted comms. Your identity is invisible.</div></div>
+      <div class="disc-card anim anim-d5"><div class="disc-icon">&times;</div><div class="disc-card-name">Zero Footprint</div><div class="disc-card-desc">No emails, no app notifications, no browser history, no location data. Nothing.</div></div>
+      <div class="disc-card anim anim-d3"><div class="disc-icon">&oplus;</div><div class="disc-card-name">Zero Judgement</div><div class="disc-card-desc">What you do is your business. Making it flawless is ours. We've seen everything.</div></div>
+    </div>
+    <p class="disc-quote anim anim-d5">What happens with Albert, stays with Albert. We forget faster than you can ask.</p>
+    <button class="disc-contact-btn anim anim-d5" id="discContactBtn">Ready to talk?</button>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="screen" id="contactScreen">
+    <img src="/images/albert-logo.png" alt="Albert" class="ct-logo anim">
+    <div class="ct-pre anim anim-d1">Reach Us</div>
+    <h2 class="ct-title anim anim-d2">You Know<br><em>What To Do.</em></h2>
+    <p class="ct-sub anim anim-d3">One message. That's all it takes. We respond within minutes, 24 hours a day, 7 days a week. No voicemail. No waiting. No automated replies. Just a real person who already knows how to help.</p>
+    <div class="ct-btns anim anim-d4">
+      <a href="https://wa.me/971561720809" target="_blank" rel="noopener" class="btn btn-gold">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp
+      </a>
+      <a href="mailto:contact@albert-conciergerie.com" class="btn btn-ghost">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13L2 4"/></svg>
+        Email
+      </a>
+    </div>
+    <div class="ct-info anim anim-d5">
+      <div class="ct-info-item"><div class="ct-info-label">WhatsApp</div><div class="ct-info-value">+971 56 172 0809</div></div>
+      <div class="ct-info-item"><div class="ct-info-label">Email</div><div class="ct-info-value">contact@albert-conciergerie.com</div></div>
+      <div class="ct-info-item"><div class="ct-info-label">Location</div><div class="ct-info-value">Dubai, UAE</div></div>
+    </div>
+    <div class="anim anim-d5" style="margin-top:20px"><img src="/images/albert-logo.png" alt="Albert" class="ct-footer-logo"><p class="ct-footer-text">We Make It Happen</p></div>
+  </div>
+
+  <!-- NAV DOTS -->
+  <div class="nav-dots" id="navDots">
+    <button class="nav-dot" data-target="vaultScreen"></button>
+    <button class="nav-dot" data-target="discretionScreen"></button>
+    <button class="nav-dot" data-target="contactScreen"></button>
+  </div>
+
+  <script>
+    var services = [
+      { num: '01', name: 'Private Jets', desc: 'Wheels up in hours, not days. Anywhere in the world, at any hour. The tarmac is ready before you hang up the phone. No commercial schedules. No waiting lists. No questions about your destination or your guests. We handle everything  - from catering preferences to ground transportation on arrival. You step on, we take care of the rest.', example: '"I need to be in Monaco by tonight."  - Private jet, wheels up in 90 minutes.', tags: ['Immediate Departure', 'Global Coverage', '24/7', 'Concierge On Board'] },
+      { num: '02', name: 'Exclusive Properties', desc: 'Properties that don\'t appear on any listing. Villas, penthouses, islands  - places that exist only for those who know where to look. Every property is fully vetted, secured, and staffed before you arrive. Your name stays out of every booking, every contract, every record. We can furnish, decorate, and prepare any space to your exact specifications within hours.', example: '"I need a villa in Saint-Tropez for 20 guests. Tomorrow."  - Secured, staffed, and stocked by morning.', tags: ['Off-Market', 'Anonymous', 'Fully Staffed', 'Worldwide'] },
+      { num: '03', name: 'Events & Experiences', desc: 'A Michelin-starred chef at 3am in Mykonos. The erupting volcano in La R\u00e9union, tonight. Front row seats to a sold-out show. A private museum tour after hours. We curate experiences that don\'t exist until you ask for them. Every detail  - from lighting to music to the guest list  - is handled with surgical precision.', example: '"The volcano is erupting. I want to see it tonight."  - Private jet + helicopter transfer + front-row nature.', tags: ['Bespoke', 'Last Minute', 'Once-in-a-Lifetime', 'Worldwide'] },
+      { num: '04', name: 'Extraordinary Requests', desc: 'The things you\'ve been told can\'t be done  - those are the things we do best. A tiger for the after-party. Close an entire restaurant for a private dinner. Source a vintage car that hasn\'t been on the market in decades. We\'ve heard everything. Nothing surprises us. No judgement. No questions. Just results, delivered silently.', example: '"Close this restaurant. Just for us. Tonight."  - Done. Chef\'s table, private staff, no other guests.', tags: ['No Limits', 'No Questions', 'No Trace', 'Worldwide Network'] },
+      { num: '05', name: 'Last Minute Rescue', desc: 'Your event is in 6 hours and your venue just cancelled. Your caterer disappeared. Your guests are already in the air. Others panic  - we perform. Our network activates globally and instantly. We\'ve relocated entire weddings, sourced replacement entertainment mid-event, and arranged emergency travel for hundreds of guests. Average response time: under 2 hours. Success rate: absolute.', example: '"The venue flooded. 200 guests arriving in 5 hours."  - New venue secured, decorated, and fully staffed in 4 hours.', tags: ['Crisis Management', '2h Response', 'Always On', 'Global Network'] },
+      { num: '06', name: 'Total Discretion', desc: 'No paper trail. No digital footprint. No records of any kind. Your identity stays hidden at every single step  - from booking to arrival to departure. We use encrypted communications, proxy bookings, and compartmentalized planning so that no single person in the chain sees the full picture. What happens with Albert, stays with Albert. Permanently.', example: '"A weekend in a place that doesn\'t exist, for someone who was never there."  - Arranged. Forgotten.', tags: ['100% Anonymous', 'Zero Footprint', 'Encrypted', 'Zero Judgement'] }
+    ];
+
+    var mainScreens = ['vaultScreen', 'discretionScreen', 'contactScreen'];
+    var currentMain = 0;
+    var dialAngle = 0;
+    var dialInterval = null;
+
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+      document.getElementById(id).classList.add('active');
+      document.querySelectorAll('.nav-dot').forEach(function(d, i) {
+        d.classList.toggle('active', mainScreens[i] === id);
+      });
+    }
+
+    // ── Build dial ticks (using SVG for perfect positioning) ──
+    var ticksEl = document.getElementById('dialTicks');
+    var svgNS = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('viewBox', '0 0 100 100');
+    svg.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;';
+    for (var t = 0; t < 60; t++) {
+      var isMajor = t % 10 === 0;
+      var angle = (t / 60) * 360;
+      var rad = angle * Math.PI / 180;
+      var r1 = isMajor ? 43 : 45; // inner radius
+      var r2 = 49; // outer radius
+      var x1 = 50 + Math.sin(rad) * r1;
+      var y1 = 50 - Math.cos(rad) * r1;
+      var x2 = 50 + Math.sin(rad) * r2;
+      var y2 = 50 - Math.cos(rad) * r2;
+      var line = document.createElementNS(svgNS, 'line');
+      line.setAttribute('x1', x1); line.setAttribute('y1', y1);
+      line.setAttribute('x2', x2); line.setAttribute('y2', y2);
+      line.setAttribute('stroke', isMajor ? 'rgba(201,169,110,0.35)' : 'rgba(201,169,110,0.12)');
+      line.setAttribute('stroke-width', isMajor ? '0.8' : '0.4');
+      svg.appendChild(line);
+    }
+    // Add numbers at major ticks
+    var nums = ['0','10','20','30','40','50'];
+    for (var n = 0; n < 6; n++) {
+      var a = (n / 6) * 360;
+      var rn = a * Math.PI / 180;
+      var txt = document.createElementNS(svgNS, 'text');
+      txt.setAttribute('x', 50 + Math.sin(rn) * 38);
+      txt.setAttribute('y', 50 - Math.cos(rn) * 38 + 1.5);
+      txt.setAttribute('text-anchor', 'middle');
+      txt.setAttribute('dominant-baseline', 'middle');
+      txt.setAttribute('fill', 'rgba(201,169,110,0.25)');
+      txt.setAttribute('font-size', '3.5');
+      txt.setAttribute('font-family', 'var(--font-heading)');
+      txt.textContent = nums[n];
+      svg.appendChild(txt);
+    }
+    ticksEl.appendChild(svg);
+
+    // ── Build bolts on the dial ──
+    var rotor = document.getElementById('dialRotor');
+    var boltEls = [];
+    services.forEach(function(svc, i) {
+      var angle = (i / services.length) * 360;
+      var bolt = document.createElement('div');
+      bolt.className = 'bolt';
+      bolt.setAttribute('data-svc', i);
+
+      var nameDiv = document.createElement('div');
+      nameDiv.className = 'bolt-name';
+      nameDiv.textContent = svc.name;
+      bolt.appendChild(nameDiv);
+
+      var clickDiv = document.createElement('div');
+      clickDiv.className = 'bolt-click';
+      clickDiv.textContent = 'Open';
+      bolt.appendChild(clickDiv);
+
+      // Position on circle edge (50% radius of rotor)
+      var rad = angle * Math.PI / 180;
+      var cx = 50 + Math.sin(rad) * 42; // % from center
+      var cy = 50 - Math.cos(rad) * 42;
+      bolt.style.left = 'calc(' + cx + '% - 36px)';
+      bolt.style.top = 'calc(' + cy + '% - 36px)';
+
+      rotor.appendChild(bolt);
+      boltEls.push({ el: bolt, baseAngle: angle });
+    });
+
+    // ── Dial rotation every 5s ──
+    function rotateDial() {
+      dialAngle += 60;
+      rotor.style.transform = 'rotate(' + dialAngle + 'deg)';
+      boltEls.forEach(function(b) {
+        b.el.style.transform = 'rotate(' + (-dialAngle) + 'deg)';
+      });
+      // Tremble the safe
+      var safe = document.getElementById('safeContainer');
+      safe.classList.remove('turning');
+      void safe.offsetWidth; // force reflow to restart animation
+      safe.classList.add('turning');
+    }
+
+    function startDial() {
+      if (dialInterval) return;
+      dialInterval = setInterval(rotateDial, 5000);
+    }
+    function stopDial() {
+      clearInterval(dialInterval);
+      dialInterval = null;
+    }
+
+    // ── Door click ──
+    document.getElementById('doorScreen').addEventListener('click', function() {
+      var door = this;
+      door.classList.add('opening');
+      setTimeout(function() {
+        document.getElementById('vaultScreen').classList.add('active');
+        document.getElementById('navDots').classList.add('visible');
+        currentMain = 0;
+        startDial();
+      }, 600);
+      setTimeout(function() { door.classList.add('hide'); }, 1200);
+      setTimeout(function() { door.style.display = 'none'; }, 2500);
+    });
+
+    // ── Bolt click → crack combination → open safe → show service ──
+    var isOpening = false;
+    rotor.addEventListener('click', function(e) {
+      var bolt = e.target.closest('.bolt');
+      if (!bolt || isOpening) return;
+      isOpening = true;
+      var idx = parseInt(bolt.getAttribute('data-svc'));
+      var s = services[idx];
+
+      stopDial();
+      var safe = document.getElementById('safeContainer');
+
+      // Step 1: Crack the combination - fast spin right
+      safe.classList.add('cracking');
+      var crackAngle = dialAngle + 120;
+      rotor.style.transform = 'rotate(' + crackAngle + 'deg)';
+      boltEls.forEach(function(b) { b.el.style.transform = 'rotate(' + (-crackAngle) + 'deg)'; });
+
+      // Step 2: Spin left
+      setTimeout(function() {
+        crackAngle -= 200;
+        rotor.style.transform = 'rotate(' + crackAngle + 'deg)';
+        boltEls.forEach(function(b) { b.el.style.transform = 'rotate(' + (-crackAngle) + 'deg)'; });
+      }, 450);
+
+      // Step 3: Small spin right to lock position
+      setTimeout(function() {
+        crackAngle += 45;
+        rotor.style.transform = 'rotate(' + crackAngle + 'deg)';
+        boltEls.forEach(function(b) { b.el.style.transform = 'rotate(' + (-crackAngle) + 'deg)'; });
+        dialAngle = crackAngle;
+      }, 900);
+
+      // Step 4: Shake
+      setTimeout(function() {
+        safe.classList.remove('cracking');
+        safe.classList.add('opening');
+      }, 1300);
+
+      // Step 5: Swing open
+      setTimeout(function() {
+        safe.classList.remove('opening');
+        safe.classList.add('opened');
+      }, 1800);
+
+      // Step 6: Transition to service
+      setTimeout(function() {
+        document.getElementById('svcNum').textContent = s.num;
+        document.getElementById('svcName').textContent = s.name;
+        document.getElementById('svcDesc').textContent = s.desc;
+        document.getElementById('svcExample').textContent = s.example;
+        var tagsEl = document.getElementById('svcTags');
+        while (tagsEl.firstChild) tagsEl.removeChild(tagsEl.firstChild);
+        s.tags.forEach(function(t) {
+          var span = document.createElement('span');
+          span.className = 'svc-tag';
+          span.textContent = t;
+          tagsEl.appendChild(span);
+        });
+        showScreen('serviceScreen');
+        isOpening = false;
+      }, 2600);
+    });
+
+    // ── Back to vault ──
+    document.getElementById('backBtn').addEventListener('click', function() {
+      var safe = document.getElementById('safeContainer');
+      safe.classList.remove('opened');
+      currentMain = 0;
+      showScreen('vaultScreen');
+      startDial();
+    });
+
+    // ── Secret drawer -> keyhole transition -> discretion ──
+    document.getElementById('secretDrawer').addEventListener('click', function() {
+      stopDial();
+      var transition = document.getElementById('keyholeTransition');
+      var light = document.getElementById('keyholeLight');
+
+      // Step 1: Fade to black
+      transition.classList.add('active');
+
+      // Step 2: Keyhole light appears (small golden glow)
+      setTimeout(function() {
+        light.classList.add('glow');
+      }, 700);
+
+      // Step 3: Light expands to fill screen
+      setTimeout(function() {
+        light.classList.add('expand');
+      }, 1400);
+
+      // Step 4: Show discretion screen behind, remove transition
+      setTimeout(function() {
+        currentMain = 1;
+        showScreen('discretionScreen');
+      }, 2000);
+
+      setTimeout(function() {
+        transition.classList.remove('active');
+        light.classList.remove('glow', 'expand');
+      }, 2800);
+    });
+
+    // ── Discretion -> Contact ──
+    document.getElementById('discContactBtn').addEventListener('click', function() {
+      currentMain = 2;
+      showScreen('contactScreen');
+    });
+
+    // ── Nav dots ──
+    document.querySelectorAll('.nav-dot').forEach(function(dot, i) {
+      dot.addEventListener('click', function() {
+        currentMain = i;
+        showScreen(mainScreens[i]);
+        if (mainScreens[i] === 'vaultScreen') {
+          var safe = document.getElementById('safeContainer');
+          safe.classList.remove('opened');
+          startDial();
+        } else {
+          stopDial();
+        }
+      });
+    });
+
+    // Debug: auto-skip door with ?skip=1
+    if (location.search.indexOf('skip=1') !== -1) {
+      document.getElementById('doorScreen').style.display = 'none';
+      document.getElementById('vaultScreen').classList.add('active');
+      document.getElementById('navDots').classList.add('visible');
+      startDial();
+    }
+
+    // ── Keyboard ──
+    document.addEventListener('keydown', function(e) {
+      if (document.getElementById('serviceScreen').classList.contains('active')) {
+        if (e.key === 'Escape' || e.key === 'ArrowLeft') {
+          document.getElementById('backBtn').click();
+        }
+        return;
+      }
+      if (document.getElementById('doorScreen').classList.contains('active')) return;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        if (currentMain < mainScreens.length - 1) { currentMain++; stopDial(); showScreen(mainScreens[currentMain]); }
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        if (currentMain > 0) { currentMain--; showScreen(mainScreens[currentMain]); if (currentMain === 0) startDial(); }
+      }
+    });
+  </script>
+</body>
+</html>

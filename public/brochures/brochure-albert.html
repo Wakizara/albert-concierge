@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Albert | Brochure</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&display=swap" rel="stylesheet">
+  <style>
+    @font-face { font-family: 'TimesCondensed'; src: url('../fonts/times-nr-mt-condensed-regular.otf') format('opentype'); font-weight: 400; }
+    @font-face { font-family: 'TimesCondensed'; src: url('../fonts/times-nr-mt-condensed-bold.otf') format('opentype'); font-weight: 700; }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 1080px;
+      min-height: 1920px;
+      background: #0a0a0a;
+      color: #f5f0eb;
+      font-family: 'TimesCondensed', 'Times New Roman', serif;
+      overflow-x: hidden;
+    }
+
+    /* ─── PAGE 1 : COVER ─── */
+    .cover {
+      width: 1080px;
+      height: 1920px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 80px;
+      overflow: hidden;
+    }
+
+    .cover-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 50% 30%, rgba(201,169,110,0.06) 0%, transparent 60%),
+        linear-gradient(180deg, #0a0a0a 0%, #0d0b08 50%, #0a0a0a 100%);
+    }
+
+    .cover-lines {
+      position: absolute;
+      inset: 60px;
+      border: 1px solid rgba(201,169,110,0.08);
+      pointer-events: none;
+    }
+
+    .cover-corner-tl, .cover-corner-br {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+    }
+
+    .cover-corner-tl {
+      top: 40px; left: 40px;
+      border-top: 1px solid rgba(201,169,110,0.2);
+      border-left: 1px solid rgba(201,169,110,0.2);
+    }
+
+    .cover-corner-br {
+      bottom: 40px; right: 40px;
+      border-bottom: 1px solid rgba(201,169,110,0.2);
+      border-right: 1px solid rgba(201,169,110,0.2);
+    }
+
+    .cover > * { position: relative; z-index: 1; }
+
+    .cover-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .logo { width: 100px; opacity: 0.9; }
+
+    .cover-tag {
+      font-size: 11px;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: rgba(201,169,110,0.5);
+    }
+
+    .cover-center {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .cover-pre {
+      font-size: 13px;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      color: rgba(201,169,110,0.6);
+      margin-bottom: 48px;
+    }
+
+    .cover-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 110px;
+      line-height: 0.9;
+      margin-bottom: 20px;
+      letter-spacing: -1px;
+    }
+
+    .cover-title em {
+      font-style: italic;
+      color: #c9a96e;
+    }
+
+    .cover-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 28px;
+      color: rgba(245,240,235,0.4);
+      margin-bottom: 64px;
+      max-width: 600px;
+      line-height: 1.5;
+    }
+
+    .cover-line {
+      width: 1px;
+      height: 80px;
+      background: linear-gradient(180deg, transparent, #c9a96e, transparent);
+      margin-bottom: 64px;
+    }
+
+    .cover-hook {
+      max-width: 640px;
+    }
+
+    .cover-hook-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      line-height: 1.7;
+      color: rgba(245,240,235,0.55);
+      font-style: italic;
+    }
+
+    .cover-hook-text strong {
+      color: #c9a96e;
+      font-weight: 500;
+      font-style: normal;
+    }
+
+    .cover-bottom {
+      display: flex;
+      justify-content: center;
+      gap: 80px;
+    }
+
+    .cover-stat {
+      text-align: center;
+    }
+
+    .cover-stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 48px;
+      font-weight: 300;
+      color: #c9a96e;
+      display: block;
+    }
+
+    .cover-stat-label {
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(245,240,235,0.3);
+      margin-top: 4px;
+    }
+
+    /* ─── PAGE 2 : SERVICES ─── */
+    .page {
+      width: 1080px;
+      height: 1920px;
+      position: relative;
+      padding: 80px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .page-bg-dark {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, #0a0a0a 0%, #0f0d0a 50%, #0a0a0a 100%);
+    }
+
+    .page > * { position: relative; z-index: 1; }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 80px;
+    }
+
+    .page-logo { width: 60px; opacity: 0.6; }
+
+    .page-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      color: rgba(201,169,110,0.3);
+      letter-spacing: 4px;
+    }
+
+    .page-title-section {
+      margin-bottom: 72px;
+    }
+
+    .page-label {
+      font-size: 11px;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: #c9a96e;
+      margin-bottom: 20px;
+    }
+
+    .page-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 64px;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .page-title em { font-style: italic; color: #c9a96e; }
+
+    .page-intro {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      color: rgba(245,240,235,0.45);
+      line-height: 1.6;
+      max-width: 700px;
+      font-style: italic;
+    }
+
+    .services-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      flex: 1;
+    }
+
+    .service-card {
+      border: 1px solid rgba(201,169,110,0.1);
+      padding: 48px;
+      position: relative;
+      transition: border-color 0.3s;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 40px;
+      height: 1px;
+      background: #c9a96e;
+    }
+
+    .service-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      color: rgba(201,169,110,0.4);
+      letter-spacing: 3px;
+      margin-bottom: 16px;
+    }
+
+    .service-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      font-weight: 400;
+      margin-bottom: 12px;
+      color: #f5f0eb;
+    }
+
+    .service-desc {
+      font-size: 16px;
+      color: rgba(245,240,235,0.45);
+      line-height: 1.7;
+      max-width: 600px;
+    }
+
+    .service-tags {
+      display: flex;
+      gap: 16px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .service-tag {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(201,169,110,0.5);
+      border: 1px solid rgba(201,169,110,0.15);
+      padding: 6px 14px;
+    }
+
+    /* ─── PAGE 3 : DISCRETION ─── */
+    .discretion-center {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .discretion-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 80px;
+      line-height: 0.95;
+      margin-bottom: 56px;
+      text-align: center;
+    }
+
+    .discretion-title em { font-style: italic; color: #c9a96e; }
+
+    .discretion-divider {
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(180deg, transparent, #c9a96e, transparent);
+      margin: 0 auto 56px;
+    }
+
+    .promises {
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+      align-items: center;
+    }
+
+    .promise {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .promise-icon {
+      width: 48px;
+      height: 48px;
+      border: 1px solid rgba(201,169,110,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      color: #c9a96e;
+      flex-shrink: 0;
+    }
+
+    .promise-content {
+      max-width: 500px;
+    }
+
+    .promise-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      color: #f5f0eb;
+      margin-bottom: 4px;
+    }
+
+    .promise-text {
+      font-size: 15px;
+      color: rgba(245,240,235,0.4);
+      line-height: 1.6;
+    }
+
+    .discretion-quote {
+      text-align: center;
+      margin-top: 80px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(201,169,110,0.08);
+    }
+
+    .discretion-quote p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 24px;
+      color: rgba(245,240,235,0.35);
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ─── PAGE 4 : CONTACT ─── */
+    .contact-center {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .contact-pre {
+      font-size: 12px;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      color: rgba(201,169,110,0.5);
+      margin-bottom: 40px;
+    }
+
+    .contact-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 72px;
+      line-height: 0.95;
+      margin-bottom: 24px;
+    }
+
+    .contact-title em { font-style: italic; color: #c9a96e; }
+
+    .contact-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 22px;
+      color: rgba(245,240,235,0.4);
+      margin-bottom: 80px;
+    }
+
+    .contact-methods {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      margin-bottom: 80px;
+    }
+
+    .contact-method {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .contact-method-icon {
+      width: 56px;
+      height: 56px;
+      border: 1px solid rgba(201,169,110,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .contact-method-icon svg {
+      width: 22px;
+      height: 22px;
+      fill: #c9a96e;
+    }
+
+    .contact-method-info { text-align: left; }
+
+    .contact-method-label {
+      font-size: 10px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: rgba(245,240,235,0.3);
+      margin-bottom: 4px;
+    }
+
+    .contact-method-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      color: #f5f0eb;
+    }
+
+    .contact-divider {
+      width: 60px;
+      height: 1px;
+      background: rgba(201,169,110,0.2);
+      margin-bottom: 40px;
+    }
+
+    .contact-location {
+      font-size: 12px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: rgba(245,240,235,0.25);
+      margin-bottom: 8px;
+    }
+
+    .contact-site {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      color: rgba(201,169,110,0.6);
+    }
+
+    .contact-footer {
+      margin-top: auto;
+      text-align: center;
+    }
+
+    .contact-footer-logo {
+      width: 60px;
+      opacity: 0.3;
+      margin-bottom: 20px;
+    }
+
+    .contact-footer-text {
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(245,240,235,0.15);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── PAGE 1 : COVER ─── -->
+  <section class="cover">
+    <div class="cover-bg"></div>
+    <div class="cover-lines"></div>
+    <div class="cover-corner-tl"></div>
+    <div class="cover-corner-br"></div>
+
+    <div class="cover-top">
+      <img src="../images/albert-logo.png" alt="Albert" class="logo">
+      <span class="cover-tag">Luxury Concierge</span>
+    </div>
+
+    <div class="cover-center">
+      <div class="cover-pre">For those who know</div>
+      <h1 class="cover-title">We Make It<br><em>Happen.</em></h1>
+      <p class="cover-subtitle">You ask. We deliver. No questions. No limits. No trace.</p>
+      <div class="cover-line"></div>
+      <div class="cover-hook">
+        <p class="cover-hook-text">The volcano in La Reunion is erupting. You want to see it. <strong>Tonight.</strong><br>Others will tell you it's impossible. We just ask you what time you'd like to leave.</p>
+      </div>
+    </div>
+
+    <div class="cover-bottom">
+      <div class="cover-stat">
+        <span class="cover-stat-num">24/7</span>
+        <span class="cover-stat-label">Availability</span>
+      </div>
+      <div class="cover-stat">
+        <span class="cover-stat-num">50+</span>
+        <span class="cover-stat-label">Countries</span>
+      </div>
+      <div class="cover-stat">
+        <span class="cover-stat-num">100%</span>
+        <span class="cover-stat-label">Discretion</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PAGE 2 : SERVICES ─── -->
+  <section class="page">
+    <div class="page-bg-dark"></div>
+
+    <div class="page-header">
+      <img src="../images/albert-logo.png" alt="Albert" class="page-logo">
+      <span class="page-num">02</span>
+    </div>
+
+    <div class="page-title-section">
+      <div class="page-label">What We Do</div>
+      <h2 class="page-title">The impossible is just<br>one more <em>phone call.</em></h2>
+      <p class="page-intro">We don't ask why. We ask when.</p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-num">01</div>
+        <h3 class="service-name">Private Jets & Transfers</h3>
+        <p class="service-desc">Wheels up in hours, not days. Anywhere in the world, at any hour. The tarmac is ready before you hang up the phone.</p>
+        <div class="service-tags">
+          <span class="service-tag">Immediate departure</span>
+          <span class="service-tag">Global coverage</span>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-num">02</div>
+        <h3 class="service-name">Exclusive Villas & Properties</h3>
+        <p class="service-desc">Properties that don't appear on any listing. Places that exist only for those who know where to look. Your name stays out of it.</p>
+        <div class="service-tags">
+          <span class="service-tag">Off-market</span>
+          <span class="service-tag">Secured</span>
+          <span class="service-tag">Anonymous</span>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-num">03</div>
+        <h3 class="service-name">Events & Experiences</h3>
+        <p class="service-desc">A Michelin-starred chef at 3am in Mykonos. The erupting volcano in La Reunion, tonight. Front row seats tomorrow. If it exists, we'll find it. If it doesn't, we'll create it.</p>
+        <div class="service-tags">
+          <span class="service-tag">Bespoke</span>
+          <span class="service-tag">Last minute</span>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-num">04</div>
+        <h3 class="service-name">Extraordinary Requests</h3>
+        <p class="service-desc">The things you've been told can't be done — those are the things we do best. No judgement. No questions. Just results.</p>
+        <div class="service-tags">
+          <span class="service-tag">No limits</span>
+          <span class="service-tag">No trace</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PAGE 3 : DISCRETION ─── -->
+  <section class="page">
+    <div class="page-bg-dark"></div>
+
+    <div class="page-header">
+      <img src="../images/albert-logo.png" alt="Albert" class="page-logo">
+      <span class="page-num">03</span>
+    </div>
+
+    <div class="page-title-section">
+      <div class="page-label">Our Promise</div>
+    </div>
+
+    <div class="discretion-center">
+      <h2 class="discretion-title">What happens<br>with Albert, <em>stays</em><br><em>with Albert.</em></h2>
+      <div class="discretion-divider"></div>
+
+      <div class="promises">
+        <div class="promise">
+          <div class="promise-icon">&empty;</div>
+          <div class="promise-content">
+            <div class="promise-title">No Paper Trail</div>
+            <div class="promise-text">No receipts, no invoices in your name, no administrative traces.</div>
+          </div>
+        </div>
+        <div class="promise">
+          <div class="promise-icon">&infin;</div>
+          <div class="promise-content">
+            <div class="promise-title">Total Anonymity</div>
+            <div class="promise-text">Your identity appears nowhere. We handle everything under cover.</div>
+          </div>
+        </div>
+        <div class="promise">
+          <div class="promise-icon">&times;</div>
+          <div class="promise-content">
+            <div class="promise-title">Zero Digital Footprint</div>
+            <div class="promise-text">No emails, no online confirmations, no digital traces.</div>
+          </div>
+        </div>
+        <div class="promise">
+          <div class="promise-icon">&oplus;</div>
+          <div class="promise-content">
+            <div class="promise-title">Zero Judgement</div>
+            <div class="promise-text">What you do is your business. Making it seamless is ours.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="discretion-quote">
+        <p>We forget faster than you can ask.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PAGE 4 : CONTACT ─── -->
+  <section class="page">
+    <div class="page-bg-dark"></div>
+
+    <div class="page-header">
+      <img src="../images/albert-logo.png" alt="Albert" class="page-logo">
+      <span class="page-num">04</span>
+    </div>
+
+    <div class="contact-center">
+      <div class="contact-pre">Reach Us</div>
+      <h2 class="contact-title">You know<br><em>what to do.</em></h2>
+      <p class="contact-sub">One message. The rest is on us.</p>
+
+      <div class="contact-methods">
+        <div class="contact-method">
+          <div class="contact-method-icon">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </div>
+          <div class="contact-method-info">
+            <div class="contact-method-label">WhatsApp</div>
+            <div class="contact-method-value">+971 56 172 0809</div>
+          </div>
+        </div>
+        <div class="contact-method">
+          <div class="contact-method-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#c9a96e" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13L2 4"/></svg>
+          </div>
+          <div class="contact-method-info">
+            <div class="contact-method-label">Email</div>
+            <div class="contact-method-value">contact@albert-conciergerie.com</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-divider"></div>
+      <div class="contact-location">Dubai, United Arab Emirates</div>
+      <div class="contact-site">albert-conciergerie.com</div>
+    </div>
+
+    <div class="contact-footer">
+      <img src="../images/albert-logo.png" alt="Albert" class="contact-footer-logo">
+      <div class="contact-footer-text">We make it happen</div>
+    </div>
+  </section>
+
+<script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+</body>
+</html>

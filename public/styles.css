@@ -157,16 +157,25 @@ body > * {
 }
 
 .header-brand {
-  font-family: var(--font-brand);
-  font-size: 2rem;
-  color: var(--champagne-light);
+  display: flex;
+  align-items: center;
   text-decoration: none;
-  letter-spacing: 0.05em;
-  transition: color 0.3s;
+  transition: opacity 0.3s;
 }
 
 .header-brand:hover {
-  color: #fff;
+  opacity: 0.85;
+}
+
+.header-brand-logo {
+  height: 36px;
+  width: auto;
+  filter: brightness(0) invert(0.88) sepia(0.15) saturate(0.4) hue-rotate(350deg);
+  transition: filter 0.3s;
+}
+
+.header-brand:hover .header-brand-logo {
+  filter: brightness(0) invert(1);
 }
 
 .nav {
@@ -305,13 +314,14 @@ body > * {
 }
 
 .hero-title {
-  font-family: var(--font-brand);
-  font-weight: normal;
-  font-size: clamp(4rem, 12vw, 9rem);
-  color: var(--champagne-light);
-  line-height: 0.95;
   margin-bottom: 1.5rem;
-  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.hero-logo {
+  max-width: clamp(250px, 45vw, 500px);
+  height: auto;
+  filter: brightness(0) invert(0.88) sepia(0.15) saturate(0.4) hue-rotate(350deg);
 }
 
 .hero-line {
@@ -857,9 +867,14 @@ h2 em {
 }
 
 .footer-brand {
-  font-family: var(--font-brand);
-  font-size: 1.6rem;
-  color: var(--champagne-light);
+  display: flex;
+  align-items: center;
+}
+
+.footer-brand-logo {
+  height: 30px;
+  width: auto;
+  filter: brightness(0) invert(0.88) sepia(0.15) saturate(0.4) hue-rotate(350deg);
 }
 
 .footer-nav {
@@ -1048,8 +1063,8 @@ h2 em {
     padding: 1rem 0;
   }
 
-  .header-brand {
-    font-size: 1.6rem;
+  .header-brand-logo {
+    height: 28px;
   }
 
   .section {
@@ -1242,8 +1257,8 @@ h2 em {
     padding: 0 1.2rem;
   }
 
-  .hero-title {
-    font-size: 3.5rem;
+  .hero-logo {
+    max-width: 220px;
   }
 
   .hero-pre {

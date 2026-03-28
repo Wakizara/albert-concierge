@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Albert | No Trace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+  <style>
+    @font-face { font-family: 'TimesCondensed'; src: url('../fonts/times-nr-mt-condensed-regular.otf') format('opentype'); font-weight: 400; }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 1080px;
+      height: 1080px;
+      background: #0a0a0a;
+      color: #f5f0eb;
+      font-family: 'TimesCondensed', 'Times New Roman', serif;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .noise {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(245,240,235,0.008) 2px,
+        rgba(245,240,235,0.008) 4px
+      );
+      pointer-events: none;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 72px 80px;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .logo {
+      width: 80px;
+      opacity: 0.9;
+    }
+
+    .tag {
+      font-size: 13px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(245,240,235,0.25);
+    }
+
+    .center {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 120px;
+      line-height: 0.85;
+      margin-bottom: 48px;
+      letter-spacing: -2px;
+    }
+
+    h1 .fade-1 { color: rgba(245,240,235,0.9); }
+    h1 .fade-2 { color: rgba(245,240,235,0.55); }
+    h1 .fade-3 { color: rgba(245,240,235,0.25); }
+    h1 .fade-4 { color: rgba(245,240,235,0.08); }
+
+    .accent-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #c9a96e;
+      margin: 0 auto 48px;
+    }
+
+    .promises {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      max-width: 600px;
+    }
+
+    .promise {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .promise-line {
+      width: 40px;
+      height: 1px;
+      background: rgba(201,169,110,0.3);
+      flex-shrink: 0;
+    }
+
+    .promise-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      color: rgba(245,240,235,0.55);
+      font-style: italic;
+    }
+
+    .promise-end {
+      width: 40px;
+      height: 1px;
+      background: rgba(201,169,110,0.3);
+      flex-shrink: 0;
+    }
+
+    .bottom {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 60px;
+    }
+
+    .bottom-item {
+      text-align: center;
+    }
+
+    .bottom-label {
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(245,240,235,0.25);
+      margin-bottom: 6px;
+    }
+
+    .bottom-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      color: rgba(245,240,235,0.5);
+    }
+
+    .corner-marks {
+      position: absolute;
+      inset: 56px 64px;
+      pointer-events: none;
+    }
+
+    .corner-marks::before,
+    .corner-marks::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+    }
+
+    .corner-marks::before {
+      top: 0;
+      right: 0;
+      border-top: 1px solid rgba(201,169,110,0.15);
+      border-right: 1px solid rgba(201,169,110,0.15);
+    }
+
+    .corner-marks::after {
+      bottom: 0;
+      left: 0;
+      border-bottom: 1px solid rgba(201,169,110,0.15);
+      border-left: 1px solid rgba(201,169,110,0.15);
+    }
+  </style>
+</head>
+<body>
+  <div class="noise"></div>
+  <div class="corner-marks"></div>
+  <div class="content">
+    <div class="top">
+      <img src="../images/albert-logo.png" alt="Albert" class="logo">
+      <span class="tag">Invisible service</span>
+    </div>
+
+    <div class="center">
+      <h1>
+        <span class="fade-1">No</span><br>
+        <span class="fade-2">Tra</span><span class="fade-3">c</span><span class="fade-4">e.</span>
+      </h1>
+      <div class="accent-dot"></div>
+      <div class="promises">
+        <div class="promise">
+          <div class="promise-line"></div>
+          <span class="promise-text">Your name stays out of every booking</span>
+          <div class="promise-end"></div>
+        </div>
+        <div class="promise">
+          <div class="promise-line"></div>
+          <span class="promise-text">No receipts. No records. No memory.</span>
+          <div class="promise-end"></div>
+        </div>
+        <div class="promise">
+          <div class="promise-line"></div>
+          <span class="promise-text">We forget faster than you can ask</span>
+          <div class="promise-end"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <div class="bottom-item">
+        <div class="bottom-label">Dubai</div>
+        <div class="bottom-value">albert-conciergerie.com</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
