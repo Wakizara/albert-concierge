@@ -14,6 +14,12 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="alternate icon" type="image/png" href="/images/albert-logo.png">
   <link rel="apple-touch-icon" href="/favicon.svg">
+  <style>
+    .waitlist-label .req { color: var(--gold, #B8922A); letter-spacing: 1px; }
+    .waitlist-label .opt { color: var(--muted, #888); letter-spacing: 1px; }
+    /* Champ description : plus de hauteur pour les longs paragraphes. */
+    #description { font-family: var(--body, sans-serif); font-size: 15px; }
+  </style>
 </head>
 <body>
 
@@ -49,35 +55,35 @@
       <form class="waitlist-form" id="applyForm" novalidate>
         <div class="waitlist-fields">
           <label class="waitlist-field">
-            <span class="waitlist-label">First name</span>
+            <span class="waitlist-label">First name <span class="req">· Required</span></span>
             <input type="text" name="first_name" id="firstName" autocomplete="given-name" placeholder="First name" required />
           </label>
           <label class="waitlist-field">
-            <span class="waitlist-label">Last name</span>
+            <span class="waitlist-label">Last name <span class="req">· Required</span></span>
             <input type="text" name="last_name" id="lastName" autocomplete="family-name" placeholder="Last name" required />
           </label>
           <label class="waitlist-field">
-            <span class="waitlist-label">Email</span>
+            <span class="waitlist-label">Email <span class="req">· Required</span></span>
             <input type="email" name="email" id="email" autocomplete="email" placeholder="you@domain.com" required />
           </label>
           <label class="waitlist-field">
-            <span class="waitlist-label">Phone</span>
+            <span class="waitlist-label">Phone <span class="req">· Required</span></span>
             <input type="tel" name="phone" id="phone" autocomplete="tel" placeholder="+971 …" required />
           </label>
           <label class="waitlist-field" style="grid-column:1 / -1;">
-            <span class="waitlist-label">A few words about you</span>
-            <textarea name="description" id="description" rows="4" placeholder="Who you are, what you do, what you're looking for." required style="resize:vertical;"></textarea>
+            <span class="waitlist-label">Who are you? <span class="req">· Required</span></span>
+            <textarea name="description" id="description" rows="9" placeholder="Tell us who you are, what you do, the circles you move in, and what you're looking for. Take your time — the more we understand, the better." required style="resize:vertical;min-height:200px;line-height:1.6;"></textarea>
           </label>
           <label class="waitlist-field">
-            <span class="waitlist-label">Instagram</span>
+            <span class="waitlist-label">Instagram <span class="opt">· Optional</span></span>
             <input type="text" name="instagram" id="instagram" placeholder="@handle" />
           </label>
           <label class="waitlist-field">
-            <span class="waitlist-label">LinkedIn</span>
+            <span class="waitlist-label">LinkedIn <span class="opt">· Optional</span></span>
             <input type="text" name="linkedin" id="linkedin" placeholder="linkedin.com/in/…" />
           </label>
           <label class="waitlist-field">
-            <span class="waitlist-label">X</span>
+            <span class="waitlist-label">X <span class="opt">· Optional</span></span>
             <input type="text" name="x_handle" id="xHandle" placeholder="@handle" />
           </label>
         </div>

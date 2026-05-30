@@ -14,11 +14,13 @@ const anthropic = process.env.ANTHROPIC_API_KEY
   ? new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
   : null;
 
-// Supabase client — used to persist waitlist sign-ups.
-// Anon key is fine here: RLS on `waitlist` allows anon INSERT only.
+// Supabase client — persists waitlist sign-ups and membership applications.
+// Server-side only (never shipped to the browser), so the service-role key is
+// safe here and bypasses RLS; falls back to the anon key (RLS allows the
+// anon INSERTs we need on `waitlist` and `member_applications`).
 const SUPABASE_URL = process.env.SUPABASE_URL || 'https://whdshixpoazdmitiatfo.supabase.co';
-const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
-const supabase = SUPABASE_ANON_KEY ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
+const supabase = SUPABASE_KEY ? createClient(SUPABASE_URL, SUPABASE_KEY, {
   auth: { persistSession: false, autoRefreshToken: false },
 }) : null;
 
