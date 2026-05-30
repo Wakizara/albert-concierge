@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Albert · Apply for membership</title>
+  <meta name="description" content="Albert is invitation only. Apply to be considered. Each profile is reviewed by hand.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap">
+
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="alternate icon" type="image/png" href="/images/albert-logo.png">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+</head>
+<body>
+
+  <div class="bg-ambient" aria-hidden="true">
+    <div class="bg-spot bg-spot-1"></div>
+    <div class="bg-spot bg-spot-2"></div>
+    <div class="bg-spot bg-spot-3"></div>
+  </div>
+  <div class="bg-grain" aria-hidden="true"></div>
+
+  <header class="hd" id="hd">
+    <div class="hd-row">
+      <a href="/" class="hd-brand">Albert</a>
+      <nav class="hd-nav">
+        <a href="/#what">Concierge</a>
+        <a href="/#app">App</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="block block-waitlist" id="apply" style="min-height:100vh;display:flex;align-items:center;">
+    <div class="wrap">
+      <div class="waitlist-head">
+        <span class="eyebrow">Membership · By application</span>
+        <h2 class="display-h">
+          <span class="line"><span>Albert is selective</span></span>
+          <span class="line"><span><em>by design.</em></span></span>
+        </h2>
+        <p class="waitlist-lead">Tell us who you are. Each application is reviewed by hand. If your profile fits the circle, you will receive your invitation and membership by email.</p>
+      </div>
+
+      <form class="waitlist-form" id="applyForm" novalidate>
+        <div class="waitlist-fields">
+          <label class="waitlist-field">
+            <span class="waitlist-label">First name</span>
+            <input type="text" name="first_name" id="firstName" autocomplete="given-name" placeholder="First name" required />
+          </label>
+          <label class="waitlist-field">
+            <span class="waitlist-label">Last name</span>
+            <input type="text" name="last_name" id="lastName" autocomplete="family-name" placeholder="Last name" required />
+          </label>
+          <label class="waitlist-field">
+            <span class="waitlist-label">Email</span>
+            <input type="email" name="email" id="email" autocomplete="email" placeholder="you@domain.com" required />
+          </label>
+          <label class="waitlist-field">
+            <span class="waitlist-label">Phone</span>
+            <input type="tel" name="phone" id="phone" autocomplete="tel" placeholder="+971 …" required />
+          </label>
+          <label class="waitlist-field" style="grid-column:1 / -1;">
+            <span class="waitlist-label">A few words about you</span>
+            <textarea name="description" id="description" rows="4" placeholder="Who you are, what you do, what you're looking for." required style="resize:vertical;"></textarea>
+          </label>
+          <label class="waitlist-field">
+            <span class="waitlist-label">Instagram</span>
+            <input type="text" name="instagram" id="instagram" placeholder="@handle" />
+          </label>
+          <label class="waitlist-field">
+            <span class="waitlist-label">LinkedIn</span>
+            <input type="text" name="linkedin" id="linkedin" placeholder="linkedin.com/in/…" />
+          </label>
+          <label class="waitlist-field">
+            <span class="waitlist-label">X</span>
+            <input type="text" name="x_handle" id="xHandle" placeholder="@handle" />
+          </label>
+        </div>
+        <button type="submit" class="btn btn-gold waitlist-submit">
+          <span class="btn-label">Submit application</span>
+        </button>
+        <p class="waitlist-meta">Invitation only · Your information stays private</p>
+        <div class="waitlist-status" id="applyStatus" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      const form = document.getElementById('applyForm');
+      const status = document.getElementById('applyStatus');
+      const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      form.addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        status.textContent = '';
+        status.classList.remove('is-error', 'is-success');
+
+        const payload = {
+          first_name: form.first_name.value.trim(),
+          last_name: form.last_name.value.trim(),
+          email: form.email.value.trim(),
+          phone: form.phone.value.trim(),
+          description: form.description.value.trim(),
+          instagram: form.instagram.value.trim(),
+          linkedin: form.linkedin.value.trim(),
+          x_handle: form.x_handle.value.trim(),
+        };
+
+        if (!payload.first_name || !payload.last_name) {
+          status.textContent = 'Please enter your first and last name.';
+          status.classList.add('is-error');
+          return;
+        }
+        if (!EMAIL_RE.test(payload.email)) {
+          status.textContent = 'Please enter a valid email address.';
+          status.classList.add('is-error');
+          form.email.focus();
+          return;
+        }
+        if (payload.phone.replace(/\D/g, '').length < 6) {
+          status.textContent = 'Please enter a valid phone number.';
+          status.classList.add('is-error');
+          form.phone.focus();
+          return;
+        }
+        if (payload.description.length < 10) {
+          status.textContent = 'Tell us a little about yourself.';
+          status.classList.add('is-error');
+          form.description.focus();
+          return;
+        }
+
+        const submit = form.querySelector('.waitlist-submit');
+        submit.disabled = true;
+        submit.querySelector('.btn-label').textContent = 'Sending…';
+
+        try {
+          const res = await fetch('/api/apply', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          if (!res.ok) throw new Error('request failed');
+          form.style.display = 'none';
+          status.textContent = 'Application received. We review every profile by hand — if your application is successful, your invitation and membership will arrive by email.';
+          status.classList.add('is-success');
+        } catch (err) {
+          status.textContent = 'Something went wrong. Please try again or write to contact@albert-conciergerie.com.';
+          status.classList.add('is-error');
+        } finally {
+          submit.disabled = false;
+          submit.querySelector('.btn-label').textContent = 'Submit application';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -3,406 +3,418 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Albert | We Make It Happen</title>
-  <meta name="description" content="Albert. For those who know, no explanation is needed. For those who don't, none will suffice.">
-  <link rel="preload" href="/fonts/symphony-pro-regular.otf" as="font" type="font/otf" crossorigin>
-  <link rel="preload" href="/fonts/fonnts.com-theseasons-reg.otf" as="font" type="font/otf" crossorigin>
-  <link rel="preload" href="/fonts/times-nr-mt-condensed-regular.otf" as="font" type="font/otf" crossorigin>
-  <link rel="stylesheet" href="/styles.css">
-  <link rel="icon" type="image/png" href="/images/albert-logo.png">
-  <style>
-    /* Hide content until fonts are loaded to prevent FOUT */
-    .fonts-loading { opacity: 0; }
-    .fonts-loaded { opacity: 1; transition: opacity 0.3s ease; }
-  </style>
-</head>
-<body class="fonts-loading">
+  <title>Albert · Private Concierge Infrastructure</title>
+  <meta name="description" content="Albert is not a concierge service. Albert is an infrastructure. Closed, verified, trusted.">
 
-  <!-- Header -->
-  <header class="header" id="header">
-    <div class="header-inner">
-      <a href="#" class="header-brand"><img src="/images/albert-logo.png" alt="Albert" class="header-brand-logo"></a>
-      <nav class="nav" id="nav">
-        <a href="#about" class="nav-link">Who We Are</a>
-        <a href="#services" class="nav-link">What We Do</a>
-        <a href="#process" class="nav-link">How</a>
-        <a href="#contact" class="nav-link">Reach Us</a>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap">
+
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="alternate icon" type="image/png" href="/images/albert-logo.png">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+</head>
+<body>
+
+  <div class="bg-ambient" aria-hidden="true">
+    <div class="bg-spot bg-spot-1"></div>
+    <div class="bg-spot bg-spot-2"></div>
+    <div class="bg-spot bg-spot-3"></div>
+  </div>
+  <div class="bg-grain" aria-hidden="true"></div>
+
+  <header class="hd" id="hd">
+    <div class="hd-row">
+      <a href="#top" class="hd-brand">Albert</a>
+      <nav class="hd-nav" id="hdNav">
+        <a href="#what">Concierge</a>
+        <a href="#app">App</a>
+        <a href="/apply">Apply</a>
+        <a href="#contact">Contact</a>
       </nav>
-      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
-        <span></span>
-        <span></span>
+      <button class="hd-toggle" id="hdToggle" aria-label="Menu">
+        <span></span><span></span>
       </button>
     </div>
   </header>
 
   <!-- Hero -->
-  <section class="hero" id="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-content">
-      <h1 class="hero-title"><img src="/images/albert-logo.png" alt="Albert" class="hero-logo"></h1>
-      <div class="hero-line"></div>
-      <p class="hero-sub">We make it happen</p>
-      <p class="hero-desc">You ask. We deliver.<br>No questions. No limits. No trace.</p>
-      <div class="hero-buttons">
-        <a href="#about" class="btn btn-primary">Enter</a>
+  <section class="hero" id="top">
+    <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="/images/hero-bg.jpg" aria-hidden="true">
+      <source src="/images/hero.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="hero-mark" aria-hidden="true">A</div>
+
+    <div class="hero-inner hero-inner-center">
+      <h1 class="hero-h hero-h-center reveal-clip">
+        <span class="line"><span>We make it <em>happen.</em></span></span>
+      </h1>
+      <p class="hero-p reveal-up">A private application for the world's finest places, backed by a 24/7 human concierge. Launching soon.</p>
+      <div class="hero-cta reveal-up">
+        <a href="/apply" class="btn btn-gold">
+          <span class="btn-label">Apply for membership</span>
+        </a>
+        <a href="https://wa.me/971561720809" target="_blank" rel="noopener noreferrer" class="btn-ghost btn-ghost-light">Speak to a concierge <span class="arrow" aria-hidden="true">→</span></a>
       </div>
     </div>
-    <div class="scroll-indicator">
-      <div class="scroll-line"></div>
-    </div>
+
   </section>
 
-  <!-- About -->
-  <section class="section section-about" id="about">
-    <div class="container">
-      <div class="section-label">Who We Are</div>
-      <h2>Some things are better<br><em>left unsaid</em></h2>
-      <div class="about-grid">
-        <div class="about-col">
-          <p>Albert exists for those who need things done - discreetly, immediately, and without compromise. We don't advertise what we do. Our clients already know.</p>
-        </div>
-        <div class="about-col">
-          <p>A jet at midnight. A villa by morning. The impossible by noon. We operate where others hesitate, and we never leave a trace. If you're here, you were meant to be.</p>
-        </div>
-      </div>
-      <div class="about-stats">
-        <div class="stat">
-          <span class="stat-number">24/7</span>
-          <span class="stat-label">Availability</span>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat">
-          <span class="stat-number">50+</span>
-          <span class="stat-label">Countries</span>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat">
-          <span class="stat-number">100%</span>
-          <span class="stat-label">Discretion</span>
-        </div>
-      </div>
-    </div>
-  </section>
+  <!-- ====== CONCIERGE — 30% ====== -->
 
-  <!-- Service: Private Jets -->
-  <section class="service-full" id="services">
-    <div class="service-full-bg" style="background-image: url('/images/jet.jpg')"></div>
-    <div class="service-full-overlay"></div>
-    <div class="service-full-content">
-      <div class="service-full-label">What We Do</div>
-      <h3>The Sky Is Not the Limit</h3>
-      <p>When time runs out, we take you above it. Anywhere in the world, at any hour. The tarmac is ready before you finish the call.</p>
-      <ul class="service-list">
-        <li>Wheels up in hours, not days</li>
-        <li>Global reach, silent departure</li>
-        <li>Every detail, handled</li>
+  <!-- What -->
+  <section class="block" id="what">
+    <div class="wrap">
+      <span class="eyebrow">01 / The concierge</span>
+      <h2 class="display-h reveal-clip">
+        <span class="line"><span>Behind the app,</span></span>
+        <span class="line"><span><em>a human network.</em></span></span>
+      </h2>
+      <div class="lede reveal-up">
+        <p>When the app is not enough, our concierge takes over. Closed network, verified operators, conditional escrow. Every request executed without trace.</p>
+      </div>
+
+      <ul class="services-compact">
+        <li>
+          <span class="eyebrow">Aviation</span>
+          <h3 class="services-compact-h">The sky is not the limit.</h3>
+          <p>Wheels up in hours, not days.</p>
+        </li>
+        <li>
+          <span class="eyebrow">Residences</span>
+          <h3 class="services-compact-h">A door that opens only once.</h3>
+          <p>Off-market. Fully staffed. Off-record.</p>
+        </li>
+        <li>
+          <span class="eyebrow">Extraordinary</span>
+          <h3 class="services-compact-h">The impossible, on call.</h3>
+          <p>If it exists, we find it. If it does not, we create it.</p>
+        </li>
       </ul>
-      <a href="https://wa.me/971561720809?text=I%20need%20to%20fly." target="_blank" rel="noopener noreferrer" class="btn btn-outline">Say the word</a>
+
+      <div class="cta-row reveal-up">
+        <a href="https://wa.me/971561720809" target="_blank" rel="noopener noreferrer" class="btn btn-line">Speak to a concierge</a>
+      </div>
     </div>
   </section>
 
-  <!-- Service: Luxury Villas -->
-  <section class="service-full" id="service-villas">
-    <div class="service-full-bg" style="background-image: url('/images/villa.jpg')"></div>
-    <div class="service-full-overlay overlay-right"></div>
-    <div class="service-full-content service-full-content--right">
-      <h3>A Door That Opens Only Once</h3>
-      <p>Properties that don't appear on any listing. Places that exist only for those who know where to look. We open doors that most people don't even know exist.</p>
-      <ul class="service-list">
-        <li>Off-market, off-radar</li>
-        <li>Fully secured, fully staffed</li>
-        <li>Your name stays out of it</li>
-      </ul>
-      <a href="https://wa.me/971561720809?text=I%20need%20a%20place." target="_blank" rel="noopener noreferrer" class="btn btn-outline">Tell us where</a>
-    </div>
-  </section>
+  <!-- ====== APP — 70% ====== -->
 
-  <!-- Service: Extraordinary Requests -->
-  <section class="service-full" id="service-extraordinary">
-    <div class="service-full-bg" style="background-image: url('/images/extraordinary.jpg')"></div>
-    <div class="service-full-overlay overlay-right"></div>
-    <div class="service-full-content service-full-content--right">
-      <h3>The Impossible Is Just a Phone Call Away</h3>
-      <p>The things you've been told can't be done - those are the things we do best. We don't ask why. We ask when.</p>
-      <ul class="service-list">
-        <li>If it exists, we'll find it</li>
-        <li>If it doesn't, we'll create it</li>
-        <li>No record. No trail.</li>
-      </ul>
-      <a href="https://wa.me/971561720809?text=I%20have%20a%20request." target="_blank" rel="noopener noreferrer" class="btn btn-outline">Try us</a>
-    </div>
-  </section>
-
-  <!-- Urgent -->
-  <section class="section section-urgent" id="urgent">
-    <div class="urgent-bg"></div>
-    <div class="container">
-      <h2>Sometimes, there is no tomorrow.</h2>
-      <p class="urgent-lead">You know it. We know it.</p>
-      <div class="urgent-grid">
-        <div class="urgent-col">
-          <p>When the situation demands it, we move. No hesitation, no bureaucracy, no questions asked. Albert was built for the moments when everything depends on the next hour.</p>
-        </div>
-        <div class="urgent-col">
-          <p>You pick up the phone. We set everything in motion. By the time you hang up, it's already happening.</p>
+  <!-- App overview -->
+  <section class="block block-app" id="app">
+    <div class="wrap">
+      <div class="app-head">
+        <span class="eyebrow">02 / The app</span>
+        <h2 class="display-h reveal-clip">
+          <span class="line"><span>Albert in your pocket.</span></span>
+          <span class="line"><span><em>Always within reach.</em></span></span>
+        </h2>
+        <div class="app-text reveal-up">
+          <p>A private application for iOS and Android. Built for members. Four ways to navigate the world's finest places. Coming soon, by invitation only.</p>
         </div>
       </div>
-      <div class="urgent-features">
-        <div class="urgent-feature">
-          <h3>Now</h3>
-          <p>Not tomorrow. Not tonight. Now.</p>
-        </div>
-        <div class="urgent-feature">
-          <h3>Everything</h3>
-          <p>Every detail. Every contingency. Handled.</p>
-        </div>
-        <div class="urgent-feature">
-          <h3>Silence</h3>
-          <p>What happens with Albert, stays with Albert.</p>
-        </div>
+
+      <div class="app-gallery" aria-label="Albert app screens">
+        <figure class="phone phone-1">
+          <img src="/images/app/concierge.png" alt="Concierge — What does tonight need?" loading="lazy">
+          <figcaption><span>Concierge</span></figcaption>
+        </figure>
+        <figure class="phone phone-2">
+          <img src="/images/app/discover.png" alt="Discover — Le Du, Bangkok" loading="lazy">
+          <figcaption><span>Discover</span></figcaption>
+        </figure>
+        <figure class="phone phone-3">
+          <img src="/images/app/chat.png" alt="Chat with Albert" loading="lazy">
+          <figcaption><span>Chat</span></figcaption>
+        </figure>
+        <figure class="phone phone-4">
+          <img src="/images/app/people.png" alt="People — 22 members around you" loading="lazy">
+          <figcaption><span>People</span></figcaption>
+        </figure>
       </div>
-      <a href="https://wa.me/971561720809?text=Urgent." target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">Now</a>
     </div>
   </section>
 
-  <!-- Process -->
-  <section class="section section-process" id="process">
-    <div class="container">
-      <div class="section-label">How</div>
-      <h2>Simple. Silent. Done.</h2>
-      <div class="process-grid">
-        <div class="process-step">
-          <div class="process-num">I</div>
-          <h3>You call</h3>
-          <p>One message. That's all it takes.</p>
-        </div>
-        <div class="process-connector"></div>
-        <div class="process-step">
-          <div class="process-num">II</div>
-          <h3>We move</h3>
-          <p>Our network activates. Globally. Instantly. Silently.</p>
-        </div>
-        <div class="process-connector"></div>
-        <div class="process-step">
-          <div class="process-num">III</div>
-          <h3>It's done</h3>
-          <p>As if it was always meant to happen.</p>
-        </div>
+  <!-- Feature 1: Concierge -->
+  <section class="feature" id="feat-concierge">
+    <div class="feature-grid">
+      <div class="feature-body">
+        <span class="eyebrow eyebrow-gold">Feature · Concierge</span>
+        <h2 class="feature-h reveal-clip">
+          <span class="line"><span>One tap.</span></span>
+          <span class="line"><span><em>A human replies.</em></span></span>
+        </h2>
+        <p class="feature-lead reveal-up">No briefs. No forms. No second-guessing. Pick a category, ring Albert, and a real person calls back within fifteen minutes.</p>
+        <ul class="feature-list">
+          <li><span>1</span><p>Six categories: jet, villa, yacht, chef, hotel, car.</p></li>
+          <li><span>2</span><p>Ring Albert. A human replies within minutes.</p></li>
+          <li><span>3</span><p>You confirm. Albert handles the rest, end to end.</p></li>
+        </ul>
       </div>
+      <figure class="feature-phone">
+        <img src="/images/app/concierge.png" alt="Concierge: What does tonight need?" loading="lazy">
+      </figure>
+    </div>
+  </section>
+
+  <!-- Feature 2: Discover -->
+  <section class="feature feature-alt" id="feat-discover">
+    <div class="feature-grid">
+      <figure class="feature-phone">
+        <img src="/images/app/discover.png" alt="Discover: swipe through curated venues" loading="lazy">
+      </figure>
+      <div class="feature-body">
+        <span class="eyebrow eyebrow-gold">Feature · Discover</span>
+        <h2 class="feature-h reveal-clip">
+          <span class="line"><span>Swipe.</span></span>
+          <span class="line"><span><em>Train your taste.</em></span></span>
+        </h2>
+        <p class="feature-lead reveal-up">A curated deck of restaurants, bars, cafés and hotels. Every swipe sharpens your taste profile. The more you explore, the better Albert knows you.</p>
+        <ul class="feature-list">
+          <li><span>1</span><p>One card at a time. Photo, place, price, story.</p></li>
+          <li><span>2</span><p>Swipe right to save, left to skip, up to ask Albert.</p></li>
+          <li><span>3</span><p>Filter by city, by mood, by category. Or surprise me.</p></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 3: Chat -->
+  <section class="feature" id="feat-chat">
+    <div class="feature-grid">
+      <div class="feature-body">
+        <span class="eyebrow eyebrow-gold">Feature · Chat</span>
+        <h2 class="feature-h reveal-clip">
+          <span class="line"><span>Ask Albert</span></span>
+          <span class="line"><span><em>anything.</em></span></span>
+        </h2>
+        <p class="feature-lead reveal-up">A private AI concierge, trained on the Albert network. Hidden gems, last-minute tables, rooftop bars, perfect coffee. Curated by AI, refined by taste.</p>
+        <ul class="feature-list">
+          <li><span>1</span><p>Conversational, fluent, contextual. No menus.</p></li>
+          <li><span>2</span><p>Recommendations grounded in the verified network.</p></li>
+          <li><span>3</span><p>Hand off to a human concierge in one tap.</p></li>
+        </ul>
+      </div>
+      <figure class="feature-phone">
+        <img src="/images/app/chat.png" alt="Chat with Albert AI concierge" loading="lazy">
+      </figure>
+    </div>
+  </section>
+
+  <!-- Feature 4: People -->
+  <section class="feature feature-alt" id="feat-people">
+    <div class="feature-grid">
+      <figure class="feature-phone">
+        <img src="/images/app/people.png" alt="People: 22 members around you" loading="lazy">
+      </figure>
+      <div class="feature-body">
+        <span class="eyebrow eyebrow-gold">Feature · People</span>
+        <h2 class="feature-h reveal-clip">
+          <span class="line"><span>The network</span></span>
+          <span class="line"><span><em>around you.</em></span></span>
+        </h2>
+        <p class="feature-lead reveal-up">Verified members nearby. See who is in the room, in the city, around the world. Connect on your terms. Discretion is the default.</p>
+        <ul class="feature-list">
+          <li><span>1</span><p>Filter: business, friendship, dating.</p></li>
+          <li><span>2</span><p>Distance shown in metres, never location.</p></li>
+          <li><span>3</span><p>You decide who sees you. Always.</p></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Waitlist -->
+  <section class="block block-waitlist" id="waitlist">
+    <div class="wrap">
+      <div class="waitlist-head">
+        <span class="eyebrow">Coming soon</span>
+        <h2 class="display-h reveal-clip">
+          <span class="line"><span>Albert is coming.</span></span>
+          <span class="line"><span><em>Join the list.</em></span></span>
+        </h2>
+        <p class="waitlist-lead reveal-up">Members of the waitlist receive priority invitations when the app launches. No spam. One message, when it matters. Discretion is the default.</p>
+      </div>
+
+      <form class="waitlist-form" id="waitlistForm" novalidate>
+        <div class="waitlist-fields">
+          <label class="waitlist-field">
+            <span class="waitlist-label">Name</span>
+            <input type="text" name="name" id="waitlistName" autocomplete="name" placeholder="Your name" />
+          </label>
+          <label class="waitlist-field">
+            <span class="waitlist-label">Email</span>
+            <input type="email" name="email" id="waitlistEmail" autocomplete="email" placeholder="you@domain.com" required />
+          </label>
+        </div>
+        <button type="submit" class="btn btn-gold waitlist-submit">
+          <span class="btn-label">Request invitation</span>
+        </button>
+        <p class="waitlist-meta">iOS · Android · By invitation only</p>
+        <div class="waitlist-status" id="waitlistStatus" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- How -->
+  <section class="block" id="how">
+    <div class="wrap">
+      <span class="eyebrow">03 / How</span>
+      <h2 class="display-h reveal-clip">
+        <span class="line"><span>Simple. Silent.</span></span>
+        <span class="line"><span><em>Done.</em></span></span>
+      </h2>
+
+      <ol class="steps">
+        <li><span class="step-num">I</span><div><h4>You write</h4><p>One message in the app, on WhatsApp, or by email.</p></div></li>
+        <li><span class="step-num">II</span><div><h4>We move</h4><p>The network activates. Globally, instantly, silently.</p></div></li>
+        <li><span class="step-num">III</span><div><h4>It is done</h4><p>As if it was always meant to happen.</p></div></li>
+      </ol>
     </div>
   </section>
 
   <!-- Contact -->
-  <section class="section section-contact" id="contact">
-    <div class="container">
-      <div class="section-label">Reach Us</div>
-      <h2 style="font-family: var(--font-body)">You know what to do.</h2>
-      <p class="contact-desc">One message. The rest is on us.</p>
-      <div class="contact-buttons">
-        <a href="https://wa.me/971561720809" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">
-          <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          WhatsApp
-        </a>
-        <a href="mailto:contact@albert-conciergerie.com" class="btn btn-outline btn-lg">
-          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13L2 4"/></svg>
-          Email
-        </a>
-      </div>
-      <div class="contact-details">
-        <div class="contact-item">
-          <span class="contact-label">WhatsApp</span>
-          <span class="contact-value">+971 56 172 0809</span>
+  <section class="block block-contact" id="contact">
+    <div class="wrap">
+      <span class="eyebrow">04 / Contact</span>
+      <h2 class="display-h reveal-clip">
+        <span class="line"><span>You know what to do.</span></span>
+        <span class="line"><span><em>One message.</em></span></span>
+      </h2>
+
+      <dl class="contact-list">
+        <div>
+          <dt>WhatsApp</dt>
+          <dd><a href="https://wa.me/971561720809" target="_blank" rel="noopener noreferrer">+971 56 172 0809</a></dd>
         </div>
-        <div class="contact-item">
-          <span class="contact-label">Email</span>
-          <span class="contact-value">contact@albert-conciergerie.com</span>
+        <div>
+          <dt>Email</dt>
+          <dd><a href="mailto:contact@albert-conciergerie.com">contact@albert-conciergerie.com</a></dd>
         </div>
-        <div class="contact-item">
-          <span class="contact-label">Location</span>
-          <span class="contact-value">Dubai, United Arab Emirates</span>
+        <div>
+          <dt>Office</dt>
+          <dd>Dubai, United Arab Emirates</dd>
         </div>
-      </div>
+      </dl>
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-top">
-        <div class="footer-brand"><img src="/images/albert-logo.png" alt="Albert" class="footer-brand-logo"></div>
-        <nav class="footer-nav">
-          <a href="#about">Who We Are</a>
-          <a href="#services">What We Do</a>
-          <a href="#process">How</a>
-          <a href="#contact">Reach Us</a>
-        </nav>
-      </div>
-      <div class="footer-divider"></div>
-      <div class="footer-bottom">
-        <p>&copy; 2026 Albert. All rights reserved.</p>
-        <p>Dubai, UAE</p>
-      </div>
+  <footer class="ft">
+    <div class="wrap ft-row">
+      <span class="ft-brand">Albert</span>
+      <span class="ft-meta">albert-conciergerie.com · Dubai · 2026 · Confidential</span>
     </div>
   </footer>
 
   <script defer src="/_vercel/insights/script.js"></script>
   <script>
-    // Font loading - prevent FOUT
-    if (document.fonts) {
-      document.fonts.ready.then(() => {
-        document.body.classList.remove('fonts-loading');
-        document.body.classList.add('fonts-loaded');
+    (() => {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const hd = document.getElementById('hd');
+      window.addEventListener('scroll', () => {
+        hd.classList.toggle('is-scrolled', window.scrollY > 24);
+      }, { passive: true });
+
+      const toggle = document.getElementById('hdToggle');
+      const nav = document.getElementById('hdNav');
+      toggle.addEventListener('click', () => {
+        nav.classList.toggle('is-open');
+        toggle.classList.toggle('is-open');
       });
-    } else {
-      // Fallback: just show after short delay
-      setTimeout(() => {
-        document.body.classList.remove('fonts-loading');
-        document.body.classList.add('fonts-loaded');
-      }, 300);
-    }
+      nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        nav.classList.remove('is-open');
+        toggle.classList.remove('is-open');
+      }));
 
-    // Snap scroll between sections
-    const sections = document.querySelectorAll('.hero, .section, .service-full, .footer');
-    let isScrolling = false;
-    let currentSection = 0;
-    let wheelAccum = 0;
-    let wheelTimer = null;
-
-    function scrollToSection(index) {
-      if (index < 0 || index >= sections.length || isScrolling) return;
-      isScrolling = true;
-      currentSection = index;
-      sections[index].scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setTimeout(() => { isScrolling = false; }, 1200);
-    }
-
-    function findCurrentSection() {
-      const scrollY = window.scrollY;
-      const vh = window.innerHeight;
-      let best = 0;
-      sections.forEach((s, i) => {
-        if (s.offsetTop <= scrollY + vh * 0.3) best = i;
-      });
-      return best;
-    }
-
-    window.addEventListener('wheel', (e) => {
-      e.preventDefault();
-      if (isScrolling) return;
-
-      // Accumulate delta to handle trackpads that fire many small events
-      wheelAccum += e.deltaY;
-      clearTimeout(wheelTimer);
-      wheelTimer = setTimeout(() => { wheelAccum = 0; }, 200);
-
-      // Only trigger when accumulated enough
-      if (Math.abs(wheelAccum) < 50) return;
-
-      currentSection = findCurrentSection();
-      if (wheelAccum > 0) {
-        scrollToSection(currentSection + 1);
-      } else {
-        scrollToSection(currentSection - 1);
-      }
-      wheelAccum = 0;
-    }, { passive: false });
-
-    // Touch support
-    let touchStartY = 0;
-    let touchMoved = false;
-    window.addEventListener('touchstart', (e) => {
-      touchStartY = e.touches[0].clientY;
-      touchMoved = false;
-    }, { passive: true });
-
-    window.addEventListener('touchmove', (e) => {
-      e.preventDefault();
-      if (isScrolling) return;
-      const diff = touchStartY - e.touches[0].clientY;
-      if (!touchMoved && Math.abs(diff) > 30) {
-        touchMoved = true;
-        currentSection = findCurrentSection();
-        if (diff > 0) {
-          scrollToSection(currentSection + 1);
-        } else {
-          scrollToSection(currentSection - 1);
-        }
-      }
-    }, { passive: false });
-
-    // Keyboard support
-    window.addEventListener('keydown', (e) => {
-      if (isScrolling) return;
-      currentSection = findCurrentSection();
-      if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
-        e.preventDefault();
-        scrollToSection(currentSection + 1);
-      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-        e.preventDefault();
-        scrollToSection(currentSection - 1);
-      }
-    });
-
-    // Header scroll effect
-    const header = document.getElementById('header');
-    window.addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', window.scrollY > 50);
-    });
-
-    // Mobile menu
-    const menuToggle = document.getElementById('menuToggle');
-    const nav = document.getElementById('nav');
-    menuToggle.addEventListener('click', () => {
-      nav.classList.toggle('open');
-      menuToggle.classList.toggle('open');
-    });
-
-    // Close menu on link click
-    document.querySelectorAll('.nav-link').forEach(link => {
-      link.addEventListener('click', () => {
-        nav.classList.remove('open');
-        menuToggle.classList.remove('open');
-      });
-    });
-
-    // Anchor links use snap scroll
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const href = this.getAttribute('href');
-        if (href === '#' || href === '') {
-          // Brand link: scroll to top (hero)
-          scrollToSection(0);
-          return;
-        }
-        const target = document.querySelector(href);
-        if (target) {
-          const index = Array.from(sections).indexOf(target);
-          if (index !== -1) {
-            scrollToSection(index);
-          } else {
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-in');
+            io.unobserve(e.target);
           }
-        }
-      });
-    });
+        });
+      }, { threshold: 0.18, rootMargin: '0px 0px -50px 0px' });
 
-    // Reveal on scroll
-    const observerOptions = { threshold: 0.15, rootMargin: '0px 0px -50px 0px' };
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
+      document.querySelectorAll('.reveal-clip, .reveal-up, .phone, .feature, .services-compact li, .feature-list li').forEach(el => io.observe(el));
 
-    document.querySelectorAll('.service-full-content, .process-step, .about-col, .stat, .contact-item, .urgent-feature, .urgent-col').forEach(el => {
-      el.classList.add('reveal');
-      observer.observe(el);
-    });
+      requestAnimationFrame(() => {
+        document.querySelectorAll('.hero .reveal-clip, .hero .reveal-up').forEach(el => el.classList.add('is-in'));
+      });
+
+      // Hero parallax on watermark
+      if (!reduceMotion) {
+        const mark = document.querySelector('.hero .hero-mark');
+        if (mark) {
+          window.addEventListener('scroll', () => {
+            const y = Math.min(window.scrollY, 800) * 0.15;
+            mark.style.transform = `translate(-50%, calc(-50% + ${y}px))`;
+          }, { passive: true });
+        }
+      }
+
+      // Waitlist form
+      const form = document.getElementById('waitlistForm');
+      const status = document.getElementById('waitlistStatus');
+      if (form) {
+        form.addEventListener('submit', async (ev) => {
+          ev.preventDefault();
+          status.textContent = '';
+          status.classList.remove('is-error', 'is-success');
+
+          const email = form.email.value.trim();
+          const name = form.name.value.trim();
+
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            status.textContent = 'Please enter a valid email address.';
+            status.classList.add('is-error');
+            form.email.focus();
+            return;
+          }
+
+          const submit = form.querySelector('.waitlist-submit');
+          submit.disabled = true;
+          submit.querySelector('.btn-label').textContent = 'Sending…';
+
+          try {
+            const res = await fetch('/api/waitlist', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email, name })
+            });
+            if (!res.ok) throw new Error('request failed');
+            status.textContent = 'You are on the list. We will be in touch.';
+            status.classList.add('is-success');
+            form.reset();
+          } catch (err) {
+            status.textContent = 'Something went wrong. Please try again or write to contact@albert-conciergerie.com.';
+            status.classList.add('is-error');
+          } finally {
+            submit.disabled = false;
+            submit.querySelector('.btn-label').textContent = 'Request invitation';
+          }
+        });
+      }
+
+      // Phone gallery parallax (overview only)
+      if (!reduceMotion) {
+        const phones = document.querySelectorAll('.app-gallery .phone');
+        if (phones.length) {
+          const upd = () => {
+            phones.forEach((p, i) => {
+              const r = p.getBoundingClientRect();
+              const center = r.top + r.height / 2;
+              const delta = (window.innerHeight / 2 - center) / window.innerHeight;
+              const offset = delta * 24 * (i % 2 === 0 ? -1 : 1);
+              p.style.setProperty('--py', `${offset}px`);
+            });
+          };
+          window.addEventListener('scroll', upd, { passive: true });
+          upd();
+        }
+      }
+    })();
   </script>
-
 </body>
 </html>

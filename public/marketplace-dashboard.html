@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Albert · Concierge Dashboard</title>
+  <meta name="description" content="The concierge pipeline. Briefs, escrows, confirmations, margin captured.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap">
+
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <style>
+    body { background: var(--w); font-family: var(--body); }
+    :root { --ease-prem: cubic-bezier(.16, 1, .3, 1); }
+
+    /* Header (matches marketplace) */
+    .hd-brand-suffix {
+      font-family: var(--display); font-style: italic; font-weight: 300;
+      color: var(--gold); font-size: 16px; margin-left: 8px;
+    }
+    .db-hd-right { display: flex; align-items: center; gap: 16px; }
+    .db-hd-link {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--muted);
+      transition: color .2s ease; cursor: pointer;
+    }
+    .db-hd-link:hover { color: var(--ink); }
+    .db-hd-divider { width: 1px; height: 12px; background: var(--line); }
+    .db-hd-avatar {
+      width: 32px; height: 32px;
+      background: var(--ink); color: var(--gold);
+      display: grid; place-items: center;
+      font-family: var(--display); font-size: 13px;
+      border-radius: 50%;
+    }
+
+    /* Welcome strip */
+    .db-welcome {
+      padding: 110px var(--pad-x) 32px;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    .db-welcome-eyebrow {
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .db-welcome-h {
+      font-family: var(--display); font-weight: 300;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.05; letter-spacing: -1px;
+      color: var(--ink);
+    }
+    .db-welcome-h em { font-style: italic; color: var(--gold); }
+    .db-welcome-sub {
+      font-family: var(--display); font-style: italic;
+      font-size: clamp(16px, 1.5vw, 19px);
+      color: var(--dim);
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    /* KPI strip */
+    .db-kpi {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 var(--pad-x) 24px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .db-kpi-cell {
+      background: var(--pure);
+      padding: 24px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+    }
+    .db-kpi-cell.is-gold {
+      background: var(--gold);
+      color: var(--ink);
+    }
+    .db-kpi-cell.is-dark {
+      background: var(--ink);
+      color: var(--w);
+    }
+    .db-kpi-label {
+      font-family: var(--mono); font-size: 9.5px;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .db-kpi-cell.is-gold .db-kpi-label { color: rgba(6, 6, 10, 0.7); }
+    .db-kpi-cell.is-dark .db-kpi-label { color: var(--goldL); }
+    .db-kpi-value {
+      font-family: var(--display); font-weight: 300;
+      font-size: clamp(32px, 3.6vw, 44px);
+      letter-spacing: -1.2px;
+      line-height: 1;
+      color: var(--ink);
+    }
+    .db-kpi-cell.is-gold .db-kpi-value { color: var(--ink); font-style: italic; }
+    .db-kpi-cell.is-dark .db-kpi-value { color: var(--w); }
+    .db-kpi-meta {
+      font-family: var(--mono); font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+      margin-top: auto;
+    }
+    .db-kpi-cell.is-gold .db-kpi-meta { color: rgba(6, 6, 10, 0.6); }
+    .db-kpi-cell.is-dark .db-kpi-meta { color: rgba(249, 247, 243, 0.5); }
+    .db-kpi-delta {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-family: var(--mono); font-size: 10px;
+      color: var(--gold);
+    }
+    .db-kpi-cell.is-gold .db-kpi-delta { color: var(--ink); }
+    .db-kpi-cell.is-dark .db-kpi-delta { color: var(--goldL); }
+
+    /* Main grid */
+    .db-main {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 var(--pad-x) 64px;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 24px;
+    }
+
+    .db-card {
+      background: var(--pure);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    /* Pipeline tabs */
+    .db-pipeline-head {
+      padding: 24px 28px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .db-pipeline-eyebrow {
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .db-pipeline-h {
+      font-family: var(--display); font-weight: 300;
+      font-size: 26px; letter-spacing: -0.6px;
+      color: var(--ink);
+      margin-bottom: 18px;
+    }
+    .db-pipeline-h em { font-style: italic; color: var(--gold); }
+
+    .db-tabs {
+      display: flex;
+      gap: 28px;
+      overflow-x: auto;
+    }
+    .db-tab {
+      background: none;
+      border: none;
+      padding: 14px 0 14px;
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--muted);
+      cursor: pointer;
+      position: relative;
+      transition: color .25s ease;
+      white-space: nowrap;
+    }
+    .db-tab:hover { color: var(--ink); }
+    .db-tab.is-on { color: var(--ink); }
+    .db-tab.is-on::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; bottom: -1px;
+      height: 2px; background: var(--gold);
+    }
+    .db-tab-count {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 2px 8px;
+      background: var(--w);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 9px;
+      color: var(--gold);
+      letter-spacing: 1px;
+    }
+    .db-tab.is-on .db-tab-count {
+      background: var(--gold);
+      color: var(--ink);
+      border-color: var(--gold);
+    }
+
+    /* Pipeline rows */
+    .db-rows {
+      display: none;
+    }
+    .db-rows.is-on { display: block; }
+
+    .db-row {
+      display: grid;
+      grid-template-columns: 56px 1.6fr 1fr 1fr auto;
+      gap: 18px;
+      align-items: center;
+      padding: 18px 28px;
+      border-bottom: 1px solid var(--line);
+      transition: background .2s ease;
+    }
+    .db-row:hover { background: var(--w); }
+    .db-row:last-child { border-bottom: none; }
+
+    .db-row-avatar {
+      width: 44px; height: 44px;
+      background: var(--ink);
+      color: var(--gold);
+      display: grid; place-items: center;
+      font-family: var(--display);
+      font-size: 18px; font-weight: 400;
+      letter-spacing: -0.5px;
+      border-radius: 6px;
+      flex-shrink: 0;
+    }
+
+    .db-row-main {
+      display: flex; flex-direction: column; gap: 3px;
+      min-width: 0;
+    }
+    .db-row-client {
+      font-family: var(--display); font-size: 16px;
+      letter-spacing: -0.2px;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+    .db-row-client em { font-style: italic; color: var(--gold); }
+    .db-row-service {
+      font-family: var(--body); font-size: 12px;
+      color: var(--dim);
+      line-height: 1.4;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .db-row-service strong { font-weight: 400; color: var(--ink); }
+
+    .db-row-amounts {
+      display: flex; flex-direction: column; gap: 2px;
+      text-align: left;
+    }
+    .db-row-amount-label {
+      font-family: var(--mono); font-size: 9px;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .db-row-amount-value {
+      font-family: var(--display); font-size: 16px;
+      color: var(--ink);
+      letter-spacing: -0.2px;
+      line-height: 1;
+    }
+    .db-row-amount-value.is-gold {
+      font-style: italic; color: var(--gold);
+    }
+
+    .db-row-status {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 10px;
+      background: var(--w);
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      font-family: var(--mono); font-size: 9px;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--dim);
+      white-space: nowrap;
+    }
+    .db-row-status.is-pending { color: var(--gold); border-color: rgba(184, 146, 42, 0.4); background: rgba(184, 146, 42, 0.06); }
+    .db-row-status.is-escrow { color: var(--ink); border-color: var(--ink); background: rgba(6, 6, 10, 0.05); }
+    .db-row-status.is-delivery { color: var(--gold); border-color: var(--gold); background: rgba(184, 146, 42, 0.12); }
+    .db-row-status.is-released { color: #2a7a4a; border-color: rgba(42, 122, 74, 0.3); background: rgba(42, 122, 74, 0.06); }
+    .db-row-status-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+    .db-row-status.is-delivery .db-row-status-dot {
+      animation: dbPulse 1.6s ease-in-out infinite;
+    }
+    @keyframes dbPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .db-row-action {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 9px 16px;
+      background: transparent;
+      border: 1px solid var(--ink);
+      border-radius: 4px;
+      color: var(--ink);
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 2px; text-transform: uppercase;
+      cursor: pointer;
+      transition: background 250ms ease, color 250ms ease;
+      white-space: nowrap;
+    }
+    .db-row-action.is-primary {
+      background: var(--gold);
+      color: var(--ink);
+      border-color: var(--gold);
+    }
+    .db-row-action:hover {
+      background: var(--ink);
+      color: var(--gold);
+    }
+    .db-row-action.is-primary:hover {
+      opacity: 0.88;
+      background: var(--gold);
+      color: var(--ink);
+    }
+    .db-row-action.is-ghost {
+      background: transparent;
+      border: 1px solid var(--line);
+      color: var(--muted);
+    }
+    .db-row-action.is-ghost:hover {
+      color: var(--ink);
+      border-color: var(--ink);
+      background: transparent;
+    }
+
+    /* Right column */
+    .db-side { display: flex; flex-direction: column; gap: 18px; }
+    .db-side-card {
+      background: var(--pure);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 22px 24px;
+    }
+    .db-side-card.is-dark {
+      background: var(--ink);
+      color: var(--w);
+    }
+    .db-side-h {
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    .db-side-card.is-dark .db-side-h { color: var(--goldL); }
+
+    /* Quick actions */
+    .db-quick {
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .db-quick-btn {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      background: var(--w);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--ink);
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 250ms ease, transform 300ms var(--ease-prem), background 250ms ease;
+    }
+    .db-quick-btn:hover {
+      border-color: var(--gold);
+      transform: translateY(-1px);
+      background: var(--pure);
+    }
+    .db-quick-btn.is-primary {
+      background: var(--gold);
+      color: var(--ink);
+      border-color: var(--gold);
+    }
+    .db-quick-btn.is-primary:hover { opacity: 0.9; background: var(--gold); }
+    .db-quick-btn-meta {
+      font-family: var(--display); font-style: italic;
+      font-size: 13px;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--gold);
+    }
+    .db-quick-btn.is-primary .db-quick-btn-meta {
+      color: var(--ink);
+      opacity: 0.7;
+    }
+
+    /* Favorites list */
+    .db-favs ul { list-style: none; display: flex; flex-direction: column; }
+    .db-favs li {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .db-favs li:last-child { border-bottom: none; }
+    .db-favs-avatar {
+      width: 32px; height: 32px;
+      background: var(--ink);
+      color: var(--gold);
+      display: grid; place-items: center;
+      font-family: var(--display); font-size: 14px;
+      border-radius: 6px;
+      flex-shrink: 0;
+    }
+    .db-favs-info { flex: 1; min-width: 0; }
+    .db-favs-name {
+      font-family: var(--display); font-size: 14px;
+      color: var(--ink);
+      letter-spacing: -0.1px;
+      line-height: 1.2;
+    }
+    .db-favs-name em { font-style: italic; color: var(--gold); }
+    .db-favs-meta {
+      font-family: var(--mono); font-size: 9.5px;
+      letter-spacing: 1px; text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .db-favs-count {
+      font-family: var(--mono); font-size: 10px;
+      color: var(--gold);
+      letter-spacing: 0.5px;
+    }
+
+    /* Monthly summary */
+    .db-summary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .db-summary-stat {
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .db-summary-stat-label {
+      font-family: var(--mono); font-size: 9px;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: rgba(249, 247, 243, 0.55);
+    }
+    .db-summary-stat-value {
+      font-family: var(--display); font-weight: 300;
+      font-size: 24px;
+      color: var(--goldL);
+      letter-spacing: -0.4px;
+      line-height: 1;
+    }
+    .db-summary-stat-meta {
+      font-family: var(--mono); font-size: 9px;
+      color: rgba(249, 247, 243, 0.4);
+      margin-top: 2px;
+    }
+    .db-summary-foot {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(184, 146, 42, 0.2);
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .db-summary-foot-row {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px;
+    }
+    .db-summary-foot-label {
+      font-family: var(--mono); font-size: 9.5px;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: rgba(249, 247, 243, 0.55);
+    }
+    .db-summary-foot-value {
+      font-family: var(--display); font-size: 15px;
+      color: var(--w);
+      letter-spacing: -0.2px;
+    }
+    .db-summary-foot-value em { font-style: italic; color: var(--goldL); }
+
+    /* Footer */
+    .db-foot {
+      background: var(--ink); color: var(--w);
+      padding: 28px 0;
+    }
+    .db-foot-row {
+      max-width: 1280px; margin: 0 auto;
+      padding: 0 var(--pad-x);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 24px; flex-wrap: wrap;
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 2px; text-transform: uppercase;
+    }
+    .db-foot a {
+      color: rgba(249, 247, 243, 0.6);
+      transition: color .2s ease;
+    }
+    .db-foot a:hover { color: var(--goldL); }
+    .db-foot-meta { color: rgba(249, 247, 243, 0.35); }
+
+    /* Responsive */
+    @media (max-width: 1080px) {
+      .db-kpi { grid-template-columns: repeat(2, 1fr); }
+      .db-main { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px) {
+      .db-row { grid-template-columns: 44px 1fr; gap: 12px; padding: 16px 20px; }
+      .db-row-amounts, .db-row-status, .db-row-action { grid-column: 2; }
+      .db-kpi { grid-template-columns: 1fr; }
+      .db-pipeline-head { padding: 18px 20px 0; }
+      .db-row { padding: 16px 20px; }
+      .db-tabs { gap: 18px; }
+      .db-summary-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-grain" aria-hidden="true"></div>
+
+  <header class="hd is-scrolled" id="hd">
+    <div class="hd-row">
+      <a href="/marketplace" class="hd-brand">Albert<em class="hd-brand-suffix">dashboard</em></a>
+      <div class="db-hd-right">
+        <span class="db-hd-link">Marketplace</span>
+        <span class="db-hd-divider"></span>
+        <span class="db-hd-link">★ Favorites · 12</span>
+        <span class="db-hd-divider"></span>
+        <span class="db-hd-link">Sign out</span>
+        <span class="db-hd-avatar">EM</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- WELCOME -->
+  <section class="db-welcome">
+    <div class="db-welcome-eyebrow">Monday · 18 May 2026</div>
+    <h1 class="db-welcome-h">Good morning, <em>Eric.</em></h1>
+    <p class="db-welcome-sub">4 briefs awaiting decision · 3 escrows live · Your last booking confirmed 2 hours ago.</p>
+  </section>
+
+  <!-- KPI strip -->
+  <section class="db-kpi">
+    <div class="db-kpi-cell">
+      <span class="db-kpi-label">GMV this month</span>
+      <span class="db-kpi-value">€68,400</span>
+      <span class="db-kpi-meta"><span class="db-kpi-delta">↑ 32% vs April</span> · 11 bookings</span>
+    </div>
+    <div class="db-kpi-cell is-gold">
+      <span class="db-kpi-label">Margin captured</span>
+      <span class="db-kpi-value">€9,360</span>
+      <span class="db-kpi-meta">13.7% blended · YTD €42,180</span>
+    </div>
+    <div class="db-kpi-cell">
+      <span class="db-kpi-label">In escrow now</span>
+      <span class="db-kpi-value">€28,200</span>
+      <span class="db-kpi-meta">3 bookings · Earliest release tomorrow</span>
+    </div>
+    <div class="db-kpi-cell is-dark">
+      <span class="db-kpi-label">Pending decisions</span>
+      <span class="db-kpi-value">4</span>
+      <span class="db-kpi-meta">2 briefs · 2 quotes to accept</span>
+    </div>
+  </section>
+
+  <!-- MAIN GRID -->
+  <section class="db-main">
+
+    <!-- LEFT: Pipeline -->
+    <div class="db-card">
+      <div class="db-pipeline-head">
+        <div class="db-pipeline-eyebrow">Pipeline · Dubai</div>
+        <h2 class="db-pipeline-h">Your <em>active</em> transactions</h2>
+
+        <div class="db-tabs" role="tablist">
+          <button class="db-tab is-on" data-tab="pending" role="tab">
+            Pending briefs <span class="db-tab-count">4</span>
+          </button>
+          <button class="db-tab" data-tab="escrow" role="tab">
+            In escrow <span class="db-tab-count">3</span>
+          </button>
+          <button class="db-tab" data-tab="delivery" role="tab">
+            Confirm delivery <span class="db-tab-count">2</span>
+          </button>
+          <button class="db-tab" data-tab="released" role="tab">
+            Released · May <span class="db-tab-count">6</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Pending briefs -->
+      <div class="db-rows is-on" id="rows-pending" role="tabpanel">
+        <div class="db-row">
+          <div class="db-row-avatar">TA</div>
+          <div class="db-row-main">
+            <div class="db-row-client">Mr. <em>Tanaka</em> · Suite 2401</div>
+            <div class="db-row-service"><strong>Yacht charter · Princess Y95</strong> · Sat 24 May · 8 guests</div>
+          </div>
+          <div class="db-row-amounts">
+            <span class="db-row-amount-label">Brief sent</span>
+            <span class="db-row-amount-value">€24,000 envelope</span>
+          </div>
+          <span class="db-row-status is-pending">
+            <span class="db-row-status-dot"></span>Quote · 2 of 3 in
+          </span>
+          <button class="db-row-action is-primary">Review quotes →</button>
+        </div>
+
+        <div class="db-row">
+          <div class="db-row-avatar">AB</div>
+          <div class="db-row-main">
+            <div class="db-row-client">Mrs. <em>Al-Bahrani</em> · Royal Suite</div>
+            <div class="db-row-service"><strong>Private chef · Levantine 8 courses</strong> · Wed 20 May · 12 guests</div>
+          </div>
+          <div class="db-row-amounts">
+            <span class="db-row-amount-label">Brief sent</span>
+            <span class="db-row-amount-value">€3,000 envelope</span>
+          </div>
+          <span class="db-row-status is-pending">
+            <span class="db-row-status-dot"></span>Quote received
+          </span>
+          <button class="db-row-action is-primary">Accept · €2,840 →</button>
+        </div>
+
+        <div class="db-row">
+          <div class="db-row-avatar">RC</div>
+          <div class="db-row-main">
+            <div class="db-row-client">Mr. <em>Rochefort</em> · Penthouse</div>
+            <div class="db-row-service"><strong>Helicopter · DXB → Yas Marina</strong> · Sun 25 May · 4 pax · F1 weekend</div>
+          </div>
+          <div class="db-row-amounts">
+            <span class="db-row-amount-label">Brief sent</span>
+            <span class="db-row-amount-value">€5,400 envelope</span>
+          </div>
+          <span class="db-row-status is-pending">
+            <span class="db-row-status-dot"></span>Awaiting · 14h
+          </span>
+          <button class="db-row-action">Follow up →</button>
+        </div>
+
+        <div class="db-row">
+          <div class="db-row-avatar">VP</div>
+          <div class="db-row-main">
+            <div class="db-row-client">Mr. &amp; Mrs. <em>Voronov-Petrov</em></div>
+            <div class="db-row-service"><strong>Couple spa · 120 min</strong> · Thu 21 May · In-suite</div>
+          </div>
+          <div class="db-row-amounts">
+            <span class="db-row-amount-label">Brief sent</span>
+            <span class="db-row-amount-value">€800 envelope</span>
+          </div>
+          <span class="db-row-status is-pending">
+            <span class="db-row-status-dot"></span>Quote received
+          </span>
+          <button class="db-row-action is-primary">Accept · €720 →</button>
+        </div>
+      </div>
+
+      <!-- In escrow -->
+      <div class="db-rows" id="rows-escrow" role="tabpanel">
+        <div class="db-row">
+          <div class="db-row-avatar">SC</div>
+          <div class="db-row-main">
+            <div class="db-row-client">Mr. <em>Schwartz</em> · Suite 1802</div>
+            <div class="db-row-service"><strong>Atlas Protection · two-officer detail</strong> · Tue 19 May · 12h</div>
+          </div>
+          <div class="db-row-amounts">
+            <span class="db-row-amount-label">Held in escrow</span>
+            <span class="db-row-amount-value">€3,200 <span class="is-gold">· €440 margin</span></span>
+          </div>
+          <span class="db-row-status is-escrow">
+            <span class="db-row-status-dot"></span>D-1 to delivery
+          </span>
+          <button class="db-row-action is-ghost">View →</button>
+        </div>
+
+        <div class="db-row">
+          <div class="db-row-avatar">KZ</div>
+          <div class="db-row-main">
+            <div class="db-row-client">Mrs. <em>Kuznetsova</em> · Royal Penthouse</div>
+            <div class="db-row-service"><strong>Villa Erato · 7 nights staffed</strong> · 22-29 May · 16 guests</div>
+          </div>
+          <div class="db-row-amounts">
+            <span class="db-row-amount-label">Held in escrow</span>
+            <span class="db-row-amount-value">€21,800 <span class="is-gold">· €3,260 margin</span></span>
+          </div>
+          <span class="db-row-status is-escrow">
+            <span class="db-row-status-dot"></span>D-4 to delivery
+          </span>
+          <button class="db-row-action is-ghost">View →</button>
+        </div>
+
+        <div class="db-row">
+          <div class="db-row-avatar">HM</div>
+          <div class="db-row-main">
+            <div class="db-row-client">Mr. <em>Hamad</em> · Suite 1601</div>
+            <div class="db-row-service"><strong>Chef Hiroshi · omakase 15-course</strong> · Sat 24 May · 6 guests</div>
+          </div>
+          <div class="db-row-amounts">
+            <span class="db-row-amount-label">Held in escrow</span>
+            <span class="db-row-amount-value">€3,200 <span class="is-gold">· €440 margin</span></span>
+          </div>
+          <span class="db-row-status is-escrow">
+            <span class="db-row-status-dot"></span>D-6 to delivery
+          </span>
+          <button class="db-row-action is-ghost">View →</button>
+        </div>
+      </div>
+
+      <!-- Awaiting delivery confirmation -->
+      <div class="db-rows" id="rows-delivery" role="tabpanel">
+        <div class="db-row">
+          <div class="db-row-avatar">DM</div>
+          <div class="db-row-main">
+            <div class="db-row-client">Mr. <em>Di Marco</em> · Garden Villa</div>
+            <div class="db-row-service"><strong>Maison de Vitesse · S-Class day</strong> · Sun 17 May · Delivered 22:40</div>
+          </div>
+          <div class="db-row-amounts">
+            <span class="db-row-amount-label">Pending release</span>
+            <span class="db-row-amount-value">€1,200 <span class="is-gold">· €164 margin</span></span>
+          </div>
+          <span class="db-row-status is-delivery">
+            <span class="db-row-status-dot"></span>Confirm to release
+          </span>
+          <button class="db-row-action is-primary">Confirm ✓</button>
+        </div>
+
+        <div class="db-row">
+          <div class="db-row-avatar">WG</div>
+          <div class="db-row-main">
+            <div class="db-row-client">Mrs. <em>Weisbrod-Gaston</em></div>
+            <div class="db-row-service"><strong>Palm Private Chefs · 4-course in-residence</strong> · Sun 17 May · 6 guests</div>
+          </div>
+          <div class="db-row-amounts">
+            <span class="db-row-amount-label">Pending release</span>
+            <span class="db-row-amount-value">€2,200 <span class="is-gold">· €300 margin</span></span>
+          </div>
+          <span class="db-row-status is-delivery">
+            <span class="db-row-status-dot"></span>Confirm to release
+          </span>
+          <button class="db-row-action is-primary">Confirm ✓</button>
+        </div>
+      </div>
+
+      <!-- Released this month -->
+      <div class="db-rows" id="rows-released" role="tabpanel">
+        <div class="db-row">
+          <div class="db-row-avatar">YA</div>
+          <div class="db-row-main">
+            <div class="db-row-client">Mr. <em>Yamamoto-Andrews</em></div>
+            <div class="db-row-service"><strong>Princess Y95 · day charter</strong> · 14 May · Released 15 May</div>
+          </div>
+          <div class="db-row-amounts">
+            <span class="db-row-amount-label">Captured</span>
+            <span class="db-row-amount-value is-gold">€2,420 margin</span>
+          </div>
+          <span class="db-row-status is-released">
+            <span class="db-row-status-dot"></span>Released
+          </span>
+          <button class="db-row-action is-ghost">Receipt →</button>
+        </div>
+
+        <div class="db-row">
+          <div class="db-row-avatar">LD</div>
+          <div class="db-row-main">
+            <div class="db-row-client">Mrs. <em>Lebrun-Dahl</em> · Suite 901</div>
+            <div class="db-row-service"><strong>Solstice Wellness · couple ritual</strong> · 12 May · Released 13 May</div>
+          </div>
+          <div class="db-row-amounts">
+            <span class="db-row-amount-label">Captured</span>
+            <span class="db-row-amount-value is-gold">€96 margin</span>
+          </div>
+          <span class="db-row-status is-released">
+            <span class="db-row-status-dot"></span>Released
+          </span>
+          <button class="db-row-action is-ghost">Receipt →</button>
+        </div>
+
+        <div class="db-row">
+          <div class="db-row-avatar">CF</div>
+          <div class="db-row-main">
+            <div class="db-row-client">Mr. <em>Châtelet-Fortin</em></div>
+            <div class="db-row-service"><strong>Falcon Drive · Phantom day</strong> · 10 May · Released 11 May</div>
+          </div>
+          <div class="db-row-amounts">
+            <span class="db-row-amount-label">Captured</span>
+            <span class="db-row-amount-value is-gold">€194 margin</span>
+          </div>
+          <span class="db-row-status is-released">
+            <span class="db-row-status-dot"></span>Released
+          </span>
+          <button class="db-row-action is-ghost">Receipt →</button>
+        </div>
+
+        <div class="db-row">
+          <div class="db-row-avatar">SK</div>
+          <div class="db-row-main">
+            <div class="db-row-client">Ms. <em>Sokolova-Kazan</em></div>
+            <div class="db-row-service"><strong>Maison Caspian · caviar &amp; champagne</strong> · 08 May · Released 09 May</div>
+          </div>
+          <div class="db-row-amounts">
+            <span class="db-row-amount-label">Captured</span>
+            <span class="db-row-amount-value is-gold">€420 margin</span>
+          </div>
+          <span class="db-row-status is-released">
+            <span class="db-row-status-dot"></span>Released
+          </span>
+          <button class="db-row-action is-ghost">Receipt →</button>
+        </div>
+
+        <div class="db-row">
+          <div class="db-row-avatar">RT</div>
+          <div class="db-row-main">
+            <div class="db-row-client">Mr. <em>Reinhardt-Toulon</em></div>
+            <div class="db-row-service"><strong>Riviera Aviation · Citation XLS+</strong> · 06 May · Nice to Dubai</div>
+          </div>
+          <div class="db-row-amounts">
+            <span class="db-row-amount-label">Captured</span>
+            <span class="db-row-amount-value is-gold">€2,460 margin</span>
+          </div>
+          <span class="db-row-status is-released">
+            <span class="db-row-status-dot"></span>Released
+          </span>
+          <button class="db-row-action is-ghost">Receipt →</button>
+        </div>
+
+        <div class="db-row">
+          <div class="db-row-avatar">ZN</div>
+          <div class="db-row-main">
+            <div class="db-row-client">Mr. <em>Zhang-Nguyen</em></div>
+            <div class="db-row-service"><strong>Skyscape · scenic Bell 429</strong> · 04 May · 4 pax</div>
+          </div>
+          <div class="db-row-amounts">
+            <span class="db-row-amount-label">Captured</span>
+            <span class="db-row-amount-value is-gold">€240 margin</span>
+          </div>
+          <span class="db-row-status is-released">
+            <span class="db-row-status-dot"></span>Released
+          </span>
+          <button class="db-row-action is-ghost">Receipt →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Quick actions + favorites + summary -->
+    <aside class="db-side">
+
+      <div class="db-side-card">
+        <div class="db-side-h">Quick actions</div>
+        <div class="db-quick">
+          <a href="/marketplace#top" class="db-quick-btn is-primary">
+            <span>Brief Albert</span>
+            <span class="db-quick-btn-meta">AI · 30 sec</span>
+          </a>
+          <a href="/marketplace#top" class="db-quick-btn">
+            <span>Create payment link</span>
+            <span class="db-quick-btn-meta">Off-network</span>
+          </a>
+          <a href="/marketplace#categories" class="db-quick-btn">
+            <span>Browse providers</span>
+            <span class="db-quick-btn-meta">142 in Dubai</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="db-side-card">
+        <div class="db-side-h">Top providers · Your favorites</div>
+        <ul class="db-favs">
+          <li>
+            <div class="db-favs-avatar">EY</div>
+            <div class="db-favs-info">
+              <div class="db-favs-name">Emirates Yachting · <em>Princess</em> Y95</div>
+              <div class="db-favs-meta">Yacht · Dubai Marina</div>
+            </div>
+            <span class="db-favs-count">12 bookings</span>
+          </li>
+          <li>
+            <div class="db-favs-avatar">PC</div>
+            <div class="db-favs-info">
+              <div class="db-favs-name">Palm Private <em>Chefs</em></div>
+              <div class="db-favs-meta">Chef · Palm Jumeirah</div>
+            </div>
+            <span class="db-favs-count">8 bookings</span>
+          </li>
+          <li>
+            <div class="db-favs-avatar">FD</div>
+            <div class="db-favs-info">
+              <div class="db-favs-name">Falcon Drive · <em>Phantom</em></div>
+              <div class="db-favs-meta">Chauffeur · Dubai</div>
+            </div>
+            <span class="db-favs-count">22 bookings</span>
+          </li>
+          <li>
+            <div class="db-favs-avatar">AP</div>
+            <div class="db-favs-info">
+              <div class="db-favs-name">Atlas <em>Protection</em></div>
+              <div class="db-favs-meta">Security · Citywide</div>
+            </div>
+            <span class="db-favs-count">6 missions</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="db-side-card is-dark">
+        <div class="db-side-h">May at a glance</div>
+        <div class="db-summary-grid">
+          <div class="db-summary-stat">
+            <span class="db-summary-stat-label">Bookings</span>
+            <span class="db-summary-stat-value">11</span>
+            <span class="db-summary-stat-meta">+ 3 vs April</span>
+          </div>
+          <div class="db-summary-stat">
+            <span class="db-summary-stat-label">Avg ticket</span>
+            <span class="db-summary-stat-value">€6,218</span>
+            <span class="db-summary-stat-meta">vs €4,820 April</span>
+          </div>
+        </div>
+        <div class="db-summary-foot">
+          <div class="db-summary-foot-row">
+            <span class="db-summary-foot-label">Margin captured YTD</span>
+            <span class="db-summary-foot-value"><em>€42,180</em></span>
+          </div>
+          <div class="db-summary-foot-row">
+            <span class="db-summary-foot-label">Avg release time</span>
+            <span class="db-summary-foot-value">3.2 business days</span>
+          </div>
+          <div class="db-summary-foot-row">
+            <span class="db-summary-foot-label">Repeat rate</span>
+            <span class="db-summary-foot-value">68%</span>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="db-foot">
+    <div class="db-foot-row">
+      <a href="/marketplace">← Back to marketplace</a>
+      <span class="db-foot-meta">Albert dashboard · Demo · Dubai · 2026</span>
+    </div>
+  </footer>
+
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script>
+    (() => {
+      // Tab switcher for pipeline
+      const tabs = document.querySelectorAll('.db-tab');
+      const rows = {
+        pending: document.getElementById('rows-pending'),
+        escrow: document.getElementById('rows-escrow'),
+        delivery: document.getElementById('rows-delivery'),
+        released: document.getElementById('rows-released'),
+      };
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('is-on'));
+          tab.classList.add('is-on');
+          Object.values(rows).forEach(r => r && r.classList.remove('is-on'));
+          const target = rows[tab.dataset.tab];
+          if (target) target.classList.add('is-on');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

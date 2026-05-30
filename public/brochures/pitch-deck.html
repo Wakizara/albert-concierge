@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Albert | Pitch Deck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/images/albert-logo.png">
+  <style>
+    :root {
+      --red-bg: #3a0a0a;
+      --burgundy: #5c1a1a;
+      --burgundy-dark: #2e0c0c;
+      --gold: #c9a96e;
+      --gold-dim: rgba(201,169,110,0.5);
+      --text: #e8ddd4;
+      --text-sec: rgba(220,200,190,0.75);
+      --text-muted: rgba(200,185,175,0.45);
+      --border: rgba(201,169,110,0.1);
+      --font-heading: 'Playfair Display', Georgia, serif;
+      --font-body: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+    }
+    @page { size: 338.67mm 190.5mm; margin: 0; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-body); font-weight: 400; color: var(--text); background: var(--red-bg); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+    /* ── SLIDE ── */
+    .slide {
+      width: 1280px; height: 720px;
+      position: relative; overflow: hidden;
+      display: flex; flex-direction: column;
+      padding: 56px 72px;
+      page-break-after: always;
+    }
+    .slide:last-child { page-break-after: auto; }
+
+    /* Backgrounds */
+    .bg-dark { background: var(--red-bg); background: radial-gradient(ellipse at 50% 40%, rgba(92,26,26,0.4) 0%, var(--red-bg) 70%); }
+    .bg-darker { background: var(--burgundy-dark); background: radial-gradient(ellipse at 50% 50%, rgba(58,10,10,0.8) 0%, var(--burgundy-dark) 70%); }
+    .bg-burg { background: linear-gradient(145deg, #6b2222, var(--burgundy), var(--burgundy-dark)); }
+
+    /* Common */
+    .slide-num { position: absolute; bottom: 24px; right: 40px; font-size: 12px; letter-spacing: 3px; color: var(--text-muted); }
+    .slide-logo { position: absolute; bottom: 24px; left: 40px; width: 22px; opacity: 0.2; }
+    .label { font-size: 13px; font-weight: 600; letter-spacing: 6px; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+    h1 { font-family: var(--font-heading); font-weight: 600; line-height: 1; }
+    h1 em { font-style: italic; color: var(--gold); }
+    h2 { font-family: var(--font-heading); font-weight: 600; font-size: 44px; line-height: 1; margin-bottom: 10px; }
+    h2 em { font-style: italic; color: var(--gold); }
+    .subtitle { font-size: 18px; font-weight: 400; color: var(--text-sec); line-height: 1.7; max-width: 560px; }
+    .gold-line { width: 48px; height: 2px; background: var(--gold); margin: 18px 0; }
+
+    /* Two column layout */
+    .cols { display: flex; gap: 56px; flex: 1; align-items: flex-start; margin-top: 24px; }
+    .col { flex: 1; }
+    .col-narrow { flex: 0.8; }
+    .col-wide { flex: 1.2; }
+
+    /* Stats row */
+    .stats-row { display: flex; gap: 48px; margin-top: 24px; }
+    .stat { text-align: center; }
+    .stat-num { font-family: var(--font-heading); font-size: 48px; font-weight: 600; color: var(--gold); }
+    .stat-label { font-size: 11px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); margin-top: 6px; }
+
+    /* Cards */
+    .card { border: 1px solid var(--border); padding: 20px 24px; margin-bottom: 14px; }
+    .card-title { font-family: var(--font-heading); font-weight: 600; font-size: 19px; margin-bottom: 6px; }
+    .card-text { font-size: 14px; color: var(--text-sec); line-height: 1.6; }
+
+    /* Table */
+    .tbl { width: 100%; border-collapse: collapse; font-size: 15px; margin-top: 12px; }
+    .tbl th { text-align: left; padding: 10px 14px; font-weight: 600; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); border-bottom: 1px solid rgba(201,169,110,0.15); }
+    .tbl td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text-sec); }
+    .tbl td:first-child { color: var(--text); font-weight: 500; }
+    .tbl .highlight { color: var(--gold); font-weight: 600; }
+
+    /* Bullets */
+    .bullets { list-style: none; }
+    .bullets li { font-size: 16px; color: var(--text-sec); line-height: 1.6; padding: 7px 0; padding-left: 20px; position: relative; }
+    .bullets li::before { content: ''; position: absolute; left: 0; top: 15px; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); opacity: 0.5; }
+
+    /* Tags */
+    .tags { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+    .tag { font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-dim); border: 1px solid rgba(201,169,110,0.12); padding: 5px 14px; }
+
+    /* Team */
+    .team-card { display: flex; gap: 24px; margin-bottom: 24px; }
+    .team-avatar { width: 72px; height: 72px; border-radius: 50%; background: rgba(201,169,110,0.1); border: 1px solid rgba(201,169,110,0.2); display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-size: 24px; color: var(--gold); flex-shrink: 0; }
+    .team-info { flex: 1; }
+    .team-name { font-family: var(--font-heading); font-weight: 600; font-size: 22px; margin-bottom: 3px; }
+    .team-role { font-size: 13px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+    .team-desc { font-size: 15px; color: var(--text-sec); line-height: 1.6; }
+
+    /* Progress bar */
+    .progress { margin-bottom: 16px; }
+    .progress-label { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px; }
+    .progress-label span:first-child { color: var(--text); font-weight: 500; }
+    .progress-label span:last-child { color: var(--gold); font-weight: 600; }
+    .progress-bar { height: 6px; background: rgba(201,169,110,0.1); border-radius: 3px; }
+    .progress-fill { height: 100%; background: var(--gold); border-radius: 3px; }
+
+    /* Cover specific */
+    .cover-slide { justify-content: center; align-items: center; text-align: center; }
+    .cover-logo { width: 140px; opacity: 0.8; margin-bottom: 32px; }
+    .cover-line { width: 1px; height: 40px; background: linear-gradient(180deg, transparent, var(--gold), transparent); margin: 0 auto 24px; }
+    .cover-title { font-size: 56px; margin-bottom: 16px; }
+    .cover-sub { font-size: 16px; color: var(--text-sec); margin-bottom: 40px; letter-spacing: 1px; }
+    .cover-tag { font-size: 10px; font-weight: 500; letter-spacing: 5px; text-transform: uppercase; color: var(--text-muted); }
+
+    /* CTA slide */
+    .cta-slide { justify-content: center; align-items: center; text-align: center; }
+    .cta-info { display: flex; gap: 40px; margin-top: 32px; }
+    .cta-item { text-align: center; }
+    .cta-label { font-size: 10px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
+    .cta-value { font-family: var(--font-heading); font-weight: 500; font-size: 16px; }
+
+    /* Mockup slide */
+    .mockup-slide { padding: 40px 56px; background: #3A0F18 !important; }
+    .mockup-center { display: flex; flex-direction: column; align-items: center; flex: 1; justify-content: center; margin-top: 12px; }
+    .mockup-img { width: 100%; max-width: 1000px; border-radius: 8px; }
+    .mockup-labels { display: flex; justify-content: space-around; margin-top: 14px; max-width: 1000px; width: 100%; }
+    .mockup-label { font-size: 13px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--gold-dim); text-align: center; }
+
+    /* Quote */
+    .quote { font-family: var(--font-heading); font-style: italic; font-size: 20px; color: var(--text-sec); border-left: 2px solid rgba(201,169,110,0.3); padding-left: 24px; margin: 20px 0; max-width: 500px; line-height: 1.6; }
+  </style>
+</head>
+<body>
+
+  <!-- SLIDE 1: COVER -->
+  <div class="slide bg-dark cover-slide">
+    <img src="/images/albert-logo.png" alt="Albert" class="cover-logo">
+    <div class="cover-line"></div>
+    <h1 class="cover-title">We Make It <em>Happen.</em></h1>
+    <p class="cover-sub">The luxury concierge that becomes a social discovery platform.</p>
+    <div class="cover-tag">Investor Pitch Deck - Confidential</div>
+  </div>
+
+  <!-- SLIDE 2: THE PROBLEM -->
+  <div class="slide bg-darker">
+    <div class="label">The Problem</div>
+    <h2>Luxury travelers are <em>lost.</em></h2>
+    <div class="gold-line"></div>
+    <div class="cols">
+      <div class="col">
+        <p class="subtitle">Finding genuinely curated places in a new city is broken. Current solutions are either mass-market noise or outdated print guides.</p>
+        <ul class="bullets" style="margin-top:20px">
+          <li>Google Maps and TripAdvisor are crowdsourced - quality is unreliable</li>
+          <li>Instagram is superficial - beautiful photos, no real curation</li>
+          <li>Luxury print guides (LV, Monocle) are static and non-social</li>
+          <li>No platform connects premium travelers with similar tastes</li>
+          <li>The wealthy rely on word-of-mouth - inefficient and limited</li>
+        </ul>
+      </div>
+      <div class="col">
+        <div class="card"><div class="card-title">Google Maps</div><div class="card-text">4.2B users. Zero curation. Algorithm serves ads, not quality.</div></div>
+        <div class="card"><div class="card-title">TripAdvisor</div><div class="card-text">Crowd-sourced reviews. Tourist traps ranked high. No premium filter.</div></div>
+        <div class="card"><div class="card-title">Instagram</div><div class="card-text">Beautiful but chaotic. No structure. Impossible to plan from it.</div></div>
+        <div class="card"><div class="card-title">LV City Guide</div><div class="card-text">Premium quality but static. No updates, no community, no digital UX.</div></div>
+      </div>
+    </div>
+    <img src="/images/albert-logo.png" alt="" class="slide-logo"><div class="slide-num">02</div>
+  </div>
+
+  <!-- SLIDE 3: THE SOLUTION -->
+  <div class="slide bg-dark">
+    <div class="label">The Solution</div>
+    <h2>Albert: The Raya of <em>Good Addresses.</em></h2>
+    <div class="gold-line"></div>
+    <div class="cols">
+      <div class="col">
+        <p class="subtitle">A premium social discovery app where users swipe to discover curated restaurants, hotels, and experiences in the world's best cities.</p>
+        <p class="quote">"Discover curated places by swiping, like a dating app - addictive and intelligent."</p>
+        <div class="tags">
+          <span class="tag">Swipe Discovery</span>
+          <span class="tag">ML Algorithm</span>
+          <span class="tag">Social Community</span>
+          <span class="tag">Premium Curation</span>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card"><div class="card-title">Swipe Right</div><div class="card-text">Add to your "Want to Go" bucket list. The algorithm learns what you love.</div></div>
+        <div class="card"><div class="card-title">Swipe Left</div><div class="card-text">Not interested. Hidden from feed. Algorithm adapts.</div></div>
+        <div class="card"><div class="card-title">Swipe Up</div><div class="card-text">See full details - photos, description, map, reviews from the community.</div></div>
+        <div class="card"><div class="card-title">Taste Match</div><div class="card-text">When 2+ users save 12+ places in common, they connect. Social discovery.</div></div>
+      </div>
+    </div>
+    <img src="/images/albert-logo.png" alt="" class="slide-logo"><div class="slide-num">03</div>
+  </div>
+
+  <!-- SLIDE 4: THE APP -->
+  <div class="slide bg-dark mockup-slide">
+    <div class="label">The App</div>
+    <h2>Designed for <em>Discovery.</em></h2>
+    <div class="gold-line"></div>
+    <div class="mockup-center">
+      <img src="/images/app-mockups.png" alt="Albert App Mockups" class="mockup-img">
+      <div class="mockup-labels">
+        <div class="mockup-label">Discover & Swipe</div>
+        <div class="mockup-label">Venue Detail</div>
+        <div class="mockup-label">Taste Profile</div>
+      </div>
+    </div>
+    <img src="/images/albert-logo.png" alt="" class="slide-logo"><div class="slide-num">04</div>
+  </div>
+
+  <!-- SLIDE 5: KEY FEATURES -->
+  <div class="slide bg-darker">
+    <div class="label">Product</div>
+    <h2>Key <em>Features.</em></h2>
+    <div class="gold-line"></div>
+    <div class="cols">
+      <div class="col">
+        <div class="card"><div class="card-title">Smart 3-List System</div><div class="card-text">"Want to Go" (bucket list), "Been There" (unlocks reviews), "Not Interested" (trains algorithm). Every swipe creates value.</div></div>
+        <div class="card"><div class="card-title">Taste Profile</div><div class="card-text">Auto-generated preference profile: "78% Fine Dining, 15% Rooftop Bars, 7% Concept Stores". Shareable on Instagram Stories for viral growth.</div></div>
+        <div class="card"><div class="card-title">Interactive Map</div><div class="card-text">MapBox dark theme with category filters, clustering, and offline access. Explore visually in any city.</div></div>
+      </div>
+      <div class="col">
+        <div class="card"><div class="card-title">ML Recommendation Engine</div><div class="card-text">Every swipe trains the algorithm. Over time, Albert learns your taste better than you know it yourself.</div></div>
+        <div class="card"><div class="card-title">Community Reviews</div><div class="card-text">Only "Been There" users can rate and comment. No fake reviews. Authentic, premium feedback.</div></div>
+        <div class="card"><div class="card-title">Admin-on-the-Go</div><div class="card-text">Team members can add venues instantly from the field. Photo, GPS, and publish in one tap. Content scales with the team.</div></div>
+      </div>
+    </div>
+    <img src="/images/albert-logo.png" alt="" class="slide-logo"><div class="slide-num">04</div>
+  </div>
+
+  <!-- SLIDE 6: MARKET OPPORTUNITY -->
+  <div class="slide bg-dark">
+    <div class="label">Market</div>
+    <h2>A Growing <em>Opportunity.</em></h2>
+    <div class="gold-line"></div>
+    <div class="cols">
+      <div class="col">
+        <p class="subtitle">The social discovery market grows 18-22% annually. The premium segment is massively underserved - no one combines curation + social + digital UX at the luxury tier.</p>
+        <div class="stats-row" style="margin-top:32px">
+          <div class="stat"><div class="stat-num">$2.4T</div><div class="stat-label">Global Luxury Market</div></div>
+          <div class="stat"><div class="stat-num">18-22%</div><div class="stat-label">Annual Growth</div></div>
+          <div class="stat"><div class="stat-num">0</div><div class="stat-label">Direct Competitors</div></div>
+        </div>
+      </div>
+      <div class="col">
+        <ul class="bullets">
+          <li>High-net-worth individuals travel 6+ times per year</li>
+          <li>82% rely on personal recommendations over reviews</li>
+          <li>Premium travel apps have 4x higher retention than free ones</li>
+          <li>No platform combines premium curation + social features + swipe UX</li>
+          <li>Network effects create a defensible moat over time</li>
+        </ul>
+        <div class="tags" style="margin-top:20px">
+          <span class="tag">10 Cities at Launch</span>
+          <span class="tag">1,200+ Curated Venues</span>
+          <span class="tag">20+ Cities Planned</span>
+        </div>
+      </div>
+    </div>
+    <img src="/images/albert-logo.png" alt="" class="slide-logo"><div class="slide-num">05</div>
+  </div>
+
+  <!-- SLIDE 7: COMPETITIVE POSITIONING -->
+  <div class="slide bg-darker">
+    <div class="label">Positioning</div>
+    <h2>Premium Digital - <em>Unoccupied.</em></h2>
+    <div class="gold-line"></div>
+    <div class="cols">
+      <div class="col-wide">
+        <table class="tbl">
+          <tr><th>Platform</th><th>Price</th><th>Curation</th><th>Social</th><th>Digital UX</th></tr>
+          <tr><td>Google Maps</td><td>Free</td><td>None</td><td>No</td><td>High</td></tr>
+          <tr><td>TripAdvisor</td><td>Free</td><td>Crowd</td><td>Basic</td><td>Medium</td></tr>
+          <tr><td>Instagram</td><td>Free</td><td>None</td><td>High</td><td>High</td></tr>
+          <tr><td>LV City Guide</td><td>$30/book</td><td>Premium</td><td>No</td><td>None</td></tr>
+          <tr><td>Raya</td><td>$15/mo</td><td>People</td><td>High</td><td>High</td></tr>
+          <tr><td class="highlight">Albert</td><td class="highlight">$100/mo</td><td class="highlight">Premium</td><td class="highlight">High</td><td class="highlight">High</td></tr>
+        </table>
+      </div>
+      <div class="col-narrow">
+        <p class="subtitle" style="margin-top:8px">Albert is the only platform combining premium human curation, social discovery features, and a best-in-class digital experience.</p>
+        <p class="quote" style="margin-top:16px">"The top-right quadrant is empty. Albert fills it."</p>
+      </div>
+    </div>
+    <img src="/images/albert-logo.png" alt="" class="slide-logo"><div class="slide-num">06</div>
+  </div>
+
+  <!-- SLIDE 8: BUSINESS MODEL -->
+  <div class="slide bg-dark">
+    <div class="label">Business Model</div>
+    <h2>Pure SaaS. <em>High Margins.</em></h2>
+    <div class="gold-line"></div>
+    <div class="cols">
+      <div class="col">
+        <div class="stats-row">
+          <div class="stat"><div class="stat-num">$100</div><div class="stat-label">Monthly Subscription</div></div>
+          <div class="stat"><div class="stat-num">~70%</div><div class="stat-label">Net Margin</div></div>
+        </div>
+        <div style="margin-top:28px">
+          <div class="progress"><div class="progress-label"><span>Gross Revenue</span><span>$100</span></div><div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div></div>
+          <div class="progress"><div class="progress-label"><span>After App Store (Y1: 30%)</span><span>$70</span></div><div class="progress-bar"><div class="progress-fill" style="width:70%"></div></div></div>
+          <div class="progress"><div class="progress-label"><span>After App Store (Y2+: 15%)</span><span>$85</span></div><div class="progress-bar"><div class="progress-fill" style="width:85%"></div></div></div>
+        </div>
+      </div>
+      <div class="col">
+        <ul class="bullets">
+          <li>No ads, no freemium - premium-only positioning</li>
+          <li>7-day free trial for onboarding</li>
+          <li>RevenueCat handles iOS + Android subscriptions</li>
+          <li>Apple Small Business Program: 15% from Year 2</li>
+          <li>No physical inventory - pure software margins</li>
+          <li>Concierge service as upsell channel (separate revenue)</li>
+        </ul>
+        <div class="tags" style="margin-top:16px">
+          <span class="tag">In-App Purchase</span>
+          <span class="tag">RevenueCat</span>
+          <span class="tag">No Stripe</span>
+        </div>
+      </div>
+    </div>
+    <img src="/images/albert-logo.png" alt="" class="slide-logo"><div class="slide-num">07</div>
+  </div>
+
+  <!-- SLIDE 9: FINANCIAL PROJECTIONS -->
+  <div class="slide bg-darker">
+    <div class="label">Financials</div>
+    <h2>Path to <em>Profitability.</em></h2>
+    <div class="gold-line"></div>
+    <div class="cols">
+      <div class="col-wide">
+        <table class="tbl">
+          <tr><th>Metric</th><th>Month 3</th><th>Month 6</th><th>Year 1</th><th>Year 2</th></tr>
+          <tr><td>Downloads</td><td>5,000</td><td>15,000</td><td>30,000</td><td>80,000</td></tr>
+          <tr><td>Paying Subscribers</td><td>150</td><td>500</td><td>1,000</td><td>3,000</td></tr>
+          <tr><td>Conversion Rate</td><td>3%</td><td>3.5%</td><td>3.5%</td><td>4%</td></tr>
+          <tr><td>MRR</td><td class="highlight">$15,000</td><td class="highlight">$50,000</td><td class="highlight">$100,000</td><td class="highlight">$300,000</td></tr>
+          <tr><td>ARR</td><td>$180K</td><td>$600K</td><td class="highlight">$1.2M</td><td class="highlight">$3.6M</td></tr>
+          <tr><td>Net Revenue (after store)</td><td>$10,500</td><td>$35,000</td><td>$70,000</td><td>$255,000</td></tr>
+          <tr><td>Retention (M1)</td><td>70%</td><td>75%</td><td>78%</td><td>82%</td></tr>
+        </table>
+      </div>
+      <div class="col-narrow">
+        <p class="subtitle" style="margin-top:8px">Conservative projections based on 3-4% conversion rate in premium travel segment.</p>
+        <div class="stats-row" style="margin-top:24px;flex-direction:column;gap:16px">
+          <div class="stat" style="text-align:left"><div class="stat-num" style="font-size:24px">$1.2M</div><div class="stat-label">Year 1 ARR Target</div></div>
+          <div class="stat" style="text-align:left"><div class="stat-num" style="font-size:24px">$3.6M</div><div class="stat-label">Year 2 ARR Target</div></div>
+        </div>
+      </div>
+    </div>
+    <img src="/images/albert-logo.png" alt="" class="slide-logo"><div class="slide-num">08</div>
+  </div>
+
+  <!-- SLIDE 10: TRACTION -->
+  <div class="slide bg-dark">
+    <div class="label">Traction</div>
+    <h2>Already <em>Moving.</em></h2>
+    <div class="gold-line"></div>
+    <div class="cols">
+      <div class="col">
+        <div class="stats-row" style="flex-wrap:wrap;gap:24px">
+          <div class="stat"><div class="stat-num">10</div><div class="stat-label">Launch Cities</div></div>
+          <div class="stat"><div class="stat-num">1,200+</div><div class="stat-label">Curated Venues</div></div>
+          <div class="stat"><div class="stat-num">50+</div><div class="stat-label">Countries Covered</div></div>
+        </div>
+        <div class="gold-line" style="margin:24px 0"></div>
+        <p class="subtitle">Albert already operates as a premium concierge service based in Dubai, serving high-net-worth clients with bespoke travel, private jets, exclusive properties, and impossible requests.</p>
+        <p class="subtitle" style="margin-top:12px">The app extends this proven brand into a scalable SaaS product.</p>
+      </div>
+      <div class="col">
+        <div class="card"><div class="card-title">Launch Cities</div><div class="card-text">Bangkok, Dubai, Paris, Monaco, Saint-Tropez, La Reunion, Istanbul, Madrid, Rome, Milan</div></div>
+        <div class="card"><div class="card-title">Existing Brand</div><div class="card-text">Active concierge service with proven client relationships and luxury network across 50+ countries.</div></div>
+        <div class="card"><div class="card-title">Product Status</div><div class="card-text">Full specification complete. MVP in development. 5-month timeline to launch.</div></div>
+        <div class="card"><div class="card-title">Content Pipeline</div><div class="card-text">1,200-1,600 venues being curated by the team. Admin tools enable rapid scaling.</div></div>
+      </div>
+    </div>
+    <img src="/images/albert-logo.png" alt="" class="slide-logo"><div class="slide-num">09</div>
+  </div>
+
+  <!-- SLIDE 11: GO-TO-MARKET -->
+  <div class="slide bg-darker">
+    <div class="label">Strategy</div>
+    <h2>Go-To-<em>Market.</em></h2>
+    <div class="gold-line"></div>
+    <div class="cols">
+      <div class="col">
+        <div class="card"><div class="card-title">Phase 1: Concierge Clients</div><div class="card-text">Convert existing high-net-worth concierge clients to app subscribers. Built-in trust, zero CAC. 50-100 subscribers day one.</div></div>
+        <div class="card"><div class="card-title">Phase 2: Taste Profile Virality</div><div class="card-text">Shareable Instagram Stories ("My taste on Albert") create organic growth. Users invite friends to compare profiles.</div></div>
+        <div class="card"><div class="card-title">Phase 3: City Expansion</div><div class="card-text">Each new city launch creates local buzz. Partner with luxury hotels, airlines, and concierge services for distribution.</div></div>
+      </div>
+      <div class="col">
+        <div class="card"><div class="card-title">Phase 4: Taste Match Network</div><div class="card-text">As community grows, Taste Match connections become the primary retention driver. Social lock-in effect.</div></div>
+        <div class="card"><div class="card-title">Phase 5: B2B Partnerships</div><div class="card-text">Premium hotels, airlines (first class lounges), and credit card companies (Amex Centurion) as distribution channels.</div></div>
+        <ul class="bullets" style="margin-top:16px">
+          <li>Influencer seeding in luxury travel segment</li>
+          <li>Exclusive launch events in each city</li>
+          <li>PR in luxury publications (Monocle, Wallpaper*)</li>
+        </ul>
+      </div>
+    </div>
+    <img src="/images/albert-logo.png" alt="" class="slide-logo"><div class="slide-num">10</div>
+  </div>
+
+  <!-- SLIDE 12: CONCIERGE SERVICE -->
+  <div class="slide bg-dark">
+    <div class="label">The Foundation</div>
+    <h2>Albert <em>Concierge.</em></h2>
+    <div class="gold-line"></div>
+    <div class="cols">
+      <div class="col">
+        <p class="subtitle">The app is built on a proven luxury concierge service already operating from Dubai. This isn't a startup pitching an idea - it's an existing business scaling through technology.</p>
+        <div class="stats-row" style="margin-top:24px">
+          <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Availability</div></div>
+          <div class="stat"><div class="stat-num">2h</div><div class="stat-label">Avg. Response</div></div>
+          <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Discretion</div></div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card"><div class="card-title">Private Jets & Transfers</div><div class="card-text">Wheels up in hours, not days. Anywhere in the world, at any hour.</div></div>
+        <div class="card"><div class="card-title">Exclusive Properties</div><div class="card-text">Off-market villas, penthouses, and islands. Fully secured and staffed.</div></div>
+        <div class="card"><div class="card-title">Events & Experiences</div><div class="card-text">Michelin chefs at 3am. Erupting volcanoes tonight. Front row tomorrow.</div></div>
+        <div class="card"><div class="card-title">Last Minute Rescue</div><div class="card-text">Venue cancelled 6 hours before? New one secured, decorated, staffed in 4.</div></div>
+      </div>
+    </div>
+    <img src="/images/albert-logo.png" alt="" class="slide-logo"><div class="slide-num">11</div>
+  </div>
+
+  <!-- SLIDE 13: THE TEAM -->
+  <div class="slide bg-darker">
+    <div class="label">The Team</div>
+    <h2>Two Founders, <em>One Vision.</em></h2>
+    <div class="gold-line"></div>
+    <div class="cols">
+      <div class="col">
+        <div class="team-card">
+          <div class="team-avatar">AD</div>
+          <div class="team-info">
+            <div class="team-name">Arthur Dimeglio</div>
+            <div class="team-role">Co-Founder & CTO</div>
+            <div class="team-desc">Leads all technology, product development, and digital strategy. Built the Albert website, app architecture, and technical infrastructure. Full-stack expertise across React Native, Supabase, and modern cloud platforms.</div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">RS</div>
+          <div class="team-info">
+            <div class="team-name">Romain Sihou</div>
+            <div class="team-role">Co-Founder & CEO</div>
+            <div class="team-desc">Leads concierge operations, client relationships, and venue curation. EHL (Ecole hoteliere de Lausanne) alumnus - the world's #1 hospitality school. Deep network in luxury hospitality across 50+ countries. Brings operational excellence and industry credibility.</div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <p class="subtitle">The perfect combination: world-class hospitality expertise meets cutting-edge technology.</p>
+        <div class="gold-line"></div>
+        <div class="card"><div class="card-title">Why This Team Wins</div><div class="card-text">Romain's EHL pedigree and luxury hospitality network provide the curation quality and industry access that no tech-only team could replicate. Arthur's technical leadership ensures the product is built to scale. Together, they bridge the gap between old-world luxury and modern digital experience.</div></div>
+        <div class="tags">
+          <span class="tag">EHL Alumnus</span>
+          <span class="tag">Full-Stack CTO</span>
+          <span class="tag">Dubai Based</span>
+          <span class="tag">50+ Country Network</span>
+        </div>
+      </div>
+    </div>
+    <img src="/images/albert-logo.png" alt="" class="slide-logo"><div class="slide-num">12</div>
+  </div>
+
+  <!-- SLIDE 14: USE OF FUNDS -->
+  <div class="slide bg-dark">
+    <div class="label">Investment</div>
+    <h2>Use of <em>Funds.</em></h2>
+    <div class="gold-line"></div>
+    <div class="cols">
+      <div class="col">
+        <p class="subtitle">Seeking seed funding to accelerate app development, content curation, and market launch across 10 cities simultaneously.</p>
+        <div style="margin-top:24px">
+          <div class="progress"><div class="progress-label"><span>App Development & Design</span><span>40%</span></div><div class="progress-bar"><div class="progress-fill" style="width:40%"></div></div></div>
+          <div class="progress"><div class="progress-label"><span>Content & Venue Curation</span><span>15%</span></div><div class="progress-bar"><div class="progress-fill" style="width:15%"></div></div></div>
+          <div class="progress"><div class="progress-label"><span>Marketing & Launch</span><span>25%</span></div><div class="progress-bar"><div class="progress-fill" style="width:25%"></div></div></div>
+          <div class="progress"><div class="progress-label"><span>Infrastructure & Ops</span><span>10%</span></div><div class="progress-bar"><div class="progress-fill" style="width:10%"></div></div></div>
+          <div class="progress"><div class="progress-label"><span>Team & Working Capital</span><span>10%</span></div><div class="progress-bar"><div class="progress-fill" style="width:10%"></div></div></div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card"><div class="card-title">18-Month Runway</div><div class="card-text">Funds cover full MVP development, 10-city launch, and 12 months of growth before expected profitability at 500+ subscribers.</div></div>
+        <div class="card"><div class="card-title">Path to Break-Even</div><div class="card-text">60-100 subscribers cover operational costs. 500 subscribers = profitability. Year 2 target: 3,000 subscribers at $3.6M ARR.</div></div>
+        <div class="card"><div class="card-title">Capital Efficiency</div><div class="card-text">No physical infrastructure. Pure software. Low burn rate. Every dollar goes directly to product and growth.</div></div>
+      </div>
+    </div>
+    <img src="/images/albert-logo.png" alt="" class="slide-logo"><div class="slide-num">13</div>
+  </div>
+
+  <!-- SLIDE 15: VISION -->
+  <div class="slide bg-darker">
+    <div class="label">Vision</div>
+    <h2>Where We're <em>Going.</em></h2>
+    <div class="gold-line"></div>
+    <div class="cols">
+      <div class="col">
+        <div class="card"><div class="card-title">Year 1: Launch & Prove</div><div class="card-text">10 cities, 1,200+ venues, 500 subscribers. Prove product-market fit in the premium travel segment. Validate Taste Match as retention driver.</div></div>
+        <div class="card"><div class="card-title">Year 2: Scale & Expand</div><div class="card-text">20+ cities, 5,000+ venues, 3,000 subscribers. Launch B2B partnerships with luxury hotels and airlines. $3.6M ARR.</div></div>
+        <div class="card"><div class="card-title">Year 3: Platform & Monetize</div><div class="card-text">50+ cities, reservations integration, exclusive partner offers. Become the definitive platform for luxury place discovery worldwide.</div></div>
+      </div>
+      <div class="col">
+        <p class="subtitle">Albert aims to become the global standard for luxury place discovery - a platform where the world's most discerning travelers find, share, and connect over exceptional experiences.</p>
+        <p class="quote" style="margin-top:20px">"For those who know, no explanation is needed. For those who don't, none will suffice."</p>
+        <div class="tags" style="margin-top:20px">
+          <span class="tag">Global Platform</span>
+          <span class="tag">Network Effects</span>
+          <span class="tag">Defensible Moat</span>
+          <span class="tag">Premium Only</span>
+        </div>
+      </div>
+    </div>
+    <img src="/images/albert-logo.png" alt="" class="slide-logo"><div class="slide-num">14</div>
+  </div>
+
+  <!-- SLIDE 16: CTA -->
+  <div class="slide bg-burg cta-slide">
+    <img src="/images/albert-logo.png" alt="Albert" class="cover-logo">
+    <div class="cover-line"></div>
+    <h1 style="font-size:48px;margin-bottom:12px">You Know <em>What To Do.</em></h1>
+    <p class="cover-sub">Let's build the future of luxury discovery together.</p>
+    <div class="cta-info">
+      <div class="cta-item"><div class="cta-label">WhatsApp</div><div class="cta-value">+971 56 172 0809</div></div>
+      <div class="cta-item"><div class="cta-label">Email</div><div class="cta-value">contact@albert-conciergerie.com</div></div>
+      <div class="cta-item"><div class="cta-label">Website</div><div class="cta-value">albert-conciergerie.com</div></div>
+    </div>
+    <div class="cover-tag" style="margin-top:40px">Confidential - For Investor Eyes Only</div>
+  </div>
+
+</body>
+</html>
