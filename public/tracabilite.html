@@ -478,7 +478,8 @@ function renderComparatifs(){
 function renderLieux(){
   const tbody=document.getElementById('lieux-body');
   if(state.lieux.length===0){
-    tbody.innerHTML=`<tr><td colspan="8" style="text-align:center;padding:32px 0;color:var(--txt-faded);font-style:italic;font-family:'Cormorant Garamond',serif;font-size:15px;">Aucun lieu vérifié pour le moment. Ajouter une visite ci-dessus.</td></tr>`;
+    const msg = EDITABLE ? 'Aucun lieu vérifié pour le moment. Ajouter une visite ci-dessus.' : 'Aucun lieu vérifié pour le moment.';
+    tbody.innerHTML=`<tr><td colspan="8" style="text-align:center;padding:32px 0;color:var(--txt-faded);font-style:italic;font-family:'Cormorant Garamond',serif;font-size:15px;">${msg}</td></tr>`;
     return;
   }
   tbody.innerHTML=state.lieux.map((l,i)=>`<tr>
@@ -550,6 +551,10 @@ function applyReadOnlyUI(){
   ['export-btn','reset-btn'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
   const addBtn=document.getElementById('add-lieu');
   if(addBtn){const form=addBtn.closest('.lieu-form')||addBtn.parentElement;if(form)form.style.display='none';}
+  // Masquer les indications d'édition (ex: "cliquer sur un statut…").
+  document.querySelectorAll('.meta').forEach(el=>{
+    if(/cliquer/i.test(el.textContent||'')) el.style.display='none';
+  });
   document.body.classList.add('read-only');
 }
 
