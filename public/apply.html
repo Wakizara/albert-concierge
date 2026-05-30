@@ -41,8 +41,17 @@
       padding: 14px 20px 4px;
     }
 
-    /* Champ description : plus de hauteur pour les longs paragraphes. */
-    #description { font-family: var(--body, sans-serif); font-size: 15px; }
+    /* Champ description : même gabarit que les inputs (le padding-top dégage
+       le label flottant) + plus de hauteur pour les longs paragraphes. */
+    #description {
+      appearance: none; -webkit-appearance: none;
+      background: transparent; border: none; outline: none;
+      width: 100%;
+      font-family: var(--body, sans-serif);
+      font-size: 15px; color: var(--ink, #06060A);
+      padding: 38px 20px 18px;
+    }
+    #description::placeholder { color: rgba(6,6,10,0.25); font-style: italic; }
 
     @media (max-width: 720px) {
       .apply-section .waitlist-fields { grid-template-columns: 1fr; }
