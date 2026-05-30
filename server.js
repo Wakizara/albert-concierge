@@ -110,6 +110,7 @@ app.post('/api/apply', async (req, res) => {
     instagram: str(b.instagram, 200) || null,
     linkedin: str(b.linkedin, 300) || null,
     x_handle: str(b.x_handle, 200) || null,
+    website: str(b.website, 300) || null,
     source: 'website',
     status: 'pending',
   };

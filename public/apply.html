@@ -15,10 +15,38 @@
   <link rel="alternate icon" type="image/png" href="/images/albert-logo.png">
   <link rel="apple-touch-icon" href="/favicon.svg">
   <style>
+    /* ---- Page apply : ajustements dédiés (n'affecte pas la home) ---- */
+    .apply-section {
+      border: 0;
+      /* dégage le header fixe + respire en bas */
+      padding: clamp(120px, 16vh, 200px) 0 clamp(80px, 10vw, 140px);
+    }
+    .apply-head { text-align: center; margin-bottom: clamp(40px, 6vw, 64px); }
+    .apply-section .waitlist-form { max-width: 680px; }
+
+    /* Grille symétrique + libellés marqueurs */
+    .apply-section .waitlist-fields { grid-template-columns: 1fr 1fr; }
     .waitlist-label .req { color: var(--gold, #B8922A); letter-spacing: 1px; }
     .waitlist-label .opt { color: var(--muted, #888); letter-spacing: 1px; }
+
+    /* Séparateur de groupe "liens optionnels" */
+    .apply-optional-note {
+      grid-column: 1 / -1;
+      background: var(--pure);
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted, #888);
+      padding: 14px 20px 4px;
+    }
+
     /* Champ description : plus de hauteur pour les longs paragraphes. */
     #description { font-family: var(--body, sans-serif); font-size: 15px; }
+
+    @media (max-width: 720px) {
+      .apply-section .waitlist-fields { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -41,9 +69,9 @@
     </div>
   </header>
 
-  <section class="block block-waitlist" id="apply" style="min-height:100vh;display:flex;align-items:center;">
+  <section class="block block-waitlist apply-section" id="apply">
     <div class="wrap">
-      <div class="waitlist-head">
+      <div class="waitlist-head apply-head">
         <span class="eyebrow">Membership · By application</span>
         <h2 class="display-h">
           <span class="line"><span>Albert is selective</span></span>
@@ -74,6 +102,9 @@
             <span class="waitlist-label">Who are you? <span class="req">· Required</span></span>
             <textarea name="description" id="description" rows="9" placeholder="Tell us who you are, what you do, the circles you move in, and what you're looking for. Take your time — the more we understand, the better." required style="resize:vertical;min-height:200px;line-height:1.6;"></textarea>
           </label>
+
+          <div class="apply-optional-note">Links — all optional</div>
+
           <label class="waitlist-field">
             <span class="waitlist-label">Instagram <span class="opt">· Optional</span></span>
             <input type="text" name="instagram" id="instagram" placeholder="@handle" />
@@ -85,6 +116,10 @@
           <label class="waitlist-field">
             <span class="waitlist-label">X <span class="opt">· Optional</span></span>
             <input type="text" name="x_handle" id="xHandle" placeholder="@handle" />
+          </label>
+          <label class="waitlist-field">
+            <span class="waitlist-label">Website <span class="opt">· Optional</span></span>
+            <input type="text" name="website" id="website" placeholder="yoursite.com" />
           </label>
         </div>
         <button type="submit" class="btn btn-gold waitlist-submit">
@@ -116,6 +151,7 @@
           instagram: form.instagram.value.trim(),
           linkedin: form.linkedin.value.trim(),
           x_handle: form.x_handle.value.trim(),
+          website: form.website.value.trim(),
         };
 
         if (!payload.first_name || !payload.last_name) {
