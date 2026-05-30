@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Albert · Traçabilité des dépenses (3 mois)</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --noir:#0a0a0d;
+  --noir-2:#16161b;
+  --noir-3:#222228;
+  --creme:#f9f7f3;
+  --creme-2:#efeae0;
+  --or:#b8922a;
+  --or-clair:#c9a13a;
+  --or-fade:#7a6219;
+  --line:rgba(249,247,243,0.08);
+  --line-strong:rgba(249,247,243,0.18);
+  --txt-faded:rgba(249,247,243,0.55);
+  --txt-mid:rgba(249,247,243,0.75);
+  --green:#7ab588;
+  --red:#d97d7d;
+  --yellow:#e0c277;
+  --c-app:#7ab1d9;
+  --c-acq:#c9a13a;
+  --c-verif:#7ab588;
+  --c-fonct:#b89cd9;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{background:var(--noir);color:var(--creme);font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.55;-webkit-font-smoothing:antialiased;}
+body{padding:48px 56px 96px;max-width:1480px;margin:0 auto;}
+h1,h2,h3,h4{font-family:'Cormorant Garamond',serif;font-weight:400;letter-spacing:-0.01em;}
+
+/* GATE */
+.gate{position:fixed;inset:0;z-index:200;background:var(--noir);display:flex;align-items:center;justify-content:center;padding:24px;}
+.gate-box{width:100%;max-width:360px;text-align:center;}
+.gate-mark{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;color:var(--creme);letter-spacing:2px;}
+.gate-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--or-clair);margin:14px 0 28px;}
+.gate input{width:100%;background:transparent;border:none;border-bottom:1px solid var(--line-strong);color:var(--creme);font-family:'DM Sans',sans-serif;font-size:16px;padding:12px 4px;outline:none;text-align:center;}
+.gate input:focus{border-color:var(--or);}
+.gate button{margin-top:24px;width:100%;background:var(--or);color:var(--noir);border:none;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:14px;cursor:pointer;transition:opacity .2s;}
+.gate button:hover{opacity:.88;}
+.gate-err{margin-top:16px;color:var(--red);font-size:12px;font-style:italic;min-height:16px;}
+body.locked{overflow:hidden;}
+.read-only-only{display:none;}
+
+/* HEADER */
+.hero{border-bottom:1px solid var(--line-strong);padding-bottom:36px;margin-bottom:40px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px;}
+.hero-left{flex:1;min-width:340px;}
+.eyebrow{font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.22em;text-transform:uppercase;color:var(--or-clair);margin-bottom:14px;}
+h1{font-size:clamp(38px,4.5vw,58px);line-height:1.05;font-weight:300;color:var(--creme);margin-bottom:10px;}
+h1 em{font-style:italic;color:var(--or-clair);font-weight:300;}
+.subhead{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px;color:var(--txt-mid);font-weight:300;max-width:760px;}
+.hero-right{text-align:right;font-family:'DM Mono',monospace;font-size:11px;color:var(--txt-faded);letter-spacing:0.12em;text-transform:uppercase;}
+
+/* PRINCIPE */
+.principe{background:linear-gradient(135deg,rgba(184,146,42,0.06),rgba(184,146,42,0.0));border:1px solid rgba(184,146,42,0.3);padding:28px 36px;border-radius:2px;margin-bottom:44px;}
+.principe .label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.22em;color:var(--or-clair);text-transform:uppercase;margin-bottom:14px;}
+.principe p{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:var(--creme);line-height:1.55;margin-bottom:10px;}
+.principe p em{font-style:italic;color:var(--or-clair);}
+.principe .exception{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--txt-mid);font-size:15.5px;margin-top:12px;line-height:1.5;}
+
+/* SECTION TITLE */
+.section{margin-bottom:56px;}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:24px;gap:24px;flex-wrap:wrap;}
+.section-head h2{font-size:30px;font-weight:400;color:var(--creme);}
+.section-head h2 em{font-style:italic;color:var(--or-clair);}
+.section-head .meta{font-family:'DM Mono',monospace;font-size:11px;color:var(--txt-faded);letter-spacing:0.12em;text-transform:uppercase;}
+
+/* RÉCAP CARDS */
+.recap-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
+.recap-card{background:var(--noir-2);border:1px solid var(--line);padding:24px 24px 20px;border-radius:2px;position:relative;overflow:hidden;}
+.recap-card .cat-tag{font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:0.18em;text-transform:uppercase;color:var(--or-clair);margin-bottom:14px;}
+.recap-card .cat-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--creme);line-height:1.15;margin-bottom:16px;min-height:54px;}
+.recap-card .budget{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--creme);line-height:1;}
+.recap-card .budget .unit{font-size:18px;color:var(--txt-faded);margin-left:4px;}
+.recap-card .progress{margin-top:18px;height:2px;background:var(--noir-3);position:relative;overflow:hidden;}
+.recap-card .progress div{height:100%;background:var(--or);transition:width .3s ease;}
+.recap-card .sub{font-size:11.5px;color:var(--txt-faded);margin-top:8px;display:flex;justify-content:space-between;}
+.recap-total{background:linear-gradient(135deg,rgba(184,146,42,0.08),rgba(184,146,42,0.0));border:1px solid rgba(184,146,42,0.35);padding:28px 36px;border-radius:2px;display:flex;justify-content:space-between;align-items:center;}
+.recap-total .label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.22em;color:var(--or-clair);text-transform:uppercase;}
+.recap-total .total{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;color:var(--creme);}
+.recap-total .pct{font-family:'DM Mono',monospace;font-size:13px;color:var(--txt-mid);}
+
+/* TABLE */
+.table-wrap{background:var(--noir-2);border:1px solid var(--line);border-radius:2px;overflow:hidden;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+thead th{background:var(--noir-3);color:var(--txt-mid);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;font-weight:500;padding:14px 12px;text-align:left;border-bottom:1px solid var(--line-strong);}
+tbody td{padding:13px 12px;border-bottom:1px solid var(--line);color:var(--creme);vertical-align:top;}
+tbody tr:hover{background:var(--noir-3);}
+tbody tr:last-child td{border-bottom:none;}
+.cat-badge{display:inline-block;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;padding:3px 8px;border:1px solid var(--line-strong);border-radius:1px;}
+.cat-app{border-color:rgba(122,177,217,0.45);color:var(--c-app);}
+.cat-acq{border-color:rgba(201,161,58,0.45);color:var(--c-acq);}
+.cat-verif{border-color:rgba(122,181,136,0.45);color:var(--c-verif);}
+.cat-fonct{border-color:rgba(184,156,217,0.45);color:var(--c-fonct);}
+.statut-badge{display:inline-block;font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:0.12em;text-transform:uppercase;padding:4px 10px;border-radius:1px;cursor:pointer;text-align:center;min-width:80px;transition:all .15s;user-select:none;}
+.statut-prevu{background:rgba(249,247,243,0.06);color:var(--txt-mid);border:1px solid var(--line-strong);}
+.statut-engage{background:rgba(224,194,119,0.18);color:var(--yellow);border:1px solid rgba(224,194,119,0.4);}
+.statut-paye{background:rgba(122,181,136,0.18);color:var(--green);border:1px solid rgba(122,181,136,0.4);}
+.comp-yes{color:var(--green);}
+.comp-no{color:var(--txt-faded);}
+.comp-exception{color:var(--or-clair);font-style:italic;}
+.comp-aval{color:var(--c-app);}
+.montant{font-family:'DM Mono',monospace;font-size:13px;color:var(--creme);font-weight:400;}
+.notes-cell{color:var(--txt-faded);font-style:italic;font-size:12px;}
+.ref-cell{font-family:'DM Mono',monospace;font-size:11px;color:var(--or-clair);}
+
+/* COMPARATIF STATUS */
+.statut-ouvert{background:rgba(122,177,217,0.18);color:var(--c-app);border:1px solid rgba(122,177,217,0.4);}
+.statut-recus{background:rgba(224,194,119,0.18);color:var(--yellow);border:1px solid rgba(224,194,119,0.4);}
+.statut-decide{background:rgba(122,181,136,0.18);color:var(--green);border:1px solid rgba(122,181,136,0.4);}
+.statut-demarrer{background:rgba(249,247,243,0.06);color:var(--txt-mid);border:1px solid var(--line-strong);}
+.statut-clos{background:rgba(122,181,136,0.08);color:var(--txt-mid);border:1px solid var(--line);}
+
+/* LIEUX */
+.add-row{display:flex;gap:8px;padding:14px 12px;background:var(--noir-3);border-bottom:1px solid var(--line-strong);}
+.add-row input,.add-row select{background:var(--noir);border:1px solid var(--line-strong);color:var(--creme);padding:8px 12px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:300;border-radius:1px;}
+.add-row input{flex:1;min-width:120px;}
+.add-row button{background:var(--or);color:var(--noir);border:none;padding:8px 18px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;border-radius:1px;font-weight:500;transition:all .15s;}
+.add-row button:hover{background:var(--or-clair);}
+.del-btn{cursor:pointer;color:var(--txt-faded);font-family:'DM Mono',monospace;font-size:14px;text-align:center;}
+.del-btn:hover{color:var(--red);}
+
+/* FICHE DECISION */
+.fiche-template{background:var(--noir-2);border:1px solid var(--line);border-radius:2px;padding:36px 44px;}
+.fiche-template h3{font-size:24px;font-weight:400;color:var(--creme);margin-bottom:8px;}
+.fiche-template h3 em{font-style:italic;color:var(--or-clair);}
+.fiche-template .desc{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--txt-mid);margin-bottom:24px;}
+.fiche-grid{display:grid;grid-template-columns:200px 1fr;gap:8px 24px;}
+.fiche-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--or-clair);padding-top:8px;}
+.fiche-value{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--txt-mid);padding:8px 0;border-bottom:1px solid var(--line);font-style:italic;}
+
+/* FOOTER */
+.foot{margin-top:60px;padding-top:28px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;font-family:'DM Mono',monospace;font-size:10.5px;color:var(--txt-faded);letter-spacing:0.15em;text-transform:uppercase;flex-wrap:wrap;gap:16px;}
+.foot button{background:transparent;border:1px solid var(--line-strong);color:var(--txt-mid);padding:8px 18px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:all .15s;}
+.foot button:hover{border-color:var(--or);color:var(--or-clair);}
+.foot .export-btn{background:var(--or);color:var(--noir);border-color:var(--or);}
+.foot .export-btn:hover{background:var(--or-clair);border-color:var(--or-clair);color:var(--noir);}
+
+@media (max-width:1100px){
+  .recap-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media (max-width:680px){
+  body{padding:32px 20px 60px;}
+  .recap-grid{grid-template-columns:1fr;}
+  table{font-size:12px;}
+  thead th, tbody td{padding:10px 8px;}
+}
+</style>
+</head>
+<body>
+
+<!-- GATE confidentiel -->
+<div id="gate" class="gate">
+  <div class="gate-box">
+    <div class="gate-mark">Albert</div>
+    <div class="gate-label">Document confidentiel · Accès apporteurs</div>
+    <input id="gate-pw" type="password" placeholder="Mot de passe" autocomplete="off" />
+    <button id="gate-btn">Entrer</button>
+    <div id="gate-err" class="gate-err"></div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="eyebrow">Traçabilité · Juin → août 2026</div>
+    <h1>Où va chaque <em>euro investi</em>.</h1>
+    <div class="subhead">Tracking des dépenses, comparatifs et vérifications de lieux sur les 3 mois Bangkok. Document partagé en lecture seule avec les apporteurs.</div>
+  </div>
+  <div class="hero-right">
+    <div>Version live</div>
+    <div style="margin-top:6px;color:var(--or-clair);" id="last-update">—</div>
+  </div>
+</div>
+
+<!-- PRINCIPE -->
+<div class="principe">
+  <div class="label">Principe de traçabilité</div>
+  <p>Toute dépense supérieure à <em>500 €</em> fait l'objet d'un mini-comparatif documenté (2 à 4 options, critères de décision, choix retenu). La fiche de décision correspondante est jointe au bilan bi-mensuel.</p>
+  <p class="exception">Exception explicite : la vérification physique des lieux. Par nature, valider un restaurant ou un studio implique de l'expérimenter — il n'y a pas de comparatif possible. Pour cette ligne, la traçabilité prend la forme d'un compte-rendu d'une page par lieu visité.</p>
+</div>
+
+<!-- RÉCAP -->
+<div class="section">
+  <div class="section-head">
+    <h2>Récap <em>budgétaire</em></h2>
+    <div class="meta">Vue d'ensemble par catégorie</div>
+  </div>
+  <div class="recap-grid" id="recap-grid"></div>
+  <div class="recap-total">
+    <div>
+      <div class="label">Enveloppe totale 3 mois</div>
+      <div class="total"><span id="total-budget">71 500</span><span class="unit"> €</span></div>
+    </div>
+    <div style="text-align:right;">
+      <div class="label">Consommé à ce jour</div>
+      <div class="total"><span id="total-conso">0</span><span class="unit"> €</span></div>
+      <div class="pct" id="total-pct">0% · 71 500 € restants</div>
+    </div>
+  </div>
+</div>
+
+<!-- DÉPENSES -->
+<div class="section">
+  <div class="section-head">
+    <h2>Dépenses <em>détaillées</em></h2>
+    <div class="meta">Cliquer sur un statut pour le faire évoluer</div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:90px;">Catégorie</th>
+          <th>Sous-ligne</th>
+          <th style="width:90px;">Montant</th>
+          <th style="width:70px;">Tranche</th>
+          <th style="width:100px;">Comparatif</th>
+          <th style="width:100px;">Statut</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody id="depenses-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- COMPARATIFS -->
+<div class="section">
+  <div class="section-head">
+    <h2>Comparatifs <em>et devis</em></h2>
+    <div class="meta">RFQ ouverts · décisions en cours</div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:130px;">Référence</th>
+          <th>Description</th>
+          <th style="width:200px;">Prestataires sollicités</th>
+          <th style="width:160px;">Choix retenu</th>
+          <th style="width:90px;">Montant</th>
+          <th style="width:100px;">Statut</th>
+        </tr>
+      </thead>
+      <tbody id="comparatifs-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- LIEUX VÉRIFIÉS -->
+<div class="section">
+  <div class="section-head">
+    <h2>Lieux <em>vérifiés</em></h2>
+    <div class="meta">Justifie la ligne « Vérification lieux » sans comparatif</div>
+  </div>
+  <div class="table-wrap">
+    <div class="add-row">
+      <input type="date" id="lieu-date">
+      <select id="lieu-cat">
+        <option>Hôtel boutique</option><option>Restaurant</option><option>Bar/rooftop</option><option>Club/lounge</option><option>Café spécialité</option><option>Spa</option><option>Massage</option><option>Nails</option><option>Barbier/coiffeur</option><option>Pilates</option><option>HYROX</option><option>Boxe</option><option>Yoga</option><option>Coworking</option><option>Chauffeur</option><option>Tour guide</option>
+      </select>
+      <input type="text" id="lieu-nom" placeholder="Nom du lieu">
+      <input type="text" id="lieu-zone" placeholder="Zone (Sukhumvit, Sathorn…)">
+      <input type="number" id="lieu-montant" placeholder="€" style="width:80px;">
+      <input type="text" id="lieu-notes" placeholder="Notes brèves">
+      <button id="add-lieu">Ajouter</button>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:100px;">Date</th>
+          <th style="width:140px;">Catégorie</th>
+          <th>Lieu</th>
+          <th style="width:120px;">Zone</th>
+          <th style="width:90px;">Conso</th>
+          <th style="width:120px;">Verdict</th>
+          <th>Notes</th>
+          <th style="width:40px;"></th>
+        </tr>
+      </thead>
+      <tbody id="lieux-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- FICHE DECISION -->
+<div class="section">
+  <div class="section-head">
+    <h2>Fiche de <em>décision</em></h2>
+    <div class="meta">Template à dupliquer pour chaque dépense > 500 €</div>
+  </div>
+  <div class="fiche-template">
+    <h3>FICHE-<em>XXX</em></h3>
+    <div class="desc">Format 1 page. Joindre au bilan bi-mensuel correspondant.</div>
+    <div class="fiche-grid">
+      <div class="fiche-label">Référence</div><div class="fiche-value">FICHE-XXX</div>
+      <div class="fiche-label">Date d'engagement</div><div class="fiche-value">JJ/MM/AAAA</div>
+      <div class="fiche-label">Tranche</div><div class="fiche-value">T?</div>
+      <div class="fiche-label">Catégorie</div><div class="fiche-value">Application · Acquisition · Vérification lieux · Fonctionnement</div>
+      <div class="fiche-label">Sous-ligne</div><div class="fiche-value">[À préciser]</div>
+      <div class="fiche-label">Montant</div><div class="fiche-value">[€ HT ou TTC]</div>
+      <div class="fiche-label">Description</div><div class="fiche-value">[Description claire en 1-2 phrases]</div>
+      <div class="fiche-label">Pourquoi</div><div class="fiche-value">[Lien avec un objectif des 3 mois]</div>
+      <div class="fiche-label">Option 1</div><div class="fiche-value">[Nom · prix · forces · faiblesses]</div>
+      <div class="fiche-label">Option 2</div><div class="fiche-value">[Nom · prix · forces · faiblesses]</div>
+      <div class="fiche-label">Option 3</div><div class="fiche-value">[Nom · prix · forces · faiblesses]</div>
+      <div class="fiche-label">Critères de décision</div><div class="fiche-value">[Qualité · délai · coût · track record · etc.]</div>
+      <div class="fiche-label">Choix retenu</div><div class="fiche-value">[Option choisie]</div>
+      <div class="fiche-label">Justification</div><div class="fiche-value">[1-2 phrases]</div>
+      <div class="fiche-label">Modalités</div><div class="fiche-value">[Acompte · échelonnement · pénalités · sortie]</div>
+      <div class="fiche-label">Source du comparatif</div><div class="fiche-value">[Emails / PDF / liens · archivés où]</div>
+    </div>
+  </div>
+</div>
+
+<div class="foot">
+  <div>Albert · Traçabilité dépenses · v1.0</div>
+  <div style="display:flex;gap:10px;">
+    <button id="export-btn" class="export-btn">Exporter JSON</button>
+    <button id="reset-btn">Reset données</button>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = 'albert_tracabilite_2026';
+const CAT_KEYS = {
+  'Application':'app',
+  'Acquisition de membres':'acq',
+  'Vérification des lieux Bangkok':'verif',
+  'Fonctionnement courant et réserve':'fonct'
+};
+const BUDGETS = {
+  'Application':22000,
+  'Acquisition de membres':33000,
+  'Vérification des lieux Bangkok':9500,
+  'Fonctionnement courant et réserve':7000
+};
+
+const INITIAL_DEPENSES = [
+  {cat:'Application',ligne:'Création complète',desc:'Build app iOS + Android · Stripe Billing · stores',montant:22000,tranche:'T2-T4',comp:'oui',statut:'prevu',notes:'RFQ envoyé 4 agences (STX Next · Apptension · Seven Peaks · Robosoft)',ref:'RFQ-APP-01'},
+  {cat:'Acquisition de membres',ligne:'Ambassadrice Sabrina Kihm',desc:'Mission Europe / Afrique du Sud / Saint-Barth été 2026',montant:16000,tranche:'T2-T6',comp:'fiche',statut:'engage',notes:'Profil unique sélectionné · fiche dédiée',ref:'FICHE-AMB-01'},
+  {cat:'Acquisition de membres',ligne:'Paid ads Meta + LinkedIn',desc:'Campagnes segment premium',montant:10000,tranche:'T3-T6',comp:'aval',statut:'prevu',notes:'ROI / CAC tracké en aval',ref:''},
+  {cat:'Acquisition de membres',ligne:'Séance photo fondateur',desc:'Asset visuel LinkedIn + deck + brochure',montant:500,tranche:'T1',comp:'oui',statut:'prevu',notes:'3 photographes à shortlister semaine 1',ref:'COMP-PHOTO-BKK'},
+  {cat:'Acquisition de membres',ligne:'Vidéaste Bangkok',desc:'3-4 reels courts founder series',montant:1300,tranche:'T3',comp:'oui',statut:'prevu',notes:'2-3 vidéastes à comparer',ref:'COMP-VIDEO-BKK'},
+  {cat:'Acquisition de membres',ligne:'Carrousels designés',desc:'4-6 carrousels positionnement',montant:1000,tranche:'T1-T3',comp:'oui',statut:'prevu',notes:'Fiverr Pro ou freelance',ref:'COMP-DESIGN-01'},
+  {cat:'Acquisition de membres',ligne:'Outils scheduling LinkedIn',desc:'Taplio ou Shield · 3 mois',montant:240,tranche:'T1-T6',comp:'oui',statut:'prevu',notes:'',ref:'COMP-OUTILS-01'},
+  {cat:'Acquisition de membres',ligne:'Outils CRM',desc:'Pipedrive / HubSpot / Notion CRM',montant:600,tranche:'T1-T6',comp:'oui',statut:'prevu',notes:'À cadrer',ref:'COMP-CRM-01'},
+  {cat:'Acquisition de membres',ligne:'Boost LinkedIn',desc:'1-2 posts stratégiques',montant:500,tranche:'T3-T6',comp:'aval',statut:'prevu',notes:'',ref:''},
+  {cat:'Acquisition de membres',ligne:'Réserve brand',desc:'Impressions / events / micro-PR',montant:860,tranche:'T1-T6',comp:'aval',statut:'prevu',notes:'Documenté à la dépense',ref:''},
+  {cat:'Vérification des lieux Bangkok',ligne:'Consommation au lieu',desc:'50-60 visites multi-catégories',montant:7500,tranche:'T1-T7',comp:'exception',statut:'prevu',notes:'Compte-rendu par lieu ci-dessous',ref:''},
+  {cat:'Vérification des lieux Bangkok',ligne:'Transport entre lieux',desc:'Grab et occasionnels',montant:800,tranche:'T1-T7',comp:'no',statut:'prevu',notes:'',ref:''},
+  {cat:'Vérification des lieux Bangkok',ligne:'Hospitalité opportuniste',desc:'Cafés / déjeuners avec GMs',montant:1000,tranche:'T1-T7',comp:'exception',statut:'prevu',notes:'',ref:''},
+  {cat:'Vérification des lieux Bangkok',ligne:'Kits de présentation',desc:'Impressions + digital',montant:200,tranche:'T1-T2',comp:'oui',statut:'prevu',notes:'',ref:'COMP-PRINT-01'},
+  {cat:'Fonctionnement courant et réserve',ligne:'Outils SaaS',desc:'Notion · Linear · Figma · IA',montant:300,tranche:'T1-T7',comp:'no',statut:'prevu',notes:'',ref:''},
+  {cat:'Fonctionnement courant et réserve',ligne:'Infrastructure tech',desc:'Hosting · services tiers · domaines',montant:1500,tranche:'T1-T7',comp:'oui',statut:'prevu',notes:'Cadré avec presta app retenu',ref:'COMP-INFRA-01'},
+  {cat:'Fonctionnement courant et réserve',ligne:'Réserve d\'aléa',desc:'Imprévus opérationnels',montant:5200,tranche:'T1-T7',comp:'aval',statut:'prevu',notes:'Justifié à chaque consommation',ref:''},
+];
+
+const INITIAL_COMPARATIFS = [
+  {ref:'RFQ-APP-01',cat:'Application',desc:'Création complète application',date:'30 mai 2026',presta:'STX Next · Apptension · Seven Peaks · Robosoft',choix:'',montant:22000,statut:'ouvert'},
+  {ref:'FICHE-AMB-01',cat:'Acquisition',desc:'Ambassadrice Albert',date:'29 mai 2026',presta:'Profil unique · fiche dédiée',choix:'Sabrina Kihm',montant:16000,statut:'decide'},
+  {ref:'COMP-PHOTO-BKK',cat:'Acquisition',desc:'Photographe Bangkok lifestyle',date:'',presta:'3 candidats à shortlister',choix:'',montant:500,statut:'demarrer'},
+  {ref:'COMP-VIDEO-BKK',cat:'Acquisition',desc:'Vidéaste Bangkok founder series',date:'',presta:'2-3 candidats',choix:'',montant:1300,statut:'demarrer'},
+  {ref:'COMP-DESIGN-01',cat:'Acquisition',desc:'Designer carrousels',date:'',presta:'Fiverr Pro + freelance',choix:'',montant:1000,statut:'demarrer'},
+  {ref:'COMP-OUTILS-01',cat:'Acquisition',desc:'Outils scheduling LinkedIn',date:'',presta:'Taplio · Shield · Buffer',choix:'',montant:240,statut:'demarrer'},
+  {ref:'COMP-CRM-01',cat:'Acquisition',desc:'Outils CRM acquisition',date:'',presta:'Pipedrive · HubSpot · Notion',choix:'',montant:600,statut:'demarrer'},
+  {ref:'COMP-PRINT-01',cat:'Vérification lieux',desc:'Kits présentation imprimés',date:'',presta:'2 imprimeurs Bangkok',choix:'',montant:200,statut:'demarrer'},
+  {ref:'COMP-INFRA-01',cat:'Fonctionnement',desc:'Hosting et infrastructure',date:'',presta:'AWS · Vercel · Render',choix:'',montant:1500,statut:'demarrer'},
+];
+
+// ===== Stockage central (Supabase via API protégée) =====
+// Mode édition = URL avec ?edit=TOKEN (équipe). Sinon lecture seule (apporteurs).
+const params = new URLSearchParams(location.search);
+const EDIT_TOKEN = params.get('edit');
+const EDITABLE = !!EDIT_TOKEN;
+let PW = sessionStorage.getItem('albert_tracker_pw') || '';
+let state = {depenses:[],comparatifs:[],lieux:[]};
+let lastUpdated = null;
+let lastLocalWrite = 0;
+
+async function apiGet(pw){
+  const r = await fetch('/api/tracker?pw=' + encodeURIComponent(pw));
+  if (r.status === 401) throw new Error('unauthorized');
+  if (!r.ok) throw new Error('error');
+  return r.json(); // { state, updated_at }
+}
+async function pushToServer(){
+  if (!EDITABLE) return;
+  lastLocalWrite = Date.now();
+  try {
+    const r = await fetch('/api/tracker', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ token: EDIT_TOKEN, pw: PW, state })
+    });
+    const d = await r.json();
+    if (d && d.updated_at) lastUpdated = d.updated_at;
+    updateLastUpdate();
+  } catch(e){}
+}
+// En lecture seule, aucune écriture. En édition, on pousse au central.
+function saveState(){ if (EDITABLE) pushToServer(); }
+function applyData(data){
+  state = data.state || {depenses:[],comparatifs:[],lieux:[]};
+  if (!state.depenses) state.depenses = [];
+  if (!state.comparatifs) state.comparatifs = [];
+  if (!state.lieux) state.lieux = [];
+  lastUpdated = data.updated_at;
+  renderAll(); updateLastUpdate();
+}
+function updateLastUpdate(){
+  document.getElementById('last-update').textContent = lastUpdated
+    ? new Date(lastUpdated).toLocaleString('fr-FR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})
+    : '—';
+}
+
+function fmt(n){return new Intl.NumberFormat('fr-FR').format(n);}
+function catBadgeClass(cat){return 'cat-'+(CAT_KEYS[cat]||'app');}
+function compLabel(c){return {oui:'Oui',no:'Non (standard)',exception:'Exception',aval:'En aval',fiche:'Fiche profil'}[c]||c;}
+function compClass(c){return {oui:'comp-yes',no:'comp-no',exception:'comp-exception',aval:'comp-aval',fiche:'comp-exception'}[c]||'';}
+function statutLabel(s){return {prevu:'Prévu',engage:'Engagé',paye:'Payé'}[s]||s;}
+function statutClass(s){return 'statut-'+s;}
+function cycleStatut(s){return {prevu:'engage',engage:'paye',paye:'prevu'}[s];}
+function compStatutLabel(s){return {ouvert:'Ouvert',recus:'Devis reçus',decide:'Décidé',demarrer:'À démarrer',clos:'Clos'}[s]||s;}
+function compStatutClass(s){return 'statut-'+s;}
+function cycleCompStatut(s){return {demarrer:'ouvert',ouvert:'recus',recus:'decide',decide:'clos',clos:'demarrer'}[s];}
+
+function renderRecap(){
+  const grid=document.getElementById('recap-grid');
+  let totalConso=0;
+  grid.innerHTML=Object.keys(BUDGETS).map(cat=>{
+    const budget=BUDGETS[cat];
+    const conso=state.depenses.filter(d=>d.cat===cat&&(d.statut==='engage'||d.statut==='paye')).reduce((s,d)=>s+d.montant,0);
+    totalConso+=conso;
+    const pct=Math.round(conso/budget*100);
+    const tagCls=catBadgeClass(cat);
+    return `<div class="recap-card">
+      <div class="cat-tag" style="color:var(--${tagCls.replace('cat-','c-')});">${cat}</div>
+      <div class="cat-name">${cat}</div>
+      <div class="budget">${fmt(budget)}<span class="unit"> €</span></div>
+      <div class="progress"><div style="width:${pct}%;background:var(--${tagCls.replace('cat-','c-')});"></div></div>
+      <div class="sub"><span>${fmt(conso)} € consommés</span><span>${pct}%</span></div>
+    </div>`;
+  }).join('');
+  document.getElementById('total-conso').textContent=fmt(totalConso);
+  const totalBudget=Object.values(BUDGETS).reduce((s,v)=>s+v,0);
+  const totalPct=Math.round(totalConso/totalBudget*100);
+  document.getElementById('total-pct').textContent=`${totalPct}% · ${fmt(totalBudget-totalConso)} € restants`;
+}
+
+function renderDepenses(){
+  const tbody=document.getElementById('depenses-body');
+  tbody.innerHTML=state.depenses.map((d,i)=>`<tr>
+    <td><span class="cat-badge ${catBadgeClass(d.cat)}">${d.cat.split(' ')[0]}</span></td>
+    <td><div style="font-weight:500;color:var(--creme);">${d.ligne}</div><div style="color:var(--txt-faded);font-size:11.5px;margin-top:2px;">${d.desc}</div></td>
+    <td class="montant">${fmt(d.montant)} €</td>
+    <td style="color:var(--txt-mid);font-family:'DM Mono',monospace;font-size:11px;">${d.tranche}</td>
+    <td><span class="${compClass(d.comp)}">${compLabel(d.comp)}</span>${d.ref?'<br><span class="ref-cell">'+d.ref+'</span>':''}</td>
+    <td><span class="statut-badge ${statutClass(d.statut)}" data-i="${i}" data-type="dep">${statutLabel(d.statut)}</span></td>
+    <td class="notes-cell">${d.notes||''}</td>
+  </tr>`).join('');
+}
+
+function renderComparatifs(){
+  const tbody=document.getElementById('comparatifs-body');
+  tbody.innerHTML=state.comparatifs.map((c,i)=>`<tr>
+    <td><span class="ref-cell">${c.ref}</span><div style="color:var(--txt-faded);font-size:10.5px;margin-top:2px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;">${c.cat}</div></td>
+    <td style="color:var(--creme);">${c.desc}<div style="color:var(--txt-faded);font-size:11.5px;margin-top:2px;font-style:italic;">${c.date||''}</div></td>
+    <td style="color:var(--txt-mid);font-size:12px;">${c.presta}</td>
+    <td style="color:${c.choix?'var(--green)':'var(--txt-faded)'};font-weight:${c.choix?'500':'300'};">${c.choix||'—'}</td>
+    <td class="montant">${c.montant?fmt(c.montant)+' €':'—'}</td>
+    <td><span class="statut-badge ${compStatutClass(c.statut)}" data-i="${i}" data-type="comp">${compStatutLabel(c.statut)}</span></td>
+  </tr>`).join('');
+}
+
+function renderLieux(){
+  const tbody=document.getElementById('lieux-body');
+  if(state.lieux.length===0){
+    tbody.innerHTML=`<tr><td colspan="8" style="text-align:center;padding:32px 0;color:var(--txt-faded);font-style:italic;font-family:'Cormorant Garamond',serif;font-size:15px;">Aucun lieu vérifié pour le moment. Ajouter une visite ci-dessus.</td></tr>`;
+    return;
+  }
+  tbody.innerHTML=state.lieux.map((l,i)=>`<tr>
+    <td style="font-family:'DM Mono',monospace;font-size:11px;color:var(--txt-mid);">${l.date||''}</td>
+    <td><span class="cat-badge cat-verif">${l.cat}</span></td>
+    <td style="color:var(--creme);font-weight:500;">${l.nom}</td>
+    <td style="color:var(--txt-mid);font-size:12px;">${l.zone||''}</td>
+    <td class="montant">${l.montant?fmt(l.montant)+' €':'—'}</td>
+    <td><span class="statut-badge ${l.verdict==='Validé'?'statut-paye':(l.verdict==='Rejeté'?'statut-engage':'statut-prevu')}" data-i="${i}" data-type="lieu">${l.verdict||'À évaluer'}</span></td>
+    <td class="notes-cell">${l.notes||''}</td>
+    <td class="del-btn" data-i="${i}" data-type="lieudel">✕</td>
+  </tr>`).join('');
+}
+
+function renderAll(){renderRecap();renderDepenses();renderComparatifs();renderLieux();}
+
+document.addEventListener('click',e=>{
+  if(!EDITABLE)return; // apporteurs : lecture seule
+  const el=e.target.closest('[data-type]');
+  if(!el)return;
+  const i=parseInt(el.dataset.i);
+  const type=el.dataset.type;
+  if(type==='dep'){state.depenses[i].statut=cycleStatut(state.depenses[i].statut);saveState();renderAll();}
+  else if(type==='comp'){state.comparatifs[i].statut=cycleCompStatut(state.comparatifs[i].statut);saveState();renderAll();}
+  else if(type==='lieu'){
+    const cycle=['À évaluer','Validé','Rejeté'];
+    const cur=state.lieux[i].verdict||'À évaluer';
+    state.lieux[i].verdict=cycle[(cycle.indexOf(cur)+1)%cycle.length];
+    saveState();renderAll();
+  }
+  else if(type==='lieudel'){if(confirm('Supprimer cette visite ?')){state.lieux.splice(i,1);saveState();renderAll();}}
+});
+
+document.getElementById('add-lieu').addEventListener('click',()=>{
+  const nom=document.getElementById('lieu-nom').value.trim();
+  if(!nom)return alert('Nom du lieu requis');
+  state.lieux.push({
+    date:document.getElementById('lieu-date').value||new Date().toISOString().split('T')[0],
+    cat:document.getElementById('lieu-cat').value,
+    nom:nom,
+    zone:document.getElementById('lieu-zone').value,
+    montant:parseInt(document.getElementById('lieu-montant').value)||0,
+    verdict:'À évaluer',
+    notes:document.getElementById('lieu-notes').value
+  });
+  ['lieu-date','lieu-nom','lieu-zone','lieu-montant','lieu-notes'].forEach(id=>document.getElementById(id).value='');
+  saveState();renderAll();
+});
+
+document.getElementById('export-btn').addEventListener('click',()=>{
+  const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='albert_tracabilite_'+new Date().toISOString().split('T')[0]+'.json';
+  a.click();
+});
+
+document.getElementById('reset-btn').addEventListener('click',()=>{
+  if(confirm('Reset complet ? Toutes tes modifications seront effacées.')){
+    state={depenses:INITIAL_DEPENSES,comparatifs:INITIAL_COMPARATIFS,lieux:[]};
+    saveState();renderAll();
+  }
+});
+
+// ===== Mode lecture seule : masquer les contrôles d'édition =====
+function applyReadOnlyUI(){
+  if (EDITABLE) return;
+  // barre export/reset + formulaire d'ajout de lieu réservés à l'équipe
+  ['export-btn','reset-btn'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
+  const addBtn=document.getElementById('add-lieu');
+  if(addBtn){const form=addBtn.closest('.lieu-form')||addBtn.parentElement;if(form)form.style.display='none';}
+  document.body.classList.add('read-only');
+}
+
+// ===== Gate mot de passe =====
+const gate=document.getElementById('gate');
+const gateErr=document.getElementById('gate-err');
+const gatePw=document.getElementById('gate-pw');
+document.body.classList.add('locked');
+
+async function tryUnlock(pw){
+  gateErr.textContent='';
+  try{
+    const data=await apiGet(pw);
+    PW=pw; sessionStorage.setItem('albert_tracker_pw',pw);
+    applyData(data);
+    gate.style.display='none';
+    document.body.classList.remove('locked');
+    applyReadOnlyUI();
+    startPolling();
+    return true;
+  }catch(err){
+    if(String(err.message)==='unauthorized'){gateErr.textContent='Mot de passe incorrect.';}
+    else{gateErr.textContent='Erreur de connexion. Réessayez.';}
+    sessionStorage.removeItem('albert_tracker_pw');
+    return false;
+  }
+}
+
+document.getElementById('gate-btn').addEventListener('click',()=>tryUnlock(gatePw.value.trim()));
+gatePw.addEventListener('keydown',e=>{if(e.key==='Enter')tryUnlock(gatePw.value.trim());});
+
+// ===== Live : rafraîchissement quasi-instantané sans recharger =====
+function startPolling(){
+  setInterval(async()=>{
+    try{
+      const data=await apiGet(PW);
+      if(data.updated_at!==lastUpdated){
+        // en édition, ne pas écraser une modif locale très récente
+        if(EDITABLE && Date.now()-lastLocalWrite<6000) return;
+        applyData(data);
+      }
+    }catch(e){}
+  },7000);
+}
+
+// Si déjà déverrouillé dans cette session, on entre directement.
+(async()=>{
+  if(PW){ const ok=await tryUnlock(PW); if(ok) return; }
+  gatePw.focus();
+})();
+</script>
+</body>
+</html>

@@ -139,6 +139,59 @@ app.post('/api/apply', async (req, res) => {
   return res.json({ ok: true });
 });
 
+// ---------- Traçabilité des dépenses (document partagé apporteurs) ----------
+// État central dans Supabase (table expense_tracker, accès service-role only).
+// Lecture protégée par mot de passe ; écriture protégée par un token d'édition.
+const TRACKER_ID = 'albert-2026';
+const TRACKER_PASSWORD = process.env.TRACKER_PASSWORD || '';
+const TRACKER_EDIT_TOKEN = process.env.TRACKER_EDIT_TOKEN || '';
+
+// Comparaison à temps constant pour éviter le timing-attack sur le secret.
+function safeEqual(a, b) {
+  a = String(a || ''); b = String(b || '');
+  if (a.length !== b.length) return false;
+  let out = 0;
+  for (let i = 0; i < a.length; i++) out |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return out === 0;
+}
+
+// Lecture : apporteurs (mot de passe) ou équipe (token).
+app.get('/api/tracker', async (req, res) => {
+  const pw = req.query.pw || '';
+  const tok = req.query.edit || '';
+  const ok = (TRACKER_PASSWORD && safeEqual(pw, TRACKER_PASSWORD)) ||
+             (TRACKER_EDIT_TOKEN && safeEqual(tok, TRACKER_EDIT_TOKEN));
+  if (!ok) return res.status(401).json({ ok: false, error: 'unauthorized' });
+  if (!supabase) return res.status(503).json({ ok: false, error: 'no_store' });
+
+  const { data, error } = await supabase
+    .from('expense_tracker')
+    .select('state, updated_at')
+    .eq('id', TRACKER_ID)
+    .maybeSingle();
+  if (error) return res.status(500).json({ ok: false, error: 'read_failed' });
+  return res.json({ state: data?.state || { depenses: [], comparatifs: [], lieux: [] }, updated_at: data?.updated_at || null });
+});
+
+// Écriture : équipe uniquement (token d'édition).
+app.post('/api/tracker', async (req, res) => {
+  const body = req.body || {};
+  if (!TRACKER_EDIT_TOKEN || !safeEqual(body.token, TRACKER_EDIT_TOKEN)) {
+    return res.status(401).json({ ok: false, error: 'unauthorized' });
+  }
+  if (!body.state || typeof body.state !== 'object') {
+    return res.status(400).json({ ok: false, error: 'invalid_state' });
+  }
+  if (!supabase) return res.status(503).json({ ok: false, error: 'no_store' });
+
+  const updated_at = new Date().toISOString();
+  const { error } = await supabase
+    .from('expense_tracker')
+    .upsert({ id: TRACKER_ID, state: body.state, updated_at }, { onConflict: 'id' });
+  if (error) return res.status(500).json({ ok: false, error: 'write_failed' });
+  return res.json({ ok: true, updated_at });
+});
+
 // ---------- Marketplace · brief parsing ----------
 // POST { brief: "natural language" } -> { city, category, guests, dates, budget_max, dietary, notes }
 const MK_CITIES = ['Monaco', 'Mykonos', 'Paris', 'Dubai', 'Tokyo', 'London', 'St-Tropez', 'Aspen'];
@@ -206,10 +259,26 @@ app.post('/api/marketplace/brief-request', (req, res) => {
   return res.json({ ok: true });
 });
 
+// Sous-domaine dédié finances.* : la racine sert le document de traçabilité.
+function isFinancesHost(req) {
+  return String(req.headers.host || '').toLowerCase().startsWith('finances.');
+}
+app.get('/', (req, res, next) => {
+  if (isFinancesHost(req)) {
+    return res.sendFile(path.join(__dirname, 'public', 'tracabilite.html'));
+  }
+  next();
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Accessible aussi par chemin explicite (tout domaine).
+app.get('/tracabilite', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'tracabilite.html'));
 });
 
 // Membership application form.
