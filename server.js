@@ -7,7 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Body parsing for JSON APIs.
-app.use(express.json({ limit: '8kb' }));
+app.use(express.json({ limit: '96kb' }));
 
 // Anthropic client for marketplace brief parsing.
 const anthropic = process.env.ANTHROPIC_API_KEY
@@ -139,9 +139,50 @@ app.post('/api/apply', async (req, res) => {
   return res.json({ ok: true });
 });
 
+// ---------- Venue submissions (établissements candidats) ----------
+// POST { venue_name, category, city, address?, website?, instagram?,
+//        contact_name, contact_email, contact_phone?, message }
+// Persiste dans place_submissions (status 'pending'). Revu dans le back-office.
+app.post('/api/place-submission', async (req, res) => {
+  const b = req.body || {};
+  const str = (v, max) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
+
+  const submission = {
+    venue_name: str(b.venue_name, 160),
+    category: str(b.category, 80) || null,
+    city: str(b.city, 120) || null,
+    address: str(b.address, 300) || null,
+    website: str(b.website, 300) || null,
+    instagram: str(b.instagram, 200) || null,
+    contact_name: str(b.contact_name, 120) || null,
+    contact_email: str(b.contact_email, 254).toLowerCase(),
+    contact_phone: str(b.contact_phone, 40) || null,
+    message: str(b.message, 4000) || null,
+    source: 'website',
+    status: 'pending',
+  };
+
+  if (!submission.venue_name) return res.status(400).json({ ok: false, error: 'missing_name' });
+  if (!EMAIL_RE.test(submission.contact_email)) return res.status(400).json({ ok: false, error: 'invalid_email' });
+
+  if (!supabase) {
+    console.log('[venue:no-store]', JSON.stringify(submission));
+    return res.json({ ok: true });
+  }
+
+  const { error } = await supabase.from('place_submissions').insert(submission);
+  if (error) {
+    console.error('[venue] insert failed:', error.message, error.code);
+    return res.status(500).json({ ok: false, error: 'storage_failed' });
+  }
+  console.log('[venue] stored', submission.venue_name);
+  return res.json({ ok: true });
+});
+
 // ---------- Traçabilité des dépenses (document partagé apporteurs) ----------
-// État central dans Supabase (table expense_tracker, accès service-role only).
-// Lecture protégée par mot de passe ; écriture protégée par un token d'édition.
+// Modèle RELATIONNEL : une ligne par dépense / comparatif / lieu / fiche, dans
+// des tables dédiées (accès service-role only). Lecture = mot de passe OU token ;
+// écriture (create/update/delete par item) = mot de passe OU token.
 const TRACKER_ID = 'albert-2026';
 const TRACKER_PASSWORD = process.env.TRACKER_PASSWORD || '';
 const TRACKER_EDIT_TOKEN = process.env.TRACKER_EDIT_TOKEN || '';
@@ -155,41 +196,99 @@ function safeEqual(a, b) {
   return out === 0;
 }
 
-// Lecture : apporteurs (mot de passe) ou équipe (token).
+// Config par type : table + mapping clé(client) -> colonne(DB) (clés absentes =
+// identiques) + whitelist des champs autorisés (anti-injection de colonnes).
+const TRACKER_KINDS = {
+  depense:    { table: 'tracker_depenses',    key: 'depenses',    map: { desc: 'description' },
+                fields: ['cat','ligne','desc','montant','tranche','comp','statut','notes','ref'] },
+  comparatif: { table: 'tracker_comparatifs', key: 'comparatifs', map: { desc: 'description', date: 'date_str' },
+                fields: ['ref','cat','desc','date','presta','choix','montant','statut'] },
+  lieu:       { table: 'tracker_lieux',       key: 'lieux',       map: { date: 'date_str' },
+                fields: ['date','cat','nom','zone','montant','verdict','notes'] },
+  fiche:      { table: 'tracker_fiches',      key: 'fiches',      map: { date: 'date_str', montant: 'montant_str' },
+                fields: ['ref','date','tranche','categorie','sousligne','montant','description','pourquoi','option1','option2','option3','criteres','choix','justification','modalites','source'] },
+};
+const INT_MONTANT = { depense: true, comparatif: true, lieu: true }; // fiche.montant = texte libre
+
+function toRow(kind, item) {
+  const cfg = TRACKER_KINDS[kind];
+  const row = {};
+  for (const k of cfg.fields) {
+    if (item[k] === undefined) continue;
+    const col = cfg.map[k] || k;
+    let v = item[k];
+    if (k === 'montant' && INT_MONTANT[kind]) v = parseInt(v) || 0;
+    else if (typeof v === 'string') v = v.slice(0, 4000);
+    row[col] = v;
+  }
+  return row;
+}
+function toItem(kind, row) {
+  const cfg = TRACKER_KINDS[kind];
+  const item = { id: row.id };
+  for (const k of cfg.fields) item[k] = row[cfg.map[k] || k];
+  return item;
+}
+function trackerAuth(body) {
+  return (TRACKER_EDIT_TOKEN && safeEqual(body.token, TRACKER_EDIT_TOKEN)) ||
+         (TRACKER_PASSWORD && safeEqual(body.pw, TRACKER_PASSWORD));
+}
+
+// Lecture : assemble l'état complet depuis les 4 tables. mdp OU token.
 app.get('/api/tracker', async (req, res) => {
-  const pw = req.query.pw || '';
-  const tok = req.query.edit || '';
-  const ok = (TRACKER_PASSWORD && safeEqual(pw, TRACKER_PASSWORD)) ||
-             (TRACKER_EDIT_TOKEN && safeEqual(tok, TRACKER_EDIT_TOKEN));
+  const ok = (TRACKER_PASSWORD && safeEqual(req.query.pw || '', TRACKER_PASSWORD)) ||
+             (TRACKER_EDIT_TOKEN && safeEqual(req.query.edit || '', TRACKER_EDIT_TOKEN));
   if (!ok) return res.status(401).json({ ok: false, error: 'unauthorized' });
   if (!supabase) return res.status(503).json({ ok: false, error: 'no_store' });
 
-  const { data, error } = await supabase
-    .from('expense_tracker')
-    .select('state, updated_at')
-    .eq('id', TRACKER_ID)
-    .maybeSingle();
-  if (error) return res.status(500).json({ ok: false, error: 'read_failed' });
-  return res.json({ state: data?.state || { depenses: [], comparatifs: [], lieux: [] }, updated_at: data?.updated_at || null });
+  const state = { depenses: [], comparatifs: [], lieux: [], fiches: [] };
+  let maxUpdated = null;
+  for (const kind of Object.keys(TRACKER_KINDS)) {
+    const cfg = TRACKER_KINDS[kind];
+    const { data, error } = await supabase
+      .from(cfg.table).select('*').eq('tracker_id', TRACKER_ID).order('created_at', { ascending: true });
+    if (error) return res.status(500).json({ ok: false, error: 'read_failed' });
+    state[cfg.key] = (data || []).map(r => {
+      if (!maxUpdated || r.updated_at > maxUpdated) maxUpdated = r.updated_at;
+      return toItem(kind, r);
+    });
+  }
+  return res.json({ state, updated_at: maxUpdated });
 });
 
-// Écriture : équipe uniquement (token d'édition).
-app.post('/api/tracker', async (req, res) => {
+// Écriture par item : { op: create|update|delete, kind, item|id|patch }.
+// Tout détenteur du document (mot de passe) ou l'équipe (token) peut écrire.
+app.post('/api/tracker/item', async (req, res) => {
   const body = req.body || {};
-  if (!TRACKER_EDIT_TOKEN || !safeEqual(body.token, TRACKER_EDIT_TOKEN)) {
-    return res.status(401).json({ ok: false, error: 'unauthorized' });
-  }
-  if (!body.state || typeof body.state !== 'object') {
-    return res.status(400).json({ ok: false, error: 'invalid_state' });
-  }
+  if (!trackerAuth(body)) return res.status(401).json({ ok: false, error: 'unauthorized' });
+  const cfg = TRACKER_KINDS[body.kind];
+  if (!cfg) return res.status(400).json({ ok: false, error: 'bad_kind' });
   if (!supabase) return res.status(503).json({ ok: false, error: 'no_store' });
 
-  const updated_at = new Date().toISOString();
-  const { error } = await supabase
-    .from('expense_tracker')
-    .upsert({ id: TRACKER_ID, state: body.state, updated_at }, { onConflict: 'id' });
-  if (error) return res.status(500).json({ ok: false, error: 'write_failed' });
-  return res.json({ ok: true, updated_at });
+  if (body.op === 'create') {
+    const row = toRow(body.kind, body.item || {});
+    row.tracker_id = TRACKER_ID;
+    const { data, error } = await supabase.from(cfg.table).insert(row).select('*').single();
+    if (error) return res.status(500).json({ ok: false, error: 'write_failed' });
+    return res.json({ ok: true, item: toItem(body.kind, data) });
+  }
+  if (body.op === 'update') {
+    if (!body.id) return res.status(400).json({ ok: false, error: 'no_id' });
+    const row = toRow(body.kind, body.patch || {});
+    row.updated_at = new Date().toISOString();
+    const { data, error } = await supabase.from(cfg.table)
+      .update(row).eq('id', body.id).eq('tracker_id', TRACKER_ID).select('*').maybeSingle();
+    if (error) return res.status(500).json({ ok: false, error: 'write_failed' });
+    return res.json({ ok: true, item: data ? toItem(body.kind, data) : null });
+  }
+  if (body.op === 'delete') {
+    if (!body.id) return res.status(400).json({ ok: false, error: 'no_id' });
+    const { error } = await supabase.from(cfg.table)
+      .delete().eq('id', body.id).eq('tracker_id', TRACKER_ID);
+    if (error) return res.status(500).json({ ok: false, error: 'delete_failed' });
+    return res.json({ ok: true });
+  }
+  return res.status(400).json({ ok: false, error: 'bad_op' });
 });
 
 // ---------- Marketplace · brief parsing ----------
@@ -284,6 +383,11 @@ app.get('/tracabilite', (req, res) => {
 // Membership application form.
 app.get('/apply', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'apply.html'));
+});
+
+// Venue submission form (establishments applying to be reviewed by Albert).
+app.get('/partner', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'partner.html'));
 });
 
 // Hidden investor mockup — not linked from the main site.

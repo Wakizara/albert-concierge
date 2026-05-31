@@ -43,16 +43,24 @@ h1,h2,h3,h4{font-family:'Cormorant Garamond',serif;font-weight:400;letter-spacin
 .gate button:hover{opacity:.88;}
 .gate-err{margin-top:16px;color:var(--red);font-size:12px;font-style:italic;min-height:16px;}
 body.locked{overflow:hidden;}
-.read-only-only{display:none;}
 
 /* HEADER */
-.hero{border-bottom:1px solid var(--line-strong);padding-bottom:36px;margin-bottom:40px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px;}
+.hero{border-bottom:1px solid var(--line-strong);padding-bottom:36px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px;}
 .hero-left{flex:1;min-width:340px;}
 .eyebrow{font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.22em;text-transform:uppercase;color:var(--or-clair);margin-bottom:14px;}
 h1{font-size:clamp(38px,4.5vw,58px);line-height:1.05;font-weight:300;color:var(--creme);margin-bottom:10px;}
 h1 em{font-style:italic;color:var(--or-clair);font-weight:300;}
 .subhead{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px;color:var(--txt-mid);font-weight:300;max-width:760px;}
 .hero-right{text-align:right;font-family:'DM Mono',monospace;font-size:11px;color:var(--txt-faded);letter-spacing:0.12em;text-transform:uppercase;}
+
+/* SECTION EDIT */
+.sec-head-right{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;justify-content:flex-end;}
+.sec-edit{background:transparent;border:1px solid var(--line-strong);color:var(--txt-mid);padding:7px 18px;font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:all .15s;white-space:nowrap;}
+.sec-edit:hover{border-color:var(--or);color:var(--or-clair);}
+.sec-edit.on{background:var(--or);color:var(--noir);border-color:var(--or);}
+/* Toast d'enregistrement (global) */
+.save-tag{position:fixed;bottom:24px;right:24px;z-index:60;background:var(--noir-2);border:1px solid rgba(122,181,136,0.45);color:var(--green);padding:9px 16px;border-radius:2px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;opacity:0;transition:opacity .3s;pointer-events:none;}
+.save-tag.show{opacity:1;}
 
 /* PRINCIPE */
 .principe{background:linear-gradient(135deg,rgba(184,146,42,0.06),rgba(184,146,42,0.0));border:1px solid rgba(184,146,42,0.3);padding:28px 36px;border-radius:2px;margin-bottom:44px;}
@@ -95,7 +103,8 @@ tbody tr:last-child td{border-bottom:none;}
 .cat-acq{border-color:rgba(201,161,58,0.45);color:var(--c-acq);}
 .cat-verif{border-color:rgba(122,181,136,0.45);color:var(--c-verif);}
 .cat-fonct{border-color:rgba(184,156,217,0.45);color:var(--c-fonct);}
-.statut-badge{display:inline-block;font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:0.12em;text-transform:uppercase;padding:4px 10px;border-radius:1px;cursor:pointer;text-align:center;min-width:80px;transition:all .15s;user-select:none;}
+.statut-badge{display:inline-block;font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:0.12em;text-transform:uppercase;padding:4px 10px;border-radius:1px;text-align:center;min-width:80px;transition:all .15s;user-select:none;}
+.section.editing .statut-badge{cursor:pointer;}
 .statut-prevu{background:rgba(249,247,243,0.06);color:var(--txt-mid);border:1px solid var(--line-strong);}
 .statut-engage{background:rgba(224,194,119,0.18);color:var(--yellow);border:1px solid rgba(224,194,119,0.4);}
 .statut-paye{background:rgba(122,181,136,0.18);color:var(--green);border:1px solid rgba(122,181,136,0.4);}
@@ -114,14 +123,22 @@ tbody tr:last-child td{border-bottom:none;}
 .statut-demarrer{background:rgba(249,247,243,0.06);color:var(--txt-mid);border:1px solid var(--line-strong);}
 .statut-clos{background:rgba(122,181,136,0.08);color:var(--txt-mid);border:1px solid var(--line);}
 
-/* LIEUX */
-.add-row{display:flex;gap:8px;padding:14px 12px;background:var(--noir-3);border-bottom:1px solid var(--line-strong);}
+/* ADD ROW (formulaires d'ajout, visibles en mode édition) */
+.add-row{display:flex;gap:8px;padding:14px 12px;background:var(--noir-3);border-bottom:1px solid var(--line-strong);flex-wrap:wrap;}
 .add-row input,.add-row select{background:var(--noir);border:1px solid var(--line-strong);color:var(--creme);padding:8px 12px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:300;border-radius:1px;}
-.add-row input{flex:1;min-width:120px;}
+.add-row input{flex:1;min-width:110px;}
 .add-row button{background:var(--or);color:var(--noir);border:none;padding:8px 18px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;border-radius:1px;font-weight:500;transition:all .15s;}
 .add-row button:hover{background:var(--or-clair);}
 .del-btn{cursor:pointer;color:var(--txt-faded);font-family:'DM Mono',monospace;font-size:14px;text-align:center;}
 .del-btn:hover{color:var(--red);}
+
+/* Colonnes / éléments réservés à l'édition */
+.edit-only{display:none;}
+.section.editing .add-row.edit-only{display:flex;}
+.section.editing th.col-act,.section.editing td.col-act{display:table-cell;}
+th.col-act,td.col-act{display:none;}
+.section.editing .meta-edit{display:inline;}
+.meta-edit{display:none;}
 
 /* FICHE DECISION */
 .fiche-template{background:var(--noir-2);border:1px solid var(--line);border-radius:2px;padding:36px 44px;}
@@ -131,13 +148,19 @@ tbody tr:last-child td{border-bottom:none;}
 .fiche-grid{display:grid;grid-template-columns:200px 1fr;gap:8px 24px;}
 .fiche-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--or-clair);padding-top:8px;}
 .fiche-value{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--txt-mid);padding:8px 0;border-bottom:1px solid var(--line);font-style:italic;}
+.fiche-template+.fiche-template{margin-top:16px;}
+.fiche-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;}
+.fiche-del{cursor:pointer;color:var(--txt-faded);font-family:'DM Mono',monospace;font-size:13px;}
+.fiche-del:hover{color:var(--red);}
+.fiche-value[contenteditable="true"]{outline:none;cursor:text;min-height:20px;font-style:normal;color:var(--creme);}
+.fiche-value[contenteditable="true"]:focus{border-color:var(--or);}
+.fiche-value[contenteditable="true"]:empty:before{content:attr(data-ph);color:var(--txt-faded);opacity:.55;font-style:italic;}
+.fiche-note{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--txt-faded);font-size:14px;margin-top:12px;}
 
 /* FOOTER */
 .foot{margin-top:60px;padding-top:28px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;font-family:'DM Mono',monospace;font-size:10.5px;color:var(--txt-faded);letter-spacing:0.15em;text-transform:uppercase;flex-wrap:wrap;gap:16px;}
 .foot button{background:transparent;border:1px solid var(--line-strong);color:var(--txt-mid);padding:8px 18px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:all .15s;}
 .foot button:hover{border-color:var(--or);color:var(--or-clair);}
-.foot .export-btn{background:var(--or);color:var(--noir);border-color:var(--or);}
-.foot .export-btn:hover{background:var(--or-clair);border-color:var(--or-clair);color:var(--noir);}
 
 @media (max-width:1100px){
   .recap-grid{grid-template-columns:repeat(2,1fr);}
@@ -168,13 +191,16 @@ tbody tr:last-child td{border-bottom:none;}
   <div class="hero-left">
     <div class="eyebrow">Traçabilité · Juin → août 2026</div>
     <h1>Où va chaque <em>euro investi</em>.</h1>
-    <div class="subhead">Tracking des dépenses, comparatifs et vérifications de lieux sur les 3 mois Bangkok. Document partagé en lecture seule avec les apporteurs.</div>
+    <div class="subhead">Tracking des dépenses, comparatifs et vérifications de lieux sur les 3 mois Bangkok. Document partagé avec les apporteurs.</div>
   </div>
   <div class="hero-right">
     <div>Version live</div>
     <div style="margin-top:6px;color:var(--or-clair);" id="last-update">—</div>
   </div>
 </div>
+
+<!-- Toast d'enregistrement (global) -->
+<div class="save-tag" id="save-tag">Enregistré ✓</div>
 
 <!-- PRINCIPE -->
 <div class="principe">
@@ -204,12 +230,29 @@ tbody tr:last-child td{border-bottom:none;}
 </div>
 
 <!-- DÉPENSES -->
-<div class="section">
+<div class="section" data-section="depenses">
   <div class="section-head">
     <h2>Dépenses <em>détaillées</em></h2>
-    <div class="meta">Cliquer sur un statut pour le faire évoluer</div>
+    <div class="sec-head-right">
+      <div class="meta"><span class="meta-edit">Cliquer sur un statut pour le faire évoluer · </span>Suivi des engagements</div>
+      <button class="sec-edit" data-edit-section="depenses">Éditer</button>
+    </div>
   </div>
   <div class="table-wrap">
+    <div class="add-row edit-only" id="dep-form">
+      <select id="dep-cat">
+        <option>Application</option><option>Acquisition de membres</option><option>Vérification des lieux Bangkok</option><option>Fonctionnement courant et réserve</option>
+      </select>
+      <input type="text" id="dep-ligne" placeholder="Sous-ligne">
+      <input type="text" id="dep-desc" placeholder="Description">
+      <input type="number" id="dep-montant" placeholder="€" style="width:90px;flex:none;">
+      <input type="text" id="dep-tranche" placeholder="Tranche (T1…)" style="width:110px;flex:none;">
+      <select id="dep-comp">
+        <option value="oui">Comparatif: Oui</option><option value="no">Standard</option><option value="exception">Exception</option><option value="aval">En aval</option><option value="fiche">Fiche profil</option>
+      </select>
+      <input type="text" id="dep-notes" placeholder="Notes">
+      <button id="add-dep">Ajouter</button>
+    </div>
     <table>
       <thead>
         <tr>
@@ -220,6 +263,7 @@ tbody tr:last-child td{border-bottom:none;}
           <th style="width:100px;">Comparatif</th>
           <th style="width:100px;">Statut</th>
           <th>Notes</th>
+          <th class="col-act" style="width:40px;"></th>
         </tr>
       </thead>
       <tbody id="depenses-body"></tbody>
@@ -228,12 +272,24 @@ tbody tr:last-child td{border-bottom:none;}
 </div>
 
 <!-- COMPARATIFS -->
-<div class="section">
+<div class="section" data-section="comparatifs">
   <div class="section-head">
     <h2>Comparatifs <em>et devis</em></h2>
-    <div class="meta">RFQ ouverts · décisions en cours</div>
+    <div class="sec-head-right">
+      <div class="meta">RFQ ouverts · décisions en cours</div>
+      <button class="sec-edit" data-edit-section="comparatifs">Éditer</button>
+    </div>
   </div>
   <div class="table-wrap">
+    <div class="add-row edit-only" id="comp-form">
+      <input type="text" id="comp-ref" placeholder="Référence" style="width:130px;flex:none;">
+      <input type="text" id="comp-cat" placeholder="Catégorie" style="width:120px;flex:none;">
+      <input type="text" id="comp-desc" placeholder="Description">
+      <input type="text" id="comp-presta" placeholder="Prestataires sollicités">
+      <input type="text" id="comp-choix" placeholder="Choix retenu" style="width:140px;flex:none;">
+      <input type="number" id="comp-montant" placeholder="€" style="width:90px;flex:none;">
+      <button id="add-comp">Ajouter</button>
+    </div>
     <table>
       <thead>
         <tr>
@@ -243,6 +299,7 @@ tbody tr:last-child td{border-bottom:none;}
           <th style="width:160px;">Choix retenu</th>
           <th style="width:90px;">Montant</th>
           <th style="width:100px;">Statut</th>
+          <th class="col-act" style="width:40px;"></th>
         </tr>
       </thead>
       <tbody id="comparatifs-body"></tbody>
@@ -251,20 +308,23 @@ tbody tr:last-child td{border-bottom:none;}
 </div>
 
 <!-- LIEUX VÉRIFIÉS -->
-<div class="section">
+<div class="section" data-section="lieux">
   <div class="section-head">
     <h2>Lieux <em>vérifiés</em></h2>
-    <div class="meta">Justifie la ligne « Vérification lieux » sans comparatif</div>
+    <div class="sec-head-right">
+      <div class="meta">Justifie la ligne « Vérification lieux » sans comparatif</div>
+      <button class="sec-edit" data-edit-section="lieux">Éditer</button>
+    </div>
   </div>
   <div class="table-wrap">
-    <div class="add-row">
-      <input type="date" id="lieu-date">
+    <div class="add-row edit-only" id="lieu-form">
+      <input type="date" id="lieu-date" style="flex:none;">
       <select id="lieu-cat">
         <option>Hôtel boutique</option><option>Restaurant</option><option>Bar/rooftop</option><option>Club/lounge</option><option>Café spécialité</option><option>Spa</option><option>Massage</option><option>Nails</option><option>Barbier/coiffeur</option><option>Pilates</option><option>HYROX</option><option>Boxe</option><option>Yoga</option><option>Coworking</option><option>Chauffeur</option><option>Tour guide</option>
       </select>
       <input type="text" id="lieu-nom" placeholder="Nom du lieu">
       <input type="text" id="lieu-zone" placeholder="Zone (Sukhumvit, Sathorn…)">
-      <input type="number" id="lieu-montant" placeholder="€" style="width:80px;">
+      <input type="number" id="lieu-montant" placeholder="€" style="width:80px;flex:none;">
       <input type="text" id="lieu-notes" placeholder="Notes brèves">
       <button id="add-lieu">Ajouter</button>
     </div>
@@ -278,7 +338,7 @@ tbody tr:last-child td{border-bottom:none;}
           <th style="width:90px;">Conso</th>
           <th style="width:120px;">Verdict</th>
           <th>Notes</th>
-          <th style="width:40px;"></th>
+          <th class="col-act" style="width:40px;"></th>
         </tr>
       </thead>
       <tbody id="lieux-body"></tbody>
@@ -286,46 +346,29 @@ tbody tr:last-child td{border-bottom:none;}
   </div>
 </div>
 
-<!-- FICHE DECISION -->
-<div class="section">
+<!-- FICHES DECISION -->
+<div class="section" data-section="fiches">
   <div class="section-head">
-    <h2>Fiche de <em>décision</em></h2>
-    <div class="meta">Template à dupliquer pour chaque dépense > 500 €</div>
-  </div>
-  <div class="fiche-template">
-    <h3>FICHE-<em>XXX</em></h3>
-    <div class="desc">Format 1 page. Joindre au bilan bi-mensuel correspondant.</div>
-    <div class="fiche-grid">
-      <div class="fiche-label">Référence</div><div class="fiche-value">FICHE-XXX</div>
-      <div class="fiche-label">Date d'engagement</div><div class="fiche-value">JJ/MM/AAAA</div>
-      <div class="fiche-label">Tranche</div><div class="fiche-value">T?</div>
-      <div class="fiche-label">Catégorie</div><div class="fiche-value">Application · Acquisition · Vérification lieux · Fonctionnement</div>
-      <div class="fiche-label">Sous-ligne</div><div class="fiche-value">[À préciser]</div>
-      <div class="fiche-label">Montant</div><div class="fiche-value">[€ HT ou TTC]</div>
-      <div class="fiche-label">Description</div><div class="fiche-value">[Description claire en 1-2 phrases]</div>
-      <div class="fiche-label">Pourquoi</div><div class="fiche-value">[Lien avec un objectif des 3 mois]</div>
-      <div class="fiche-label">Option 1</div><div class="fiche-value">[Nom · prix · forces · faiblesses]</div>
-      <div class="fiche-label">Option 2</div><div class="fiche-value">[Nom · prix · forces · faiblesses]</div>
-      <div class="fiche-label">Option 3</div><div class="fiche-value">[Nom · prix · forces · faiblesses]</div>
-      <div class="fiche-label">Critères de décision</div><div class="fiche-value">[Qualité · délai · coût · track record · etc.]</div>
-      <div class="fiche-label">Choix retenu</div><div class="fiche-value">[Option choisie]</div>
-      <div class="fiche-label">Justification</div><div class="fiche-value">[1-2 phrases]</div>
-      <div class="fiche-label">Modalités</div><div class="fiche-value">[Acompte · échelonnement · pénalités · sortie]</div>
-      <div class="fiche-label">Source du comparatif</div><div class="fiche-value">[Emails / PDF / liens · archivés où]</div>
+    <h2>Fiches de <em>décision</em></h2>
+    <div class="sec-head-right">
+      <div class="meta">Une fiche par dépense > 500 €<span class="meta-edit"> · « Ajouter une fiche » pour en créer une</span></div>
+      <button class="sec-edit" data-edit-section="fiches">Éditer</button>
     </div>
   </div>
+  <div class="add-row edit-only" id="fiche-add-bar" style="margin-bottom:16px;border-radius:2px;">
+    <button id="add-fiche">+ Ajouter une fiche</button>
+  </div>
+  <div id="fiches-wrap"></div>
 </div>
 
 <div class="foot">
-  <div>Albert · Traçabilité dépenses · v1.0</div>
+  <div>Albert · Traçabilité dépenses · v1.1</div>
   <div style="display:flex;gap:10px;">
-    <button id="export-btn" class="export-btn">Exporter JSON</button>
-    <button id="reset-btn">Reset données</button>
+    <button id="export-btn">Exporter JSON</button>
   </div>
 </div>
 
 <script>
-const STORAGE_KEY = 'albert_tracabilite_2026';
 const CAT_KEYS = {
   'Application':'app',
   'Acquisition de membres':'acq',
@@ -338,75 +381,80 @@ const BUDGETS = {
   'Vérification des lieux Bangkok':9500,
   'Fonctionnement courant et réserve':7000
 };
-
-const INITIAL_DEPENSES = [
-  {cat:'Application',ligne:'Création complète',desc:'Build app iOS + Android · Stripe Billing · stores',montant:22000,tranche:'T2-T4',comp:'oui',statut:'prevu',notes:'RFQ envoyé 4 agences (STX Next · Apptension · Seven Peaks · Robosoft)',ref:'RFQ-APP-01'},
-  {cat:'Acquisition de membres',ligne:'Ambassadrice Sabrina Kihm',desc:'Mission Europe / Afrique du Sud / Saint-Barth été 2026',montant:16000,tranche:'T2-T6',comp:'fiche',statut:'engage',notes:'Profil unique sélectionné · fiche dédiée',ref:'FICHE-AMB-01'},
-  {cat:'Acquisition de membres',ligne:'Paid ads Meta + LinkedIn',desc:'Campagnes segment premium',montant:10000,tranche:'T3-T6',comp:'aval',statut:'prevu',notes:'ROI / CAC tracké en aval',ref:''},
-  {cat:'Acquisition de membres',ligne:'Séance photo fondateur',desc:'Asset visuel LinkedIn + deck + brochure',montant:500,tranche:'T1',comp:'oui',statut:'prevu',notes:'3 photographes à shortlister semaine 1',ref:'COMP-PHOTO-BKK'},
-  {cat:'Acquisition de membres',ligne:'Vidéaste Bangkok',desc:'3-4 reels courts founder series',montant:1300,tranche:'T3',comp:'oui',statut:'prevu',notes:'2-3 vidéastes à comparer',ref:'COMP-VIDEO-BKK'},
-  {cat:'Acquisition de membres',ligne:'Carrousels designés',desc:'4-6 carrousels positionnement',montant:1000,tranche:'T1-T3',comp:'oui',statut:'prevu',notes:'Fiverr Pro ou freelance',ref:'COMP-DESIGN-01'},
-  {cat:'Acquisition de membres',ligne:'Outils scheduling LinkedIn',desc:'Taplio ou Shield · 3 mois',montant:240,tranche:'T1-T6',comp:'oui',statut:'prevu',notes:'',ref:'COMP-OUTILS-01'},
-  {cat:'Acquisition de membres',ligne:'Outils CRM',desc:'Pipedrive / HubSpot / Notion CRM',montant:600,tranche:'T1-T6',comp:'oui',statut:'prevu',notes:'À cadrer',ref:'COMP-CRM-01'},
-  {cat:'Acquisition de membres',ligne:'Boost LinkedIn',desc:'1-2 posts stratégiques',montant:500,tranche:'T3-T6',comp:'aval',statut:'prevu',notes:'',ref:''},
-  {cat:'Acquisition de membres',ligne:'Réserve brand',desc:'Impressions / events / micro-PR',montant:860,tranche:'T1-T6',comp:'aval',statut:'prevu',notes:'Documenté à la dépense',ref:''},
-  {cat:'Vérification des lieux Bangkok',ligne:'Consommation au lieu',desc:'50-60 visites multi-catégories',montant:7500,tranche:'T1-T7',comp:'exception',statut:'prevu',notes:'Compte-rendu par lieu ci-dessous',ref:''},
-  {cat:'Vérification des lieux Bangkok',ligne:'Transport entre lieux',desc:'Grab et occasionnels',montant:800,tranche:'T1-T7',comp:'no',statut:'prevu',notes:'',ref:''},
-  {cat:'Vérification des lieux Bangkok',ligne:'Hospitalité opportuniste',desc:'Cafés / déjeuners avec GMs',montant:1000,tranche:'T1-T7',comp:'exception',statut:'prevu',notes:'',ref:''},
-  {cat:'Vérification des lieux Bangkok',ligne:'Kits de présentation',desc:'Impressions + digital',montant:200,tranche:'T1-T2',comp:'oui',statut:'prevu',notes:'',ref:'COMP-PRINT-01'},
-  {cat:'Fonctionnement courant et réserve',ligne:'Outils SaaS',desc:'Notion · Linear · Figma · IA',montant:300,tranche:'T1-T7',comp:'no',statut:'prevu',notes:'',ref:''},
-  {cat:'Fonctionnement courant et réserve',ligne:'Infrastructure tech',desc:'Hosting · services tiers · domaines',montant:1500,tranche:'T1-T7',comp:'oui',statut:'prevu',notes:'Cadré avec presta app retenu',ref:'COMP-INFRA-01'},
-  {cat:'Fonctionnement courant et réserve',ligne:'Réserve d\'aléa',desc:'Imprévus opérationnels',montant:5200,tranche:'T1-T7',comp:'aval',statut:'prevu',notes:'Justifié à chaque consommation',ref:''},
-];
-
-const INITIAL_COMPARATIFS = [
-  {ref:'RFQ-APP-01',cat:'Application',desc:'Création complète application',date:'30 mai 2026',presta:'STX Next · Apptension · Seven Peaks · Robosoft',choix:'',montant:22000,statut:'ouvert'},
-  {ref:'FICHE-AMB-01',cat:'Acquisition',desc:'Ambassadrice Albert',date:'29 mai 2026',presta:'Profil unique · fiche dédiée',choix:'Sabrina Kihm',montant:16000,statut:'decide'},
-  {ref:'COMP-PHOTO-BKK',cat:'Acquisition',desc:'Photographe Bangkok lifestyle',date:'',presta:'3 candidats à shortlister',choix:'',montant:500,statut:'demarrer'},
-  {ref:'COMP-VIDEO-BKK',cat:'Acquisition',desc:'Vidéaste Bangkok founder series',date:'',presta:'2-3 candidats',choix:'',montant:1300,statut:'demarrer'},
-  {ref:'COMP-DESIGN-01',cat:'Acquisition',desc:'Designer carrousels',date:'',presta:'Fiverr Pro + freelance',choix:'',montant:1000,statut:'demarrer'},
-  {ref:'COMP-OUTILS-01',cat:'Acquisition',desc:'Outils scheduling LinkedIn',date:'',presta:'Taplio · Shield · Buffer',choix:'',montant:240,statut:'demarrer'},
-  {ref:'COMP-CRM-01',cat:'Acquisition',desc:'Outils CRM acquisition',date:'',presta:'Pipedrive · HubSpot · Notion',choix:'',montant:600,statut:'demarrer'},
-  {ref:'COMP-PRINT-01',cat:'Vérification lieux',desc:'Kits présentation imprimés',date:'',presta:'2 imprimeurs Bangkok',choix:'',montant:200,statut:'demarrer'},
-  {ref:'COMP-INFRA-01',cat:'Fonctionnement',desc:'Hosting et infrastructure',date:'',presta:'AWS · Vercel · Render',choix:'',montant:1500,statut:'demarrer'},
+const FICHE_FIELDS = [
+  {key:'ref',label:'Référence',ph:'FICHE-XXX'},
+  {key:'date',label:"Date d'engagement",ph:'JJ/MM/AAAA'},
+  {key:'tranche',label:'Tranche',ph:'T?'},
+  {key:'categorie',label:'Catégorie',ph:'Application · Acquisition · Vérification lieux · Fonctionnement'},
+  {key:'sousligne',label:'Sous-ligne',ph:'[À préciser]'},
+  {key:'montant',label:'Montant',ph:'[€ HT ou TTC]'},
+  {key:'description',label:'Description',ph:'[Description claire en 1-2 phrases]'},
+  {key:'pourquoi',label:'Pourquoi',ph:'[Lien avec un objectif des 3 mois]'},
+  {key:'option1',label:'Option 1',ph:'[Nom · prix · forces · faiblesses]'},
+  {key:'option2',label:'Option 2',ph:'[Nom · prix · forces · faiblesses]'},
+  {key:'option3',label:'Option 3',ph:'[Nom · prix · forces · faiblesses]'},
+  {key:'criteres',label:'Critères de décision',ph:'[Qualité · délai · coût · track record]'},
+  {key:'choix',label:'Choix retenu',ph:'[Option choisie]'},
+  {key:'justification',label:'Justification',ph:'[1-2 phrases]'},
+  {key:'modalites',label:'Modalités',ph:'[Acompte · échelonnement · pénalités · sortie]'},
+  {key:'source',label:'Source du comparatif',ph:'[Emails / PDF / liens · archivés où]'},
 ];
 
 // ===== Stockage central (Supabase via API protégée) =====
-// Mode édition = URL avec ?edit=TOKEN (équipe). Sinon lecture seule (apporteurs).
+// Écriture autorisée à tout détenteur du mot de passe (ou via ?edit=TOKEN équipe).
 const params = new URLSearchParams(location.search);
 const EDIT_TOKEN = params.get('edit');
-const EDITABLE = !!EDIT_TOKEN;
 let PW = sessionStorage.getItem('albert_tracker_pw') || '';
-let state = {depenses:[],comparatifs:[],lieux:[]};
+// Mode édition INDÉPENDANT par section (bouton « Éditer » dans chaque en-tête).
+const editing = { depenses:false, comparatifs:false, lieux:false, fiches:false };
+function isEditing(s){ return !!editing[s]; }
+let state = {depenses:[],comparatifs:[],lieux:[],fiches:[]};
 let lastUpdated = null;
 let lastLocalWrite = 0;
 
+function canWrite(){ return !!PW || !!EDIT_TOKEN; }
+
 async function apiGet(pw){
-  const r = await fetch('/api/tracker?pw=' + encodeURIComponent(pw));
+  const r = await fetch('/api/tracker?pw=' + encodeURIComponent(pw) + (EDIT_TOKEN ? '&edit=' + encodeURIComponent(EDIT_TOKEN) : ''));
   if (r.status === 401) throw new Error('unauthorized');
   if (!r.ok) throw new Error('error');
   return r.json(); // { state, updated_at }
 }
-async function pushToServer(){
-  if (!EDITABLE) return;
+// Opérations par item (modèle relationnel : 1 ligne par dépense/comparatif/lieu/fiche)
+const KIND = { depenses:'depense', comparatifs:'comparatif', lieux:'lieu', fiches:'fiche' };
+async function itemOp(op, kind, data){
+  if (!canWrite()) return null;
   lastLocalWrite = Date.now();
   try {
-    const r = await fetch('/api/tracker', {
+    const r = await fetch('/api/tracker/item', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ token: EDIT_TOKEN, pw: PW, state })
+      body: JSON.stringify({ pw: PW, token: EDIT_TOKEN || '', op, kind, ...data })
     });
+    if (!r.ok) throw new Error('op '+r.status);
     const d = await r.json();
-    if (d && d.updated_at) lastUpdated = d.updated_at;
-    updateLastUpdate();
-  } catch(e){}
+    flashSaved();
+    return d;
+  } catch(e){ return null; }
 }
-// En lecture seule, aucune écriture. En édition, on pousse au central.
-function saveState(){ if (EDITABLE) pushToServer(); }
+async function createItem(arrKey, item){ const d = await itemOp('create', KIND[arrKey], { item }); return d && d.item; }
+async function updateItem(arrKey, id, patch){ if(!id) return; await itemOp('update', KIND[arrKey], { id, patch }); }
+async function deleteItem(arrKey, id){ if(!id) return null; return itemOp('delete', KIND[arrKey], { id }); }
+
+let saveTimer = null;
+function flashSaved(){
+  const t = document.getElementById('save-tag');
+  if (!t) return;
+  t.classList.add('show');
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(()=>t.classList.remove('show'), 1800);
+}
+
 function applyData(data){
-  state = data.state || {depenses:[],comparatifs:[],lieux:[]};
+  state = data.state || {depenses:[],comparatifs:[],lieux:[],fiches:[]};
   if (!state.depenses) state.depenses = [];
   if (!state.comparatifs) state.comparatifs = [];
   if (!state.lieux) state.lieux = [];
+  if (!state.fiches) state.fiches = [];
   lastUpdated = data.updated_at;
   renderAll(); updateLastUpdate();
 }
@@ -417,6 +465,7 @@ function updateLastUpdate(){
 }
 
 function fmt(n){return new Intl.NumberFormat('fr-FR').format(n);}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function catBadgeClass(cat){return 'cat-'+(CAT_KEYS[cat]||'app');}
 function compLabel(c){return {oui:'Oui',no:'Non (standard)',exception:'Exception',aval:'En aval',fiche:'Fiche profil'}[c]||c;}
 function compClass(c){return {oui:'comp-yes',no:'comp-no',exception:'comp-exception',aval:'comp-aval',fiche:'comp-exception'}[c]||'';}
@@ -432,101 +481,202 @@ function renderRecap(){
   let totalConso=0;
   grid.innerHTML=Object.keys(BUDGETS).map(cat=>{
     const budget=BUDGETS[cat];
-    const conso=state.depenses.filter(d=>d.cat===cat&&(d.statut==='engage'||d.statut==='paye')).reduce((s,d)=>s+d.montant,0);
+    const conso=state.depenses.filter(d=>d.cat===cat&&(d.statut==='engage'||d.statut==='paye')).reduce((s,d)=>s+(d.montant||0),0);
     totalConso+=conso;
-    const pct=Math.round(conso/budget*100);
+    const pct=budget?Math.round(conso/budget*100):0;
     const tagCls=catBadgeClass(cat);
     return `<div class="recap-card">
       <div class="cat-tag" style="color:var(--${tagCls.replace('cat-','c-')});">${cat}</div>
       <div class="cat-name">${cat}</div>
       <div class="budget">${fmt(budget)}<span class="unit"> €</span></div>
-      <div class="progress"><div style="width:${pct}%;background:var(--${tagCls.replace('cat-','c-')});"></div></div>
+      <div class="progress"><div style="width:${Math.min(pct,100)}%;background:var(--${tagCls.replace('cat-','c-')});"></div></div>
       <div class="sub"><span>${fmt(conso)} € consommés</span><span>${pct}%</span></div>
     </div>`;
   }).join('');
   document.getElementById('total-conso').textContent=fmt(totalConso);
   const totalBudget=Object.values(BUDGETS).reduce((s,v)=>s+v,0);
-  const totalPct=Math.round(totalConso/totalBudget*100);
+  const totalPct=totalBudget?Math.round(totalConso/totalBudget*100):0;
   document.getElementById('total-pct').textContent=`${totalPct}% · ${fmt(totalBudget-totalConso)} € restants`;
+}
+
+function emptyRow(span,msg){
+  return `<tr><td colspan="${span}" style="text-align:center;padding:32px 0;color:var(--txt-faded);font-style:italic;font-family:'Cormorant Garamond',serif;font-size:15px;">${msg}</td></tr>`;
 }
 
 function renderDepenses(){
   const tbody=document.getElementById('depenses-body');
+  if(state.depenses.length===0){
+    tbody.innerHTML=emptyRow(8, isEditing('depenses')?'Aucune dépense. Ajoutez-en une ci-dessus.':'Aucune dépense enregistrée.');
+    return;
+  }
   tbody.innerHTML=state.depenses.map((d,i)=>`<tr>
-    <td><span class="cat-badge ${catBadgeClass(d.cat)}">${d.cat.split(' ')[0]}</span></td>
-    <td><div style="font-weight:500;color:var(--creme);">${d.ligne}</div><div style="color:var(--txt-faded);font-size:11.5px;margin-top:2px;">${d.desc}</div></td>
-    <td class="montant">${fmt(d.montant)} €</td>
-    <td style="color:var(--txt-mid);font-family:'DM Mono',monospace;font-size:11px;">${d.tranche}</td>
-    <td><span class="${compClass(d.comp)}">${compLabel(d.comp)}</span>${d.ref?'<br><span class="ref-cell">'+d.ref+'</span>':''}</td>
+    <td><span class="cat-badge ${catBadgeClass(d.cat)}">${esc((d.cat||'').split(' ')[0])}</span></td>
+    <td><div style="font-weight:500;color:var(--creme);">${esc(d.ligne)}</div><div style="color:var(--txt-faded);font-size:11.5px;margin-top:2px;">${esc(d.desc)}</div></td>
+    <td class="montant">${fmt(d.montant||0)} €</td>
+    <td style="color:var(--txt-mid);font-family:'DM Mono',monospace;font-size:11px;">${esc(d.tranche)}</td>
+    <td><span class="${compClass(d.comp)}">${esc(compLabel(d.comp))}</span>${d.ref?'<br><span class="ref-cell">'+esc(d.ref)+'</span>':''}</td>
     <td><span class="statut-badge ${statutClass(d.statut)}" data-i="${i}" data-type="dep">${statutLabel(d.statut)}</span></td>
-    <td class="notes-cell">${d.notes||''}</td>
+    <td class="notes-cell">${esc(d.notes)}</td>
+    <td class="col-act del-btn" data-i="${i}" data-type="depdel">✕</td>
   </tr>`).join('');
 }
 
 function renderComparatifs(){
   const tbody=document.getElementById('comparatifs-body');
+  if(state.comparatifs.length===0){
+    tbody.innerHTML=emptyRow(7, isEditing('comparatifs')?'Aucun comparatif. Ajoutez-en un ci-dessus.':'Aucun comparatif enregistré.');
+    return;
+  }
   tbody.innerHTML=state.comparatifs.map((c,i)=>`<tr>
-    <td><span class="ref-cell">${c.ref}</span><div style="color:var(--txt-faded);font-size:10.5px;margin-top:2px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;">${c.cat}</div></td>
-    <td style="color:var(--creme);">${c.desc}<div style="color:var(--txt-faded);font-size:11.5px;margin-top:2px;font-style:italic;">${c.date||''}</div></td>
-    <td style="color:var(--txt-mid);font-size:12px;">${c.presta}</td>
-    <td style="color:${c.choix?'var(--green)':'var(--txt-faded)'};font-weight:${c.choix?'500':'300'};">${c.choix||'—'}</td>
+    <td><span class="ref-cell">${esc(c.ref)}</span><div style="color:var(--txt-faded);font-size:10.5px;margin-top:2px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;">${esc(c.cat)}</div></td>
+    <td style="color:var(--creme);">${esc(c.desc)}<div style="color:var(--txt-faded);font-size:11.5px;margin-top:2px;font-style:italic;">${esc(c.date)}</div></td>
+    <td style="color:var(--txt-mid);font-size:12px;">${esc(c.presta)}</td>
+    <td style="color:${c.choix?'var(--green)':'var(--txt-faded)'};font-weight:${c.choix?'500':'300'};">${esc(c.choix)||'—'}</td>
     <td class="montant">${c.montant?fmt(c.montant)+' €':'—'}</td>
     <td><span class="statut-badge ${compStatutClass(c.statut)}" data-i="${i}" data-type="comp">${compStatutLabel(c.statut)}</span></td>
+    <td class="col-act del-btn" data-i="${i}" data-type="compdel">✕</td>
   </tr>`).join('');
 }
 
 function renderLieux(){
   const tbody=document.getElementById('lieux-body');
   if(state.lieux.length===0){
-    const msg = EDITABLE ? 'Aucun lieu vérifié pour le moment. Ajouter une visite ci-dessus.' : 'Aucun lieu vérifié pour le moment.';
-    tbody.innerHTML=`<tr><td colspan="8" style="text-align:center;padding:32px 0;color:var(--txt-faded);font-style:italic;font-family:'Cormorant Garamond',serif;font-size:15px;">${msg}</td></tr>`;
+    tbody.innerHTML=emptyRow(8, isEditing('lieux')?'Aucun lieu vérifié. Ajoutez une visite ci-dessus.':'Aucun lieu vérifié pour le moment.');
     return;
   }
   tbody.innerHTML=state.lieux.map((l,i)=>`<tr>
-    <td style="font-family:'DM Mono',monospace;font-size:11px;color:var(--txt-mid);">${l.date||''}</td>
-    <td><span class="cat-badge cat-verif">${l.cat}</span></td>
-    <td style="color:var(--creme);font-weight:500;">${l.nom}</td>
-    <td style="color:var(--txt-mid);font-size:12px;">${l.zone||''}</td>
+    <td style="font-family:'DM Mono',monospace;font-size:11px;color:var(--txt-mid);">${esc(l.date)}</td>
+    <td><span class="cat-badge cat-verif">${esc(l.cat)}</span></td>
+    <td style="color:var(--creme);font-weight:500;">${esc(l.nom)}</td>
+    <td style="color:var(--txt-mid);font-size:12px;">${esc(l.zone)}</td>
     <td class="montant">${l.montant?fmt(l.montant)+' €':'—'}</td>
-    <td><span class="statut-badge ${l.verdict==='Validé'?'statut-paye':(l.verdict==='Rejeté'?'statut-engage':'statut-prevu')}" data-i="${i}" data-type="lieu">${l.verdict||'À évaluer'}</span></td>
-    <td class="notes-cell">${l.notes||''}</td>
-    <td class="del-btn" data-i="${i}" data-type="lieudel">✕</td>
+    <td><span class="statut-badge ${l.verdict==='Validé'?'statut-paye':(l.verdict==='Rejeté'?'statut-engage':'statut-prevu')}" data-i="${i}" data-type="lieu">${esc(l.verdict)||'À évaluer'}</span></td>
+    <td class="notes-cell">${esc(l.notes)}</td>
+    <td class="col-act del-btn" data-i="${i}" data-type="lieudel">✕</td>
   </tr>`).join('');
 }
 
-function renderAll(){renderRecap();renderDepenses();renderComparatifs();renderLieux();}
+function ficheCard(f,i){
+  const ed=isEditing('fiches');
+  const rows=FICHE_FIELDS.map(fld=>{
+    const v=esc(f[fld.key]);
+    // En lecture, un champ vide affiche l'indication grisée ; en édition, le
+    // placeholder CSS (:empty:before) s'en charge.
+    const inner = v || (ed ? '' : `<span style="color:var(--txt-faded);opacity:.55;">${esc(fld.ph)}</span>`);
+    return `<div class="fiche-label">${fld.label}</div>`+
+      `<div class="fiche-value" ${ed?'contenteditable="true"':''} data-i="${i}" data-field="${fld.key}" data-ph="${esc(fld.ph)}">${inner}</div>`;
+  }).join('');
+  const head=`<div class="fiche-head"><h3>${esc(f.ref)||'FICHE'}</h3>`+
+    (ed?`<span class="fiche-del" data-i="${i}" data-type="fichedel">✕ Supprimer</span>`:'')+`</div>`;
+  return `<div class="fiche-template">${head}<div class="fiche-grid" style="margin-top:18px;">${rows}</div></div>`;
+}
+function renderFiches(){
+  const wrap=document.getElementById('fiches-wrap');
+  if(state.fiches.length===0){
+    if(isEditing('fiches')){
+      wrap.innerHTML=`<div class="fiche-note">Aucune fiche. Cliquez sur « + Ajouter une fiche » pour en créer une (à faire pour chaque dépense > 500 €).</div>`;
+    } else {
+      // Modèle d'exemple (lecture seule) tant qu'aucune fiche n'existe.
+      const model={ref:'FICHE-XXX'};
+      wrap.innerHTML=ficheCard(model,0).replace('class="fiche-template"','class="fiche-template" style="opacity:.65;"')
+        +`<div class="fiche-note">Modèle — passez en mode Éditer pour créer une vraie fiche.</div>`;
+    }
+    return;
+  }
+  wrap.innerHTML=state.fiches.map((f,i)=>ficheCard(f,i)).join('');
+}
+function renderAll(){renderRecap();renderDepenses();renderComparatifs();renderLieux();renderFiches();}
 
+// ===== Interactions (édition) =====
+async function delRow(arrKey, i, msg){
+  const item=state[arrKey][i];
+  if(!item)return;
+  if(!confirm(msg))return;
+  await deleteItem(arrKey, item.id);   // supprime la ligne en base
+  state[arrKey].splice(i,1);
+  renderAll();
+}
+const TYPE_SECTION={dep:'depenses',depdel:'depenses',comp:'comparatifs',compdel:'comparatifs',lieu:'lieux',lieudel:'lieux',fichedel:'fiches'};
 document.addEventListener('click',e=>{
-  if(!EDITABLE)return; // apporteurs : lecture seule
   const el=e.target.closest('[data-type]');
   if(!el)return;
   const i=parseInt(el.dataset.i);
   const type=el.dataset.type;
-  if(type==='dep'){state.depenses[i].statut=cycleStatut(state.depenses[i].statut);saveState();renderAll();}
-  else if(type==='comp'){state.comparatifs[i].statut=cycleCompStatut(state.comparatifs[i].statut);saveState();renderAll();}
+  const section=TYPE_SECTION[type];
+  if(!section||!isEditing(section))return;   // n'agit que si CETTE section est en édition
+  if(type==='dep'){const d=state.depenses[i];d.statut=cycleStatut(d.statut);updateItem('depenses',d.id,{statut:d.statut});renderAll();}
+  else if(type==='comp'){const c=state.comparatifs[i];c.statut=cycleCompStatut(c.statut);updateItem('comparatifs',c.id,{statut:c.statut});renderAll();}
   else if(type==='lieu'){
     const cycle=['À évaluer','Validé','Rejeté'];
-    const cur=state.lieux[i].verdict||'À évaluer';
-    state.lieux[i].verdict=cycle[(cycle.indexOf(cur)+1)%cycle.length];
-    saveState();renderAll();
+    const l=state.lieux[i];
+    l.verdict=cycle[(cycle.indexOf(l.verdict||'À évaluer')+1)%cycle.length];
+    updateItem('lieux',l.id,{verdict:l.verdict});renderAll();
   }
-  else if(type==='lieudel'){if(confirm('Supprimer cette visite ?')){state.lieux.splice(i,1);saveState();renderAll();}}
+  else if(type==='depdel'){delRow('depenses',i,'Supprimer cette dépense ?');}
+  else if(type==='compdel'){delRow('comparatifs',i,'Supprimer ce comparatif ?');}
+  else if(type==='lieudel'){delRow('lieux',i,'Supprimer cette visite ?');}
+  else if(type==='fichedel'){delRow('fiches',i,'Supprimer cette fiche ?');}
 });
 
-document.getElementById('add-lieu').addEventListener('click',()=>{
-  const nom=document.getElementById('lieu-nom').value.trim();
-  if(!nom)return alert('Nom du lieu requis');
-  state.lieux.push({
-    date:document.getElementById('lieu-date').value||new Date().toISOString().split('T')[0],
-    cat:document.getElementById('lieu-cat').value,
-    nom:nom,
-    zone:document.getElementById('lieu-zone').value,
-    montant:parseInt(document.getElementById('lieu-montant').value)||0,
-    verdict:'À évaluer',
-    notes:document.getElementById('lieu-notes').value
+// Édition inline des champs de fiche (contenteditable) — sauvegarde anti-rebond.
+// On accumule les champs modifiés par fiche puis on envoie un update par fiche.
+let ficheSaveTimer=null; const fichePending={};
+document.getElementById('fiches-wrap').addEventListener('input',e=>{
+  if(!isEditing('fiches'))return;
+  const el=e.target.closest('.fiche-value[contenteditable="true"]');
+  if(!el)return;
+  const i=parseInt(el.dataset.i), field=el.dataset.field;
+  const f=state.fiches[i];
+  if(isNaN(i)||!f)return;
+  f[field]=el.textContent;
+  if(!fichePending[f.id]) fichePending[f.id]={};
+  fichePending[f.id][field]=f[field];
+  lastLocalWrite=Date.now();
+  clearTimeout(ficheSaveTimer);
+  ficheSaveTimer=setTimeout(flushFiches,800);
+});
+function flushFiches(){
+  Object.keys(fichePending).forEach(id=>{
+    const patch=fichePending[id]; delete fichePending[id];
+    updateItem('fiches', id, patch);
   });
-  ['lieu-date','lieu-nom','lieu-zone','lieu-montant','lieu-notes'].forEach(id=>document.getElementById(id).value='');
-  saveState();renderAll();
+}
+
+document.getElementById('add-fiche').addEventListener('click',async()=>{
+  const blank={}; FICHE_FIELDS.forEach(fld=>blank[fld.key]='');
+  const created=await createItem('fiches', blank);   // crée la ligne, renvoie l'id
+  if(!created){ alert("Échec de l'enregistrement."); return; }
+  state.fiches.push(created);
+  renderFiches();
+});
+
+function val(id){const el=document.getElementById(id);return el?el.value.trim():'';}
+function clearFields(ids){ids.forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});}
+
+async function addRow(arrKey, item, fieldsToClear){
+  const created = await createItem(arrKey, item);   // insère la ligne, renvoie l'id
+  if(!created){ alert("Échec de l'enregistrement. Vérifiez votre connexion."); return; }
+  state[arrKey].push(created);
+  clearFields(fieldsToClear);
+  renderAll();
+}
+document.getElementById('add-dep').addEventListener('click',()=>{
+  const ligne=val('dep-ligne');
+  if(!ligne)return alert('Sous-ligne requise');
+  addRow('depenses',{cat:val('dep-cat'),ligne,desc:val('dep-desc'),montant:parseInt(val('dep-montant'))||0,tranche:val('dep-tranche'),comp:val('dep-comp')||'no',statut:'prevu',notes:val('dep-notes'),ref:''},
+    ['dep-ligne','dep-desc','dep-montant','dep-tranche','dep-notes']);
+});
+document.getElementById('add-comp').addEventListener('click',()=>{
+  const ref=val('comp-ref'), desc=val('comp-desc');
+  if(!ref && !desc)return alert('Référence ou description requise');
+  addRow('comparatifs',{ref,cat:val('comp-cat'),desc,date:'',presta:val('comp-presta'),choix:val('comp-choix'),montant:parseInt(val('comp-montant'))||0,statut:'demarrer'},
+    ['comp-ref','comp-cat','comp-desc','comp-presta','comp-choix','comp-montant']);
+});
+document.getElementById('add-lieu').addEventListener('click',()=>{
+  const nom=val('lieu-nom');
+  if(!nom)return alert('Nom du lieu requis');
+  addRow('lieux',{date:val('lieu-date')||new Date().toISOString().split('T')[0],cat:val('lieu-cat'),nom,zone:val('lieu-zone'),montant:parseInt(val('lieu-montant'))||0,verdict:'À évaluer',notes:val('lieu-notes')},
+    ['lieu-date','lieu-nom','lieu-zone','lieu-montant','lieu-notes']);
 });
 
 document.getElementById('export-btn').addEventListener('click',()=>{
@@ -537,26 +687,28 @@ document.getElementById('export-btn').addEventListener('click',()=>{
   a.click();
 });
 
-document.getElementById('reset-btn').addEventListener('click',()=>{
-  if(confirm('Reset complet ? Toutes tes modifications seront effacées.')){
-    state={depenses:INITIAL_DEPENSES,comparatifs:INITIAL_COMPARATIFS,lieux:[]};
-    saveState();renderAll();
-  }
-});
-
-// ===== Mode lecture seule : masquer les contrôles d'édition =====
-function applyReadOnlyUI(){
-  if (EDITABLE) return;
-  // barre export/reset + formulaire d'ajout de lieu réservés à l'équipe
-  ['export-btn','reset-btn'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
-  const addBtn=document.getElementById('add-lieu');
-  if(addBtn){const form=addBtn.closest('.lieu-form')||addBtn.parentElement;if(form)form.style.display='none';}
-  // Masquer les indications d'édition (ex: "cliquer sur un statut…").
-  document.querySelectorAll('.meta').forEach(el=>{
-    if(/cliquer/i.test(el.textContent||'')) el.style.display='none';
-  });
-  document.body.classList.add('read-only');
+// ===== Boutons « Éditer » par section =====
+function rerenderSection(section){
+  if(section==='depenses')renderDepenses();
+  else if(section==='comparatifs')renderComparatifs();
+  else if(section==='lieux')renderLieux();
+  else if(section==='fiches')renderFiches();
 }
+function setSectionEditing(section,on){
+  editing[section]=on;
+  const sec=document.querySelector('.section[data-section="'+section+'"]');
+  if(sec) sec.classList.toggle('editing',on);
+  const btn=document.querySelector('.sec-edit[data-edit-section="'+section+'"]');
+  if(btn){ btn.textContent=on?'Terminer':'Éditer'; btn.classList.toggle('on',on); }
+  rerenderSection(section);
+}
+document.querySelectorAll('.sec-edit').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(!canWrite()){alert('Accès en lecture seule.');return;}
+    const s=btn.dataset.editSection;
+    setSectionEditing(s,!isEditing(s));
+  });
+});
 
 // ===== Gate mot de passe =====
 const gate=document.getElementById('gate');
@@ -572,7 +724,7 @@ async function tryUnlock(pw){
     applyData(data);
     gate.style.display='none';
     document.body.classList.remove('locked');
-    applyReadOnlyUI();
+    if(EDIT_TOKEN) ['depenses','comparatifs','lieux','fiches'].forEach(s=>setSectionEditing(s,true)); // lien équipe : tout en édition
     startPolling();
     return true;
   }catch(err){
@@ -592,8 +744,9 @@ function startPolling(){
     try{
       const data=await apiGet(PW);
       if(data.updated_at!==lastUpdated){
-        // en édition, ne pas écraser une modif locale très récente
-        if(EDITABLE && Date.now()-lastLocalWrite<6000) return;
+        // ne pas écraser une modif locale très récente si une section est en édition
+        const anyEditing=Object.values(editing).some(Boolean);
+        if(anyEditing && Date.now()-lastLocalWrite<6000) return;
         applyData(data);
       }
     }catch(e){}

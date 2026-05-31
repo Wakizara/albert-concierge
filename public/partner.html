@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Albert · Submit your venue</title>
+  <meta name="description" content="Establishments can apply to be experienced by Albert. We visit anonymously and add only the places that meet our standard to our members' circle.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap">
+
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="alternate icon" type="image/png" href="/images/albert-logo.png">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+  <style>
+    /* ---- Page partner : mêmes ajustements que apply ---- */
+    .apply-section { border: 0; padding: clamp(120px, 16vh, 200px) 0 clamp(80px, 10vw, 140px); }
+    .apply-head { text-align: center; margin-bottom: clamp(40px, 6vw, 64px); }
+    .apply-section .waitlist-form { max-width: 680px; }
+    .apply-section .waitlist-fields { grid-template-columns: 1fr 1fr; }
+    .waitlist-label .req { color: var(--gold, #B8922A); letter-spacing: 1px; }
+    .waitlist-label .opt { color: var(--muted, #888); letter-spacing: 1px; }
+    .apply-optional-note {
+      grid-column: 1 / -1;
+      background: var(--pure);
+      font-family: var(--mono);
+      font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--muted, #888); padding: 14px 20px 4px;
+    }
+    #message {
+      appearance: none; -webkit-appearance: none;
+      background: transparent; border: none; outline: none; width: 100%;
+      font-family: var(--body, sans-serif); font-size: 15px; color: var(--ink, #06060A);
+      padding: 38px 20px 18px;
+    }
+    #message::placeholder { color: rgba(6,6,10,0.25); font-style: italic; }
+    @media (max-width: 720px) { .apply-section .waitlist-fields { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <div class="bg-ambient" aria-hidden="true">
+    <div class="bg-spot bg-spot-1"></div>
+    <div class="bg-spot bg-spot-2"></div>
+    <div class="bg-spot bg-spot-3"></div>
+  </div>
+  <div class="bg-grain" aria-hidden="true"></div>
+
+  <header class="hd" id="hd">
+    <div class="hd-row">
+      <a href="/" class="hd-brand">Albert</a>
+      <nav class="hd-nav">
+        <a href="/#what">Concierge</a>
+        <a href="/#app">App</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="block block-waitlist apply-section" id="partner">
+    <div class="wrap">
+      <div class="waitlist-head apply-head">
+        <span class="eyebrow">For establishments · By application</span>
+        <h2 class="display-h">
+          <span class="line"><span>Be discovered</span></span>
+          <span class="line"><span><em>by Albert.</em></span></span>
+        </h2>
+        <p class="waitlist-lead">Albert curates a private circle of places worth knowing. We visit anonymously, on our own terms — no fees, no listings to buy. If your establishment meets the standard, it joins the addresses we recommend to our members. Tell us about it.</p>
+      </div>
+
+      <form class="waitlist-form" id="venueForm" novalidate>
+        <div class="waitlist-fields">
+          <label class="waitlist-field" style="grid-column:1 / -1;">
+            <span class="waitlist-label">Venue name <span class="req">· Required</span></span>
+            <input type="text" name="venue_name" id="venueName" placeholder="The name of your establishment" required />
+          </label>
+          <label class="waitlist-field">
+            <span class="waitlist-label">Type of venue <span class="req">· Required</span></span>
+            <input type="text" name="category" id="category" placeholder="Restaurant, hotel, bar, spa…" required />
+          </label>
+          <label class="waitlist-field">
+            <span class="waitlist-label">City <span class="req">· Required</span></span>
+            <input type="text" name="city" id="city" placeholder="Paris, Dubai, Bangkok…" required />
+          </label>
+          <label class="waitlist-field" style="grid-column:1 / -1;">
+            <span class="waitlist-label">Address <span class="opt">· Optional</span></span>
+            <input type="text" name="address" id="address" placeholder="Street, area" />
+          </label>
+          <label class="waitlist-field" style="grid-column:1 / -1;">
+            <span class="waitlist-label">Why should Albert experience it? <span class="req">· Required</span></span>
+            <textarea name="message" id="message" rows="8" placeholder="What makes it singular — the room, the chef, the service, the detail others miss. Take your time." required style="resize:vertical;min-height:180px;line-height:1.6;"></textarea>
+          </label>
+
+          <div class="apply-optional-note">Contact & links</div>
+
+          <label class="waitlist-field">
+            <span class="waitlist-label">Your name <span class="req">· Required</span></span>
+            <input type="text" name="contact_name" id="contactName" autocomplete="name" placeholder="Full name" required />
+          </label>
+          <label class="waitlist-field">
+            <span class="waitlist-label">Email <span class="req">· Required</span></span>
+            <input type="email" name="contact_email" id="contactEmail" autocomplete="email" placeholder="you@venue.com" required />
+          </label>
+          <label class="waitlist-field">
+            <span class="waitlist-label">Phone <span class="opt">· Optional</span></span>
+            <input type="tel" name="contact_phone" id="contactPhone" autocomplete="tel" placeholder="+33 …" />
+          </label>
+          <label class="waitlist-field">
+            <span class="waitlist-label">Website <span class="opt">· Optional</span></span>
+            <input type="text" name="website" id="website" placeholder="yourvenue.com" />
+          </label>
+          <label class="waitlist-field" style="grid-column:1 / -1;">
+            <span class="waitlist-label">Instagram <span class="opt">· Optional</span></span>
+            <input type="text" name="instagram" id="instagram" placeholder="@handle" />
+          </label>
+        </div>
+        <button type="submit" class="btn btn-gold waitlist-submit">
+          <span class="btn-label">Submit for review</span>
+        </button>
+        <p class="waitlist-meta">No fee · We visit anonymously · Reviewed by hand</p>
+        <div class="waitlist-status" id="venueStatus" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      const form = document.getElementById('venueForm');
+      const status = document.getElementById('venueStatus');
+      const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      form.addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        status.textContent = '';
+        status.classList.remove('is-error', 'is-success');
+
+        const payload = {
+          venue_name: form.venue_name.value.trim(),
+          category: form.category.value.trim(),
+          city: form.city.value.trim(),
+          address: form.address.value.trim(),
+          message: form.message.value.trim(),
+          contact_name: form.contact_name.value.trim(),
+          contact_email: form.contact_email.value.trim(),
+          contact_phone: form.contact_phone.value.trim(),
+          website: form.website.value.trim(),
+          instagram: form.instagram.value.trim(),
+        };
+
+        if (!payload.venue_name) { fail('Please enter your venue name.', form.venue_name); return; }
+        if (!payload.category) { fail('What type of venue is it?', form.category); return; }
+        if (!payload.city) { fail('Which city?', form.city); return; }
+        if (!EMAIL_RE.test(payload.contact_email)) { fail('Please enter a valid email address.', form.contact_email); return; }
+        if (payload.message.length < 10) { fail('Tell us a little about the place.', form.message); return; }
+
+        const submit = form.querySelector('.waitlist-submit');
+        submit.disabled = true;
+        submit.querySelector('.btn-label').textContent = 'Sending…';
+
+        try {
+          const res = await fetch('/api/place-submission', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          if (!res.ok) throw new Error('request failed');
+          form.style.display = 'none';
+          status.textContent = 'Received. We review every venue by hand and visit the ones that intrigue us — anonymously. If it is a fit, we will be in touch.';
+          status.classList.add('is-success');
+        } catch (err) {
+          status.textContent = 'Something went wrong. Please try again or write to contact@albert-conciergerie.com.';
+          status.classList.add('is-error');
+        } finally {
+          submit.disabled = false;
+          submit.querySelector('.btn-label').textContent = 'Submit for review';
+        }
+      });
+
+      function fail(msg, field) {
+        status.textContent = msg;
+        status.classList.add('is-error');
+        if (field) field.focus();
+      }
+    })();
+  </script>
+</body>
+</html>
